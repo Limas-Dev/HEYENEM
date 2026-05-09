@@ -90,7 +90,7 @@
            <div class="ai-response-box" id="aiResponseBox">
                <div id="aiResponseText"></div>
                <div class="typing-indicator" id="typingIndicator">
-                   <i class="ph ph-spinner ph-spin"></i> A IA está digitando o feedback...
+                   <i class="ph ph-spinner ph-spin"></i> A IA está formatando o feedback...
                </div>
            </div>
 
@@ -181,10 +181,13 @@
                });
                
                const data = await response.json();
-               
                if (data.error) throw new Error(data.error);
 
-               displayTheme(data.tema);
+               // Ajustado para ler a estrutura de resposta do Gemini
+               let temaGerado = data.candidates[0].content.parts[0].text.trim();
+               temaGerado = temaGerado.replace(/^["']|["']$/g, ''); 
+               
+               displayTheme(temaGerado);
            } catch (error) {
                console.warn("Aviso ao gerar tema:", error.message);
                alert("Ops! Nosso servidor está temporariamente sobrecarregado. Tente novamente!");
@@ -224,7 +227,6 @@
                    return;
                }
 
-               // Validação Extra para Vercel: Limita o tamanho para evitar estourar o limite de payload (5MB)
                if (file.size > 5 * 1024 * 1024) {
                    alert('A imagem é muito pesada! O limite máximo é de 5MB.');
                    return;
@@ -282,8 +284,8 @@
                try {
                    const imageData = await fileToBase64(selectedFile);
                   
-                   // Chamando a sua própria API no Vercel
-                   const response = await fetch('/api/evaluate', {
+                   // Chamando o backend correto (grade-essay)
+                   const response = await fetch('/api/grade-essay', {
                        method: "POST",
                        headers: {
                            "Content-Type": "application/json"
@@ -309,7 +311,10 @@
                   
                    indicator.style.display = 'none';
                    
-                   let htmlText = data.feedback
+                   // Ajustado para ler o texto da estrutura do Gemini
+                   const feedbackRaw = data.candidates?.[0]?.content?.parts?.[0]?.text || "Erro ao processar o texto da IA.";
+                   
+                   let htmlText = feedbackRaw
                        .replace(/^---/gm, '<hr style="margin: 15px 0; border: none; border-top: 2px dashed #ddd;">')
                        .replace(/^### (.*$)/gm, '<h3 style="color: var(--blue-main); margin-top: 15px; font-size: 1.2rem;">$1</h3>')
                        .replace(/^## (.*$)/gm, '<h2 style="color: var(--blue-main); margin-top: 15px; font-size: 1.3rem;">$1</h2>')

@@ -284,16 +284,11 @@
                try {
                    const imageData = await fileToBase64(selectedFile);
                   
-                   // Chamando o backend correto (grade-essay)
-                   const response = await fetch('/api/grade-essay', {
+                   // Chama a SUA rota na Vercel, apontando para evaluate.js
+                   const response = await fetch('/api/evaluate', {
                        method: "POST",
-                       headers: {
-                           "Content-Type": "application/json"
-                       },
-                       body: JSON.stringify({
-                           theme: currentTheme,
-                           image: imageData
-                       })
+                       headers: { "Content-Type": "application/json" },
+                       body: JSON.stringify({ theme: currentTheme, image: imageData })
                    });
 
                    const data = await response.json();
@@ -311,10 +306,10 @@
                   
                    indicator.style.display = 'none';
                    
-                   // Ajustado para ler o texto da estrutura do Gemini
-                   const feedbackRaw = data.candidates?.[0]?.content?.parts?.[0]?.text || "Erro ao processar o texto da IA.";
+                   // Pega o feedback limpo que o backend enviou
+                   const fullText = data.feedback;
                    
-                   let htmlText = feedbackRaw
+                   let htmlText = fullText
                        .replace(/^---/gm, '<hr style="margin: 15px 0; border: none; border-top: 2px dashed #ddd;">')
                        .replace(/^### (.*$)/gm, '<h3 style="color: var(--blue-main); margin-top: 15px; font-size: 1.2rem;">$1</h3>')
                        .replace(/^## (.*$)/gm, '<h2 style="color: var(--blue-main); margin-top: 15px; font-size: 1.3rem;">$1</h2>')
@@ -328,11 +323,11 @@
                    responseBox.scrollTop = responseBox.scrollHeight;
 
                } catch (error) {
-                   console.warn("Erro na correção:", error.message);
+                   console.error("Erro na correção:", error);
                    document.getElementById('loadingScreen').innerHTML = `
                        <i class="ph-duotone ph-warning-circle" style="color: var(--red-coral)"></i>
-                       <h2>Ops! A IA tropeçou.</h2>
-                       <p>Parece que houve um erro na conexão ou o arquivo era muito pesado. Tente novamente!</p>
+                       <h2>Ops! Ocorreu um problema.</h2>
+                       <p>Detalhe do erro: ${error.message}</p>
                        <button class="btn-cta" style="margin-top:20px" onclick="location.reload()"><span class="btn-text">Voltar</span></button>
                    `;
                }

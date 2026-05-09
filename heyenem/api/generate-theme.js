@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         const apiKey = process.env.GEMINI_API_KEY;
         const promptText = `Atue como a banca elaboradora da prova de redação do ENEM (INEP). > Crie uma frase-tema inédita, atual e realista para uma redação do ENEM, focada em um problema social, ambiental ou tecnológico brasileiro contemporâneo (seguindo o formato clássico, como "Desafios para...", "Caminhos para combater...", "Os impactos de...").\nREGRA RESTRITA: Você deve responder apenas e unicamente com a frase do tema gerado. Não inclua textos motivadores, não use aspas, não dê explicações, introduções, saudações ou qualquer outra palavra adicional. A sua resposta deve ser estritamente a frase do tema.`;
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

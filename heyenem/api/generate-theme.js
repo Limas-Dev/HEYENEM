@@ -13,8 +13,19 @@ export default async function handler(req, res) {
             body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
         });
         const data = await response.json();
-        res.status(200).json(data);
+        
+        // Desempacota o texto no servidor
+        const textoTema = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        
+        if (!textoTema) {
+            console.error("Erro na estrutura da IA:", data);
+            return res.status(500).json({ error: 'A IA não retornou um texto válido.' });
+        }
+
+        // Devolve apenas o texto limpo para o front-end
+        res.status(200).json({ tema: textoTema.trim().replace(/^["']|["']$/g, '') });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Erro ao gerar tema.' });
     }
 }

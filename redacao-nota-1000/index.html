@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Envio de Redação - Rumo à Nota 1000!</title>
+    <title>Hey ENEM!</title>
     
-    <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Ícones -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
@@ -233,14 +231,12 @@
     <canvas id="confetti-canvas"></canvas>
 
     <div class="card-container">
-        <!-- Tela de Loading da IA -->
         <div class="loading-screen" id="loadingScreen">
             <i class="ph-duotone ph-brain ph-spin"></i>
             <h2 style="font-family: 'Fredoka', sans-serif; color: var(--blue-main); margin-bottom: 10px;">A IA está lendo...</h2>
             <p style="font-weight: 600; color: #555;">Analisando estrutura, coesão e argumentos! Aguarde um instante.</p>
         </div>
 
-        <!-- Tela de Feedback da IA -->
         <div class="feedback-screen" id="feedbackScreen">
             <div class="header" style="margin-bottom: 20px; text-align: left;">
                 <h1 style="font-size: 1.8rem;">Avaliação Concluída! 🤖</h1>
@@ -248,8 +244,7 @@
             </div>
             
             <div class="ai-response-box" id="aiResponseBox">
-                <!-- O HTML gerado pelo Markdown aparecerá aqui -->
-            </div>
+                </div>
 
             <button class="btn-cta" onclick="resetForm()">
                 <span class="btn-text">Enviar Nova Redação</span>
@@ -257,7 +252,6 @@
             </button>
         </div>
 
-        <!-- Formulário Principal -->
         <div id="mainFormContent">
             <div class="header">
                 <h1>Pronto para a Nota 1000?</h1>
@@ -266,7 +260,7 @@
 
             <form id="uploadForm">
                 <button type="button" id="generateThemeBtn" class="btn-secondary">
-                    <i class="ph-bold ph-magic-wand"></i> Estou sem ideia (Gerar Tema)
+                    <i class="ph-bold ph-magic-wand"></i> Gerar Tema
                 </button>
                 
                 <div id="themeDisplayArea" class="theme-display" style="display: none;">
@@ -307,7 +301,6 @@
         </div>
     </div>
 
-    <!-- Container para Toast Notifications -->
     <div id="toast-container"></div>
 
     <script>

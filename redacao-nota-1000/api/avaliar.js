@@ -13,7 +13,7 @@ module.exports = async function handler(req, res) {
             return res.status(500).json({ error: 'Chave da API ausente no servidor.' });
         }
 
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
         // 3. Faz a requisição à Google (usando o fetch nativo do Node.js 18+)
         const response = await fetch(url, {

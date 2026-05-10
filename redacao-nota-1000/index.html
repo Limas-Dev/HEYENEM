@@ -516,26 +516,46 @@
                 try {
                     const base64Image = await fileToBase64(selectedFile);
                     
-                    const promptText = `Atue como um corretor especialista da redação do ENEM (Exame Nacional do Ensino Médio).
-Em anexo, envio uma fotografia de uma redação. O tema escolhido foi: "${currentTheme}".
-Leia a imagem e avalie o texto com as diretrizes do INEP.
+                    const promptText = `Atue como um corretor sênior e especialista na matriz de referência da redação do ENEM (Exame Nacional do Ensino Médio), estritamente alinhado às diretrizes e manuais de correção mais recentes do INEP.
 
-Responda ESTRITAMENTE neste formato:
+Em anexo, envio a fotografia de uma redação manuscrita. O tema proposto para este texto dissertativo-argumentativo é: "${currentTheme}".
 
-### Transcrição
-(Escreva o que conseguiu ler. Marque [ilegível] se não der para ler algo).
+**Sua missão:**
+1. Transcrever fielmente o texto da imagem, respeitando exatamente o que foi escrito pelo candidato.
+2. Avaliar a redação de forma analítica, criteriosa e pedagógica.
+3. Atribuir notas específicas para cada competência (utilizando apenas os valores: 0, 40, 80, 120, 160 ou 200), justificando com exemplos extraídos do próprio texto.
+4. Fornecer dicas práticas de melhoria.
 
-### Comentários Gerais
-(Resumo breve dos pontos fortes e fracos)
+Por favor, retorne a sua análise ESTRITAMENTE no formato abaixo, sem adicionar introduções ou conclusões fora desta estrutura:
 
-### Notas por Competência
-**C1:** [Nota de 0 a 200] - [Justificativa: gramática, ortografia]
-**C2:** [Nota de 0 a 200] - [Justificativa: tema, tipo textual, repertório]
-**C3:** [Nota de 0 a 200] - [Justificativa: organização e projeto de texto]
-**C4:** [Nota de 0 a 200] - [Justificativa: coesão e conectivos]
-**C5:** [Nota de 0 a 200] - [Justificativa: agente, ação, meio, efeito, detalhamento]
+### 📝 Transcrição do Texto
+*(Transcreva o texto com a maior precisão possível, preservando a ortografia, gramática e pontuação originais do candidato. Utilize a marcação `[ilegível]` caso não seja possível compreender alguma palavra ou trecho).*
 
-### NOTA FINAL: [Soma total de 0 a 1000]`;
+### 🔍 Comentários Gerais
+*(Apresente um resumo executivo da avaliação. Destaque os principais pontos fortes da redação e as fragilidades mais evidentes que impactaram a nota global do candidato).*
+
+### 📊 Avaliação por Competência
+
+**Competência 1: [Nota de 0 a 200]**
+* **Justificativa:** *(Avalie o domínio da modalidade escrita formal. Cite exemplos do texto se houver desvios gramaticais, de convenção de escrita, problemas de sintaxe, ortografia ou escolha de vocabulário).*
+
+**Competência 2: [Nota de 0 a 200]**
+* **Justificativa:** *(Avalie se o candidato fugiu do tema, se obedeceu à estrutura dissertativo-argumentativa e se apresentou um repertório sociocultural legitimado, pertinente e produtivo).*
+
+**Competência 3: [Nota de 0 a 200]**
+* **Justificativa:** *(Avalie o projeto de texto e a argumentação. A seleção, relação, organização e interpretação de fatos e opiniões fazem sentido em defesa do ponto de vista? Apresente as falhas argumentativas, se houver).*
+
+**Competência 4: [Nota de 0 a 200]**
+* **Justificativa:** *(Avalie a coesão textual. Analise a presença e o uso correto de conectivos interparagrafais e intraparagrafais, repetições excessivas de palavras e a articulação fluida das ideias).*
+
+**Competência 5: [Nota de 0 a 200]**
+* **Justificativa:** *(Avalie a proposta de intervenção. Liste claramente quais dos 5 elementos obrigatórios estão presentes ou ausentes: Agente, Ação, Modo/Meio, Efeito e Detalhamento).*
+
+### 💡 Dicas e Estratégias de Melhoria
+*(Liste de 2 a 4 conselhos práticos e diretos, focados nos principais erros cometidos pelo candidato, orientando-o sobre o que ele deve estudar ou mudar para elevar sua nota nas próximas redações).*
+
+---
+### 🏆 NOTA FINAL: [Soma total das competências de 0 a 1000]`;
 
                     // Chama a IA enviando o texto e a imagem
                     const iaResposta = await callGeminiAPI(promptText, base64Image);

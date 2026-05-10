@@ -293,7 +293,7 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn-cta" id="submitBtn">
+                <button type="button" class="btn-cta" id="submitBtn" style="display: none;">
                     <span class="btn-text">Enviar Minha Redação!</span>
                     <i class="ph-bold ph-paper-plane-tilt"></i>
                 </button>
@@ -420,6 +420,9 @@
                 currentTheme = temaGerado;
                 generatedThemeText.innerText = temaGerado;
                 themeDisplayArea.style.display = 'block';
+                
+                // MOSTRA O BOTÃO DE ENVIO APÓS GERAR O TEMA
+                submitBtn.style.display = 'flex';
 
             } catch (error) {
                 console.error("Erro ao gerar tema:", error);

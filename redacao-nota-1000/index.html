@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -10,27 +11,13 @@
     >
 
     <meta
-        name="theme-color"
-        content="#050505"
-    >
-
-    <meta
         name="description"
-        content="Hey ENEM! — plataforma inteligente para treinar redação do ENEM."
+        content="Hey ENEM! — Treine sua redação e receba uma análise detalhada baseada nas cinco competências do ENEM."
     >
 
     <title>Hey ENEM! — Redação ENEM</title>
 
-    <link
-        rel="icon"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✍️%3C/text%3E%3C/svg%3E"
-    >
-
     <style>
-
-        /* ==================================================
-           RESET
-        ================================================== */
 
         * {
             box-sizing: border-box;
@@ -39,24 +26,18 @@
         }
 
         :root {
-            --bg: #050505;
-            --bg-2: #090909;
+            --bg: #070707;
             --card: #101010;
             --card-2: #151515;
-            --border: #252525;
-
+            --border: #292929;
+            --border-light: #343434;
             --text: #f5f5f5;
-            --muted: #9a9a9a;
-
-            --accent: #ffffff;
-            --accent-dark: #d8d8d8;
-
-            --green: #43d17c;
-            --yellow: #ffd166;
-            --red: #ff5c5c;
-            --blue: #6ea8fe;
-
-            --radius: 22px;
+            --muted: #969696;
+            --muted-2: #666;
+            --white: #ffffff;
+            --green: #48e98b;
+            --red: #ff6666;
+            --yellow: #ffd76a;
         }
 
         html {
@@ -65,17 +46,14 @@
 
         body {
             min-height: 100vh;
-
             background:
                 radial-gradient(
                     circle at 50% -10%,
-                    #222 0,
-                    transparent 35%
-                ),
-                var(--bg);
-
+                    #202020 0,
+                    #0b0b0b 32%,
+                    #050505 70%
+                );
             color: var(--text);
-
             font-family:
                 Inter,
                 ui-sans-serif,
@@ -84,13 +62,13 @@
                 BlinkMacSystemFont,
                 "Segoe UI",
                 sans-serif;
-
             line-height: 1.5;
         }
 
         button,
         input,
-        textarea {
+        textarea,
+        select {
             font: inherit;
         }
 
@@ -98,846 +76,453 @@
             cursor: pointer;
         }
 
-        ::selection {
-            background: #fff;
-            color: #000;
+        .container {
+            width: min(1060px, calc(100% - 32px));
+            margin: 0 auto;
         }
 
-        /* ==================================================
+        /* =====================================================
            HEADER
-        ================================================== */
+        ===================================================== */
 
         header {
+            height: 76px;
+            border-bottom: 1px solid #171717;
+            background: rgba(5, 5, 5, .84);
+            backdrop-filter: blur(18px);
             position: sticky;
             top: 0;
-            z-index: 100;
-
-            backdrop-filter: blur(18px);
-
-            background: rgba(5, 5, 5, .78);
-
-            border-bottom: 1px solid rgba(255,255,255,.07);
+            z-index: 50;
         }
 
-        .nav {
-            width: min(1180px, calc(100% - 32px));
-            margin: auto;
-
-            min-height: 72px;
-
+        .header-inner {
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
         }
 
-        .logo {
+        .brand {
             display: flex;
             align-items: center;
-            gap: 10px;
-
-            font-weight: 900;
-            letter-spacing: -.04em;
-
-            font-size: 21px;
+            gap: 12px;
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: -.6px;
         }
 
-        .logo-mark {
-            width: 36px;
-            height: 36px;
-
-            border-radius: 11px;
-
+        .brand-icon {
+            width: 34px;
+            height: 34px;
+            background: white;
+            color: black;
+            border-radius: 10px;
             display: grid;
             place-items: center;
-
-            background: #fff;
-            color: #000;
-
-            font-size: 19px;
+            font-size: 17px;
         }
 
-        .nav-status {
+        .status {
             display: flex;
             align-items: center;
             gap: 8px;
-
-            color: var(--muted);
-
+            color: #969696;
             font-size: 13px;
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
-
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
-
             background: var(--green);
-
-            box-shadow:
-                0 0 12px rgba(67,209,124,.7);
+            box-shadow: 0 0 14px var(--green);
         }
 
-        /* ==================================================
+        /* =====================================================
            HERO
-        ================================================== */
+        ===================================================== */
 
         .hero {
-            width: min(1180px, calc(100% - 32px));
-            margin: auto;
-
-            padding:
-                90px 0
-                55px;
-
             text-align: center;
+            padding: 82px 0 50px;
         }
 
-        .eyebrow {
+        .badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-
             padding: 8px 13px;
-
-            border: 1px solid var(--border);
-            border-radius: 999px;
-
+            border: 1px solid #292929;
             background: rgba(255,255,255,.035);
-
-            color: #ccc;
-
+            border-radius: 999px;
+            color: #c9c9c9;
             font-size: 12px;
-            font-weight: 700;
-
-            margin-bottom: 25px;
+            font-weight: 800;
+            letter-spacing: .2px;
         }
 
         .hero h1 {
-            max-width: 900px;
-            margin: auto;
-
-            font-size:
-                clamp(46px, 8vw, 92px);
-
-            line-height: .92;
-
-            letter-spacing: -.07em;
-
-            font-weight: 950;
+            max-width: 850px;
+            margin: 27px auto 20px;
+            font-size: clamp(50px, 8vw, 82px);
+            line-height: .93;
+            letter-spacing: -5px;
+            font-weight: 900;
         }
 
         .hero h1 span {
-            color: #888;
+            color: #8a8a8a;
         }
 
         .hero p {
-            max-width: 660px;
-            margin: 28px auto 0;
-
-            color: var(--muted);
-
-            font-size:
-                clamp(16px, 2vw, 19px);
-        }
-
-        /* ==================================================
-           MAIN
-        ================================================== */
-
-        main {
-            width: min(1180px, calc(100% - 32px));
+            max-width: 650px;
             margin: auto;
-
-            padding-bottom: 100px;
+            color: #999;
+            font-size: 17px;
+            line-height: 1.6;
         }
+
+        /* =====================================================
+           GRID
+        ===================================================== */
 
         .grid {
             display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 18px;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            align-items: start;
         }
 
         .card {
+            border: 1px solid var(--border);
+            border-radius: 20px;
             background:
                 linear-gradient(
                     145deg,
-                    rgba(255,255,255,.045),
-                    rgba(255,255,255,.015)
-                );
-
-            border:
-                1px solid var(--border);
-
-            border-radius:
-                var(--radius);
-
-            padding: 25px;
-
+                    rgba(255,255,255,.035),
+                    rgba(255,255,255,.008)
+                ),
+                var(--card);
+            padding: 22px;
             box-shadow:
-                0 20px 80px rgba(0,0,0,.25);
+                0 20px 70px rgba(0,0,0,.22);
         }
 
         .card.full {
             grid-column: 1 / -1;
         }
 
-        .card-head {
+        .card-header {
             display: flex;
-            align-items: flex-start;
             justify-content: space-between;
+            align-items: flex-start;
             gap: 15px;
-
-            margin-bottom: 22px;
+            margin-bottom: 23px;
         }
 
         .card-title {
-            font-size: 18px;
-            font-weight: 850;
-            letter-spacing: -.025em;
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: -.3px;
         }
 
-        .card-description {
-            margin-top: 5px;
-
+        .card-subtitle {
             color: var(--muted);
-
             font-size: 13px;
+            margin-top: 5px;
         }
 
         .number {
-            width: 34px;
-            height: 34px;
-
-            flex: 0 0 auto;
-
-            border-radius: 11px;
-
+            width: 31px;
+            height: 31px;
+            border-radius: 10px;
+            background: white;
+            color: black;
             display: grid;
             place-items: center;
-
-            background: #fff;
-            color: #000;
-
+            font-size: 12px;
             font-weight: 900;
-            font-size: 13px;
+            flex-shrink: 0;
         }
 
-        /* ==================================================
+        /* =====================================================
            FORM
-        ================================================== */
+        ===================================================== */
 
-        label {
-            display: block;
-
-            margin-bottom: 8px;
-
-            color: #ddd;
-
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        input,
-        textarea,
-        select {
-            width: 100%;
-
-            border: 1px solid var(--border);
-            border-radius: 14px;
-
-            outline: none;
-
-            background: #0b0b0b;
-            color: #fff;
-
-            padding: 14px 15px;
-
-            transition:
-                border .2s,
-                box-shadow .2s;
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #777;
-
-            box-shadow:
-                0 0 0 4px
-                rgba(255,255,255,.05);
-        }
-
-        textarea {
-            min-height: 350px;
-
-            resize: vertical;
-
-            line-height: 1.75;
-
-            font-size: 15px;
-        }
-
-        .form-group {
+        .field {
             margin-bottom: 18px;
         }
 
-        .row {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 14px;
+        .field:last-child {
+            margin-bottom: 0;
         }
 
-        /* ==================================================
-           BUTTONS
-        ================================================== */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #cfcfcf;
+        }
 
-        .button {
+        input,
+        select,
+        textarea {
             width: 100%;
+            border: 1px solid #292929;
+            border-radius: 12px;
+            background: #0d0d0d;
+            color: white;
+            outline: none;
+            transition:
+                border-color .2s,
+                box-shadow .2s;
+        }
 
-            border: 0;
-            border-radius: 15px;
+        input,
+        select {
+            height: 50px;
+            padding: 0 14px;
+        }
 
-            padding: 15px 18px;
+        textarea {
+            min-height: 400px;
+            resize: vertical;
+            padding: 18px;
+            line-height: 1.75;
+        }
 
-            font-weight: 850;
+        input::placeholder,
+        textarea::placeholder {
+            color: #555;
+        }
 
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #555;
+            box-shadow: 0 0 0 3px rgba(255,255,255,.04);
+        }
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .btn {
+            width: 100%;
+            min-height: 50px;
+            border-radius: 13px;
+            border: 1px solid transparent;
+            padding: 0 18px;
+            font-weight: 800;
             transition:
                 transform .15s,
                 opacity .15s,
-                box-shadow .15s;
+                background .2s;
         }
 
-        .button:hover {
+        .btn:hover {
             transform: translateY(-1px);
         }
 
-        .button:active {
-            transform: translateY(1px);
+        .btn:active {
+            transform: translateY(0);
         }
 
-        .button:disabled {
+        .btn-primary {
+            background: white;
+            color: black;
+        }
+
+        .btn-secondary {
+            background: #161616;
+            border-color: #2d2d2d;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #1b0e0e;
+            border-color: #472020;
+            color: #ff8989;
+        }
+
+        .btn:disabled {
             cursor: not-allowed;
             opacity: .45;
             transform: none;
         }
 
-        .button-primary {
-            background: #fff;
-            color: #000;
-
-            box-shadow:
-                0 12px 35px
-                rgba(255,255,255,.08);
-        }
-
-        .button-secondary {
-            background: #171717;
-            color: #fff;
-
-            border: 1px solid #2b2b2b;
-        }
-
-        .button-danger {
-            background: rgba(255,92,92,.08);
-            color: #ff8c8c;
-
-            border: 1px solid rgba(255,92,92,.18);
-        }
-
-        .button-row {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 10px;
-
-            margin-top: 15px;
-        }
-
-        /* ==================================================
+        /* =====================================================
            THEME
-        ================================================== */
+        ===================================================== */
 
         .theme-box {
-            min-height: 240px;
-
-            border-radius: 18px;
-
+            min-height: 215px;
+            border-radius: 17px;
             border: 1px solid #292929;
-
             background:
                 radial-gradient(
-                    circle at 100% 0,
-                    rgba(255,255,255,.06),
+                    circle at 70% 20%,
+                    rgba(255,255,255,.045),
                     transparent 45%
                 ),
-                #0b0b0b;
+                #0c0c0c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+        }
 
-            padding: 24px;
+        .empty-state {
+            color: #707070;
+            font-size: 14px;
+        }
+
+        .theme-content {
+            width: 100%;
+            text-align: left;
         }
 
         .theme-label {
             color: #777;
-
             text-transform: uppercase;
-
-            letter-spacing: .12em;
-
+            letter-spacing: 1.2px;
             font-size: 10px;
             font-weight: 900;
-
-            margin-bottom: 10px;
+            margin-bottom: 9px;
         }
 
         .theme-title {
-            font-size:
-                clamp(23px, 4vw, 34px);
-
-            line-height: 1.1;
-
-            font-weight: 900;
-
-            letter-spacing: -.04em;
+            font-size: 25px;
+            line-height: 1.15;
+            font-weight: 850;
+            margin-bottom: 12px;
         }
 
-        .theme-context {
-            margin-top: 18px;
-
+        .theme-text {
             color: #aaa;
-
             font-size: 14px;
         }
 
-        .motivation {
-            display: grid;
-
-            gap: 10px;
-
-            margin-top: 20px;
+        .theme-eixos {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
         }
 
-        .motivation-item {
-            padding: 15px;
-
-            border-radius: 14px;
-
-            background: rgba(255,255,255,.025);
-
-            border: 1px solid #222;
+        .tag {
+            border: 1px solid #292929;
+            background: #141414;
+            color: #aaa;
+            padding: 5px 9px;
+            border-radius: 999px;
+            font-size: 11px;
         }
 
-        .motivation-item strong {
-            display: block;
+        /* =====================================================
+           ESSAY
+        ===================================================== */
 
-            margin-bottom: 5px;
-
-            font-size: 13px;
-        }
-
-        .motivation-item span {
-            color: #999;
-
-            font-size: 13px;
-        }
-
-        .empty {
-            display: grid;
-            place-items: center;
-
-            min-height: 180px;
-
-            color: #666;
-
-            text-align: center;
-
-            font-size: 14px;
-        }
-
-        /* ==================================================
-           UPLOAD
-        ================================================== */
-
-        .upload {
-            position: relative;
-
-            min-height: 150px;
-
-            border:
-                1px dashed #3a3a3a;
-
-            border-radius: 18px;
-
-            background: #0b0b0b;
-
-            display: grid;
-            place-items: center;
-
-            text-align: center;
-
-            padding: 25px;
-
-            transition:
-                border .2s,
-                background .2s;
-        }
-
-        .upload:hover {
-            border-color: #666;
-            background: #0e0e0e;
-        }
-
-        .upload input {
-            position: absolute;
-
-            inset: 0;
-
-            width: 100%;
-            height: 100%;
-
-            opacity: 0;
-
-            cursor: pointer;
-        }
-
-        .upload-icon {
-            font-size: 30px;
-
-            margin-bottom: 8px;
-        }
-
-        .upload strong {
-            display: block;
-
-            font-size: 14px;
-        }
-
-        .upload span {
-            color: #777;
-
-            font-size: 12px;
-        }
-
-        .previews {
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
+        .essay-actions {
+            display: flex;
             gap: 9px;
+            margin-bottom: 12px;
+        }
 
+        .essay-actions .btn {
+            width: auto;
+            flex: 1;
+        }
+
+        .word-count {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+
+        .upload-area {
+            border: 1px dashed #363636;
+            border-radius: 13px;
+            padding: 17px;
+            margin-top: 13px;
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+            transition: .2s;
+        }
+
+        .upload-area:hover {
+            border-color: #666;
+            color: #aaa;
+        }
+
+        .upload-area input {
+            display: none;
+        }
+
+        .images-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
             margin-top: 12px;
         }
 
-        .preview {
-            position: relative;
-
+        .image-preview {
             aspect-ratio: 3 / 4;
-
-            border-radius: 12px;
-
+            border-radius: 9px;
             overflow: hidden;
-
-            background: #111;
-
             border: 1px solid #292929;
+            position: relative;
+            background: #111;
         }
 
-        .preview img {
+        .image-preview img {
             width: 100%;
             height: 100%;
-
             object-fit: cover;
         }
 
-        .preview-remove {
+        .remove-image {
             position: absolute;
-
-            top: 6px;
-            right: 6px;
-
-            width: 26px;
-            height: 26px;
-
+            top: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
             border: 0;
             border-radius: 50%;
-
             background: rgba(0,0,0,.75);
-
-            color: #fff;
-
-            font-size: 14px;
-        }
-
-        /* ==================================================
-           RESULTS
-        ================================================== */
-
-        #resultSection {
-            display: none;
-
-            margin-top: 18px;
-        }
-
-        .score-box {
-            display: grid;
-
-            grid-template-columns:
-                180px 1fr;
-
-            gap: 25px;
-
-            align-items: center;
-        }
-
-        .score-circle {
-            aspect-ratio: 1;
-
-            border-radius: 50%;
-
-            display: grid;
-            place-items: center;
-
-            text-align: center;
-
-            border: 8px solid #222;
-
-            background:
-                radial-gradient(
-                    circle,
-                    #151515,
-                    #080808
-                );
-        }
-
-        .score-number {
-            font-size: 43px;
-
-            font-weight: 950;
-
-            letter-spacing: -.06em;
-        }
-
-        .score-label {
-            color: #777;
-
-            font-size: 11px;
-
-            text-transform: uppercase;
-
-            letter-spacing: .12em;
-        }
-
-        .competencies {
-            display: grid;
-
-            grid-template-columns:
-                repeat(5, 1fr);
-
-            gap: 10px;
-        }
-
-        .competency {
-            padding: 17px 13px;
-
-            border-radius: 15px;
-
-            background: #0b0b0b;
-
-            border: 1px solid #222;
-        }
-
-        .competency-number {
-            color: #777;
-
-            font-size: 10px;
-
+            color: white;
             font-weight: 900;
-
-            text-transform: uppercase;
         }
 
-        .competency-score {
-            margin-top: 5px;
-
-            font-size: 26px;
-
-            font-weight: 900;
-
-            letter-spacing: -.05em;
-        }
-
-        .competency-name {
-            color: #999;
-
-            margin-top: 3px;
-
-            font-size: 11px;
-        }
-
-        .result-grid {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 18px;
-
-            margin-top: 18px;
-        }
-
-        .result-block {
-            padding: 20px;
-
-            border-radius: 17px;
-
-            background: #0b0b0b;
-
-            border: 1px solid #222;
-        }
-
-        .result-block h3 {
-            font-size: 15px;
-
-            margin-bottom: 10px;
-        }
-
-        .result-block p {
-            color: #aaa;
-
-            font-size: 13px;
-
-            white-space: pre-line;
-        }
-
-        .result-list {
-            list-style: none;
-
-            display: grid;
-
-            gap: 8px;
-        }
-
-        .result-list li {
-            position: relative;
-
-            padding-left: 17px;
-
-            color: #aaa;
-
-            font-size: 13px;
-        }
-
-        .result-list li::before {
-            content: "";
-
-            position: absolute;
-
-            left: 0;
-            top: 8px;
-
-            width: 5px;
-            height: 5px;
-
-            border-radius: 50%;
-
-            background: #777;
-        }
-
-        .error-item {
-            padding: 12px;
-
-            margin-top: 8px;
-
-            border-radius: 12px;
-
-            background: rgba(255,92,92,.05);
-
-            border:
-                1px solid
-                rgba(255,92,92,.12);
-        }
-
-        .error-item strong {
-            display: block;
-
-            color: #ff8e8e;
-
-            font-size: 12px;
-        }
-
-        .error-item span {
-            display: block;
-
-            color: #999;
-
-            font-size: 12px;
-
-            margin-top: 3px;
-        }
-
-        /* ==================================================
+        /* =====================================================
            LOADING
-        ================================================== */
+        ===================================================== */
 
         .loading {
             display: none;
-
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 999;
-
-            background:
-                rgba(0,0,0,.78);
-
-            backdrop-filter: blur(10px);
-
-            place-items: center;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 18px;
+            color: #aaa;
+            font-size: 13px;
         }
 
         .loading.active {
-            display: grid;
-        }
-
-        .loading-card {
-            width: min(360px, calc(100% - 30px));
-
-            padding: 30px;
-
-            border-radius: 22px;
-
-            background: #111;
-
-            border: 1px solid #2a2a2a;
-
-            text-align: center;
+            display: flex;
         }
 
         .spinner {
-            width: 38px;
-            height: 38px;
-
-            margin: 0 auto 18px;
-
+            width: 17px;
+            height: 17px;
+            border: 2px solid #333;
+            border-top-color: white;
             border-radius: 50%;
-
-            border:
-                3px solid #333;
-
-            border-top-color: #fff;
-
-            animation:
-                spin .8s linear infinite;
+            animation: spin .7s linear infinite;
         }
 
         @keyframes spin {
@@ -946,97 +531,210 @@
             }
         }
 
-        .loading-title {
-            font-weight: 850;
+        /* =====================================================
+           RESULTS
+        ===================================================== */
 
-            margin-bottom: 5px;
+        #results {
+            display: none;
         }
 
-        .loading-text {
-            color: #777;
+        #results.visible {
+            display: block;
+        }
 
+        .score-box {
+            text-align: center;
+            padding: 32px;
+            border-radius: 18px;
+            border: 1px solid #292929;
+            background: #0d0d0d;
+            margin-bottom: 16px;
+        }
+
+        .score-label {
+            color: #777;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 800;
+        }
+
+        .score {
+            font-size: 75px;
+            line-height: 1;
+            font-weight: 900;
+            letter-spacing: -5px;
+            margin: 7px 0;
+        }
+
+        .score-total {
+            color: #777;
             font-size: 13px;
         }
 
-        /* ==================================================
+        .competencies {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .competency {
+            border: 1px solid #292929;
+            background: #0d0d0d;
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .competency-number {
+            color: #666;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .competency-score {
+            font-size: 27px;
+            font-weight: 900;
+            margin: 4px 0;
+        }
+
+        .competency-name {
+            font-size: 11px;
+            color: #999;
+            line-height: 1.35;
+        }
+
+        .result-section {
+            margin-top: 16px;
+            border: 1px solid #292929;
+            border-radius: 16px;
+            background: #0d0d0d;
+            padding: 20px;
+        }
+
+        .result-section h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .result-section p {
+            color: #aaa;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .result-section ul {
+            padding-left: 18px;
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .result-section li {
+            margin: 7px 0;
+        }
+
+        .competency-detail {
+            margin-top: 10px;
+            color: #aaa;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        .competency-detail strong {
+            color: white;
+        }
+
+        /* =====================================================
+           HISTORY
+        ===================================================== */
+
+        .history-list {
+            display: grid;
+            gap: 9px;
+        }
+
+        .history-item {
+            border: 1px solid #292929;
+            border-radius: 12px;
+            padding: 13px;
+            background: #0d0d0d;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .history-item:hover {
+            border-color: #4a4a4a;
+        }
+
+        .history-title {
+            font-weight: 750;
+            font-size: 13px;
+        }
+
+        .history-date {
+            color: #666;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .history-empty {
+            color: #666;
+            font-size: 12px;
+        }
+
+        /* =====================================================
            TOAST
-        ================================================== */
+        ===================================================== */
 
         .toast {
             position: fixed;
-
             left: 50%;
-            bottom: 25px;
-
-            z-index: 1000;
-
-            transform:
-                translate(-50%, 20px);
-
+            bottom: 24px;
+            transform: translate(-50%, 30px);
             opacity: 0;
-
             pointer-events: none;
-
-            width: min(500px, calc(100% - 30px));
-
-            padding: 15px 17px;
-
-            border-radius: 15px;
-
-            background: #171717;
-
-            border: 1px solid #303030;
-
-            box-shadow:
-                0 20px 50px rgba(0,0,0,.5);
-
-            transition:
-                opacity .2s,
-                transform .2s;
-
+            z-index: 100;
+            max-width: min(600px, calc(100% - 30px));
+            padding: 14px 17px;
+            border: 1px solid #4b2b2b;
+            border-radius: 13px;
+            background: #150b0b;
+            color: #ffb0b0;
             font-size: 13px;
+            transition: .25s;
+            box-shadow: 0 15px 50px rgba(0,0,0,.5);
         }
 
         .toast.show {
             opacity: 1;
-
-            transform:
-                translate(-50%, 0);
+            transform: translate(-50%, 0);
         }
 
-        .toast.error {
-            border-color:
-                rgba(255,92,92,.35);
+        .toast.success {
+            border-color: #214b34;
+            background: #0b160f;
+            color: #a5f5c2;
         }
 
-        /* ==================================================
+        /* =====================================================
            FOOTER
-        ================================================== */
+        ===================================================== */
 
         footer {
-            width: min(1180px, calc(100% - 32px));
-
-            margin: auto;
-
-            padding: 30px 0 60px;
-
-            border-top: 1px solid #181818;
-
+            padding: 60px 0 40px;
             color: #555;
-
-            font-size: 12px;
-
             text-align: center;
+            font-size: 11px;
         }
 
-        /* ==================================================
+        /* =====================================================
            RESPONSIVE
-        ================================================== */
+        ===================================================== */
 
-        @media (max-width: 850px) {
+        @media (max-width: 820px) {
 
-            .grid,
-            .result-grid {
+            .grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1044,145 +742,151 @@
                 grid-column: auto;
             }
 
-            .score-box {
-                grid-template-columns: 1fr;
+            .hero {
+                padding-top: 55px;
             }
 
-            .score-circle {
-                width: 170px;
-                margin: auto;
+            .hero h1 {
+                letter-spacing: -3px;
             }
 
             .competencies {
-                grid-template-columns:
-                    repeat(2, 1fr);
+                grid-template-columns: 1fr 1fr;
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 520px) {
 
-            .nav {
-                min-height: 62px;
+            .container {
+                width: min(100% - 20px, 1060px);
             }
 
-            .nav-status {
+            header {
+                height: 66px;
+            }
+
+            .status {
                 display: none;
             }
 
-            .hero {
-                padding-top: 65px;
+            .hero h1 {
+                font-size: 48px;
             }
 
-            .row,
-            .button-row {
-                grid-template-columns: 1fr;
+            .hero p {
+                font-size: 14px;
             }
 
             .card {
-                padding: 19px;
+                padding: 17px;
+                border-radius: 16px;
+            }
+
+            .competencies {
+                grid-template-columns: 1fr;
+            }
+
+            .essay-actions {
+                flex-direction: column;
+            }
+
+            .essay-actions .btn {
+                width: 100%;
             }
 
             textarea {
-                min-height: 300px;
-            }
-
-            .previews {
-                grid-template-columns:
-                    repeat(2, 1fr);
+                min-height: 350px;
             }
         }
 
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- ====================================================
-         HEADER
-    ===================================================== -->
+<header>
 
-    <header>
+    <div class="container header-inner">
 
-        <nav class="nav">
+        <div class="brand">
 
-            <div class="logo">
-
-                <div class="logo-mark">
-                    ✦
-                </div>
-
-                <span>
-                    Hey ENEM!
-                </span>
-
+            <div class="brand-icon">
+                ✦
             </div>
 
-            <div class="nav-status">
+            <span>
+                Hey ENEM!
+            </span>
 
-                <span class="status-dot"></span>
+        </div>
 
-                <span>
-                    Sistema online
-                </span>
+        <div class="status">
 
-            </div>
+            <span class="status-dot"></span>
 
-        </nav>
+            <span>
+                Sistema online
+            </span>
 
-    </header>
+        </div>
+
+    </div>
+
+</header>
 
 
-    <!-- ====================================================
+<main>
+
+    <!-- ======================================================
          HERO
-    ===================================================== -->
+    ======================================================= -->
 
     <section class="hero">
 
-        <div class="eyebrow">
-            ✍️ TREINO INTELIGENTE DE REDAÇÃO
+        <div class="container">
+
+            <div class="badge">
+                ✍ TREINO INTELIGENTE DE REDAÇÃO
+            </div>
+
+            <h1>
+                Sua redação.
+                <span>Seu<br>próximo 1000.</span>
+            </h1>
+
+            <p>
+                Gere propostas de redação, escreva seu texto e receba
+                uma análise detalhada baseada nas cinco competências
+                do ENEM.
+            </p>
+
         </div>
-
-        <h1>
-            Sua redação.
-            <span>Seu próximo 1000.</span>
-        </h1>
-
-        <p>
-            Gere propostas de redação, escreva seu texto
-            e receba uma análise detalhada baseada nas
-            cinco competências do ENEM.
-        </p>
 
     </section>
 
 
-    <!-- ====================================================
-         MAIN
-    ===================================================== -->
-
-    <main>
+    <div class="container">
 
         <div class="grid">
 
-
-            <!-- ============================================
-                 DADOS
-            ============================================= -->
+            <!-- ==================================================
+                 IDENTIFICAÇÃO
+            =================================================== -->
 
             <section class="card">
 
-                <div class="card-head">
+                <div class="card-header">
 
                     <div>
-
                         <div class="card-title">
                             Identificação
                         </div>
 
-                        <div class="card-description">
+                        <div class="card-subtitle">
                             Personalize sua sessão de estudo.
                         </div>
-
                     </div>
 
                     <div class="number">
@@ -1192,7 +896,7 @@
                 </div>
 
 
-                <div class="form-group">
+                <div class="field">
 
                     <label for="studentName">
                         Seu nome
@@ -1201,14 +905,14 @@
                     <input
                         id="studentName"
                         type="text"
-                        maxlength="80"
                         placeholder="Digite seu nome"
+                        autocomplete="name"
                     >
 
                 </div>
 
 
-                <div class="form-group">
+                <div class="field">
 
                     <label for="trainingMode">
                         Modo de treino
@@ -1235,24 +939,22 @@
             </section>
 
 
-            <!-- ============================================
+            <!-- ==================================================
                  TEMA
-            ============================================= -->
+            =================================================== -->
 
             <section class="card">
 
-                <div class="card-head">
+                <div class="card-header">
 
                     <div>
-
                         <div class="card-title">
                             Proposta
                         </div>
 
-                        <div class="card-description">
+                        <div class="card-subtitle">
                             Gere um tema inédito para praticar.
                         </div>
-
                     </div>
 
                     <div class="number">
@@ -1263,8 +965,8 @@
 
 
                 <button
-                    id="generateThemeBtn"
-                    class="button button-primary"
+                    id="generateTheme"
+                    class="btn btn-primary"
                     type="button"
                 >
                     ✦ Gerar tema
@@ -1272,23 +974,24 @@
 
 
                 <div
+                    id="themeLoading"
+                    class="loading"
+                >
+                    <span class="spinner"></span>
+                    Gerando uma nova proposta...
+                </div>
+
+
+                <div
                     id="themeBox"
                     class="theme-box"
-                    style="margin-top: 15px;"
+                    style="margin-top:13px;"
                 >
 
-                    <div class="empty">
-
-                        <div>
-                            <div style="font-size:30px;margin-bottom:8px;">
-                                ✦
-                            </div>
-
-                            Clique em
-                            <strong>“Gerar tema”</strong>
-                            para começar.
-                        </div>
-
+                    <div class="empty-state">
+                        ✦<br><br>
+                        Clique em <strong>“Gerar tema”</strong>
+                        para começar.
                     </div>
 
                 </div>
@@ -1296,13 +999,16 @@
             </section>
 
 
-            <!-- ============================================
+            <!-- ==================================================
                  REDAÇÃO
-            ============================================= -->
+            =================================================== -->
 
-            <section class="card full">
+            <section
+                class="card full"
+                id="essaySection"
+            >
 
-                <div class="card-head">
+                <div class="card-header">
 
                     <div>
 
@@ -1310,8 +1016,8 @@
                             Sua redação
                         </div>
 
-                        <div class="card-description">
-                            Cole seu texto ou envie fotos das folhas.
+                        <div class="card-subtitle">
+                            Escreva ou envie imagens das páginas da sua redação.
                         </div>
 
                     </div>
@@ -1323,7 +1029,7 @@
                 </div>
 
 
-                <div class="form-group">
+                <div class="field">
 
                     <label for="essayText">
                         Texto da redação
@@ -1331,62 +1037,18 @@
 
                     <textarea
                         id="essayText"
-                        placeholder="Escreva ou cole sua redação aqui..."
+                        placeholder="Comece a escrever sua redação aqui..."
                     ></textarea>
 
-                </div>
-
-
-                <div
-                    style="
-                        display:flex;
-                        justify-content:space-between;
-                        gap:10px;
-                        color:#666;
-                        font-size:11px;
-                        margin-top:-10px;
-                        margin-bottom:15px;
-                    "
-                >
-
-                    <span>
-                        <span id="wordCount">
-                            0
-                        </span>
-                        palavras
-                    </span>
-
-                    <span>
-                        <span id="charCount">
-                            0
-                        </span>
-                        caracteres
-                    </span>
-
-                </div>
-
-
-                <div class="upload">
-
-                    <input
-                        id="imageInput"
-                        type="file"
-                        accept="image/*"
-                        multiple
-                    >
-
-                    <div>
-
-                        <div class="upload-icon">
-                            📷
-                        </div>
-
-                        <strong>
-                            Enviar fotos da redação
-                        </strong>
+                    <div class="word-count">
 
                         <span>
-                            JPG, PNG, WEBP • até 5 imagens
+                            <span id="wordCount">0</span>
+                            palavras
+                        </span>
+
+                        <span>
+                            Recomendado: 150–350
                         </span>
 
                     </div>
@@ -1394,57 +1056,78 @@
                 </div>
 
 
-                <div
-                    id="previews"
-                    class="previews"
-                ></div>
+                <div class="essay-actions">
 
-
-                <div class="button-row">
-
-                    <button
-                        id="evaluateBtn"
-                        class="button button-primary"
-                        type="button"
+                    <label
+                        class="btn btn-secondary"
+                        style="display:flex;align-items:center;justify-content:center;"
                     >
-                        ✦ Corrigir redação
-                    </button>
+                        📷 Enviar imagens
+
+                        <input
+                            id="imageInput"
+                            type="file"
+                            accept="image/*"
+                            multiple
+                        >
+
+                    </label>
+
 
                     <button
-                        id="clearBtn"
-                        class="button button-secondary"
+                        id="clearEssay"
                         type="button"
+                        class="btn btn-danger"
                     >
                         Limpar
                     </button>
 
                 </div>
 
+
+                <div
+                    id="imagesList"
+                    class="images-list"
+                ></div>
+
+
+                <button
+                    id="evaluateEssay"
+                    type="button"
+                    class="btn btn-primary"
+                    style="margin-top:16px;"
+                >
+                    ✦ Avaliar minha redação
+                </button>
+
+
+                <div
+                    id="evaluationLoading"
+                    class="loading"
+                >
+                    <span class="spinner"></span>
+                    Analisando sua redação...
+                </div>
+
             </section>
 
 
-            <!-- ============================================
-                 RESULTADO
-            ============================================= -->
+            <!-- ==================================================
+                 HISTÓRICO
+            =================================================== -->
 
-            <section
-                id="resultSection"
-                class="card full"
-            >
+            <section class="card">
 
-                <div class="card-head">
+                <div class="card-header">
 
                     <div>
 
                         <div class="card-title">
-                            Resultado da avaliação
+                            Temas anteriores
                         </div>
 
-                        <div
-                            id="resultSubtitle"
-                            class="card-description"
-                        >
-                            Análise da sua redação.
+                        <div class="card-subtitle">
+                            Suas propostas geradas recentemente.
                         </div>
 
                     </div>
@@ -1456,1797 +1139,1267 @@
                 </div>
 
 
+                <div
+                    id="historyList"
+                    class="history-list"
+                ></div>
+
+
+                <button
+                    id="clearHistory"
+                    class="btn btn-secondary"
+                    style="margin-top:12px;"
+                    type="button"
+                >
+                    Limpar histórico
+                </button>
+
+            </section>
+
+
+            <!-- ==================================================
+                 RESULTADO
+            =================================================== -->
+
+            <section
+                id="results"
+                class="card full"
+            >
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Resultado da avaliação
+                        </div>
+
+                        <div class="card-subtitle">
+                            Análise baseada nas cinco competências do ENEM.
+                        </div>
+
+                    </div>
+
+                    <div class="number">
+                        05
+                    </div>
+
+                </div>
+
+
                 <div class="score-box">
 
-                    <div class="score-circle">
-
-                        <div>
-
-                            <div
-                                id="totalScore"
-                                class="score-number"
-                            >
-                                0
-                            </div>
-
-                            <div class="score-label">
-                                / 1000
-                            </div>
-
-                        </div>
-
+                    <div class="score-label">
+                        Nota estimada
                     </div>
 
+                    <div
+                        id="totalScore"
+                        class="score"
+                    >
+                        0
+                    </div>
 
-                    <div class="competencies">
-
-                        <div class="competency">
-
-                            <div class="competency-number">
-                                C1
-                            </div>
-
-                            <div
-                                id="scoreC1"
-                                class="competency-score"
-                            >
-                                0
-                            </div>
-
-                            <div class="competency-name">
-                                Norma padrão
-                            </div>
-
-                        </div>
-
-
-                        <div class="competency">
-
-                            <div class="competency-number">
-                                C2
-                            </div>
-
-                            <div
-                                id="scoreC2"
-                                class="competency-score"
-                            >
-                                0
-                            </div>
-
-                            <div class="competency-name">
-                                Tema
-                            </div>
-
-                        </div>
-
-
-                        <div class="competency">
-
-                            <div class="competency-number">
-                                C3
-                            </div>
-
-                            <div
-                                id="scoreC3"
-                                class="competency-score"
-                            >
-                                0
-                            </div>
-
-                            <div class="competency-name">
-                                Argumentação
-                            </div>
-
-                        </div>
-
-
-                        <div class="competency">
-
-                            <div class="competency-number">
-                                C4
-                            </div>
-
-                            <div
-                                id="scoreC4"
-                                class="competency-score"
-                            >
-                                0
-                            </div>
-
-                            <div class="competency-name">
-                                Coesão
-                            </div>
-
-                        </div>
-
-
-                        <div class="competency">
-
-                            <div class="competency-number">
-                                C5
-                            </div>
-
-                            <div
-                                id="scoreC5"
-                                class="competency-score"
-                            >
-                                0
-                            </div>
-
-                            <div class="competency-name">
-                                Intervenção
-                            </div>
-
-                        </div>
-
+                    <div class="score-total">
+                        de 1000 pontos
                     </div>
 
                 </div>
 
 
-                <div class="result-grid">
+                <div
+                    id="competencies"
+                    class="competencies"
+                ></div>
 
 
-                    <div class="result-block">
+                <div class="result-section">
 
-                        <h3>
-                            Diagnóstico
-                        </h3>
+                    <h3>
+                        Análise geral
+                    </h3>
 
-                        <p id="diagnosticSummary">
-                            —
-                        </p>
-
-                    </div>
-
-
-                    <div class="result-block">
-
-                        <h3>
-                            Feedback final
-                        </h3>
-
-                        <p id="finalFeedback">
-                            —
-                        </p>
-
-                    </div>
-
-
-                    <div class="result-block">
-
-                        <h3>
-                            Pontos fortes
-                        </h3>
-
-                        <ul
-                            id="strengths"
-                            class="result-list"
-                        ></ul>
-
-                    </div>
-
-
-                    <div class="result-block">
-
-                        <h3>
-                            O que melhorar
-                        </h3>
-
-                        <ul
-                            id="improvements"
-                            class="result-list"
-                        ></ul>
-
-                    </div>
-
-
-                    <div class="result-block">
-
-                        <h3>
-                            Estrutura — Introdução
-                        </h3>
-
-                        <p id="introAnalysis">
-                            —
-                        </p>
-
-                    </div>
-
-
-                    <div class="result-block">
-
-                        <h3>
-                            Estrutura — Desenvolvimento
-                        </h3>
-
-                        <p id="developmentAnalysis">
-                            —
-                        </p>
-
-                    </div>
-
-
-                    <div class="result-block">
-
-                        <h3>
-                            Estrutura — Conclusão
-                        </h3>
-
-                        <p id="conclusionAnalysis">
-                            —
-                        </p>
-
-                    </div>
-
-
-                    <div class="result-block">
-
-                        <h3>
-                            Proposta de intervenção
-                        </h3>
-
-                        <p id="interventionAnalysis">
-                            —
-                        </p>
-
-                    </div>
-
-
-                    <div
-                        id="languageBlock"
-                        class="result-block"
-                        style="grid-column:1/-1;"
-                    >
-
-                        <h3>
-                            Correções linguísticas
-                        </h3>
-
-                        <div id="languageErrors">
-                            <p>
-                                Nenhum erro listado.
-                            </p>
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        class="result-block"
-                        style="grid-column:1/-1;"
-                    >
-
-                        <h3>
-                            Análise por competência
-                        </h3>
-
-                        <div
-                            id="competencyAnalyses"
-                            style="
-                                display:grid;
-                                gap:10px;
-                            "
-                        ></div>
-
-                    </div>
+                    <p id="generalSummary"></p>
 
                 </div>
+
+
+                <div class="result-section">
+
+                    <h3>
+                        Pontos fortes
+                    </h3>
+
+                    <ul id="generalStrengths"></ul>
+
+                </div>
+
+
+                <div class="result-section">
+
+                    <h3>
+                        Prioridades de melhoria
+                    </h3>
+
+                    <ul id="priorities"></ul>
+
+                </div>
+
+
+                <div class="result-section">
+
+                    <h3>
+                        Plano de melhoria
+                    </h3>
+
+                    <p id="improvementPlan"></p>
+
+                </div>
+
+
+                <div
+                    id="competencyDetails"
+                ></div>
 
             </section>
 
         </div>
 
-    </main>
-
-
-    <!-- ====================================================
-         FOOTER
-    ===================================================== -->
-
-    <footer>
-
-        Hey ENEM! • Plataforma de treinamento de redação
-
-    </footer>
-
-
-    <!-- ====================================================
-         LOADING
-    ===================================================== -->
-
-    <div
-        id="loading"
-        class="loading"
-    >
-
-        <div class="loading-card">
-
-            <div class="spinner"></div>
-
-            <div
-                id="loadingTitle"
-                class="loading-title"
-            >
-                Processando...
-            </div>
-
-            <div
-                id="loadingText"
-                class="loading-text"
-            >
-                Aguarde alguns segundos.
-            </div>
-
-        </div>
-
     </div>
 
-
-    <!-- ====================================================
-         TOAST
-    ===================================================== -->
-
-    <div
-        id="toast"
-        class="toast"
-    ></div>
+</main>
 
 
-    <!-- ====================================================
-         JAVASCRIPT
-    ===================================================== -->
+<footer>
 
-    <script>
+    Hey ENEM! · Treino inteligente para redação ENEM
 
-        "use strict";
+</footer>
 
 
-        /* ==================================================
-           ESTADO
-        ================================================== */
-
-        let currentTheme = null;
-
-        let selectedImages = [];
-
-        let toastTimer = null;
+<div
+    id="toast"
+    class="toast"
+></div>
 
 
-        /* ==================================================
-           ELEMENTOS
-        ================================================== */
+<script>
 
-        const $ = id =>
-            document.getElementById(id);
+    // =========================================================
+    // ESTADO
+    // =========================================================
 
+    let currentTheme = null;
 
-        const studentName =
-            $("studentName");
+    let selectedImages = [];
 
-        const trainingMode =
-            $("trainingMode");
-
-        const essayText =
-            $("essayText");
-
-        const imageInput =
-            $("imageInput");
-
-        const previews =
-            $("previews");
-
-        const themeBox =
-            $("themeBox");
-
-        const generateThemeBtn =
-            $("generateThemeBtn");
-
-        const evaluateBtn =
-            $("evaluateBtn");
-
-        const clearBtn =
-            $("clearBtn");
-
-        const loading =
-            $("loading");
-
-        const loadingTitle =
-            $("loadingTitle");
-
-        const loadingText =
-            $("loadingText");
-
-        const toast =
-            $("toast");
+    let history =
+        JSON.parse(
+            localStorage.getItem("hey-enem-history") || "[]"
+        );
 
 
-        /* ==================================================
-           TOAST
-        ================================================== */
+    // =========================================================
+    // ELEMENTOS
+    // =========================================================
 
-        function showToast(message, type = "normal") {
+    const studentName =
+        document.getElementById("studentName");
 
-            clearTimeout(toastTimer);
+    const trainingMode =
+        document.getElementById("trainingMode");
 
-            toast.textContent =
-                String(message);
+    const essayText =
+        document.getElementById("essayText");
 
-            toast.className =
-                "toast show" +
-                (type === "error"
-                    ? " error"
-                    : "");
+    const imageInput =
+        document.getElementById("imageInput");
 
-            toastTimer =
-                setTimeout(() => {
+    const themeBox =
+        document.getElementById("themeBox");
 
-                    toast.className =
-                        "toast";
+    const generateThemeButton =
+        document.getElementById("generateTheme");
 
-                }, 5000);
+    const evaluateButton =
+        document.getElementById("evaluateEssay");
+
+    const themeLoading =
+        document.getElementById("themeLoading");
+
+    const evaluationLoading =
+        document.getElementById("evaluationLoading");
+
+    const wordCount =
+        document.getElementById("wordCount");
+
+    const imagesList =
+        document.getElementById("imagesList");
+
+    const results =
+        document.getElementById("results");
+
+    const toast =
+        document.getElementById("toast");
+
+
+    // =========================================================
+    // TOAST
+    // =========================================================
+
+    function showToast(message, success = false) {
+
+        toast.textContent = message;
+
+        toast.className =
+            "toast show" +
+            (success ? " success" : "");
+
+        clearTimeout(
+            showToast.timeout
+        );
+
+        showToast.timeout =
+            setTimeout(() => {
+
+                toast.className =
+                    "toast";
+
+            }, 5000);
+    }
+
+
+    // =========================================================
+    // API
+    // =========================================================
+
+    async function callAPI(payload) {
+
+        const response =
+            await fetch("/api/avaliar", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(payload)
+
+            });
+
+
+        const raw =
+            await response.text();
+
+
+        let data = {};
+
+        try {
+
+            data =
+                raw
+                    ? JSON.parse(raw)
+                    : {};
+
+        } catch (_) {
+
+            throw new Error(
+                `Resposta inválida do servidor (HTTP ${response.status}).`
+            );
+
         }
 
 
-        /* ==================================================
-           LOADING
-        ================================================== */
+        if (!response.ok) {
 
-        function showLoading(
-            title,
-            text
-        ) {
+            const message =
+                data?.error?.message ||
+                data?.message ||
+                `Erro HTTP ${response.status}.`;
 
-            loadingTitle.textContent =
-                title;
+            throw new Error(message);
+        }
 
-            loadingText.textContent =
-                text;
 
-            loading.classList.add(
-                "active"
+        if (data?.ok === false) {
+
+            throw new Error(
+                data?.error?.message ||
+                "A API retornou um erro."
             );
         }
 
 
-        function hideLoading() {
-
-            loading.classList.remove(
-                "active"
-            );
-        }
+        return data;
+    }
 
 
-        /* ==================================================
-           API
-        ================================================== */
+    // =========================================================
+    // GERAR TEMA
+    // =========================================================
 
-        async function callAPI(payload) {
+    async function generateTheme() {
 
-            let response;
+        generateThemeButton.disabled = true;
 
-            try {
+        themeLoading.classList.add("active");
 
-                response =
-                    await fetch(
-                        "/api/avaliar",
-                        {
-                            method: "POST",
 
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
+        try {
 
-                            body:
-                                JSON.stringify(
-                                    payload
-                                )
-                        }
-                    );
+            const result =
+                await callAPI({
+                    action: "theme"
+                });
 
-            } catch (networkError) {
+
+            currentTheme =
+                result?.data;
+
+
+            if (!currentTheme) {
 
                 throw new Error(
-                    "Não foi possível conectar ao servidor do Hey ENEM."
+                    "A API não retornou o tema."
                 );
             }
 
 
-            const raw =
-                await response.text();
-
-
-            let data = {};
-
-            try {
-
-                data =
-                    raw
-                        ? JSON.parse(raw)
-                        : {};
-
-            } catch {
-
-                throw new Error(
-                    `O servidor retornou uma resposta inválida (HTTP ${response.status}).`
-                );
-            }
-
-
-            /*
-             * ESTE É O PONTO QUE ELIMINA O [object Object].
-             *
-             * Nunca fazemos:
-             *
-             * throw new Error(data.error)
-             *
-             * porque data.error é um objeto.
-             */
-
-            if (!response.ok) {
-
-                const message =
-                    data?.error?.message ||
-                    data?.message ||
-                    `Erro HTTP ${response.status}`;
-
-                throw new Error(
-                    message
-                );
-            }
-
-
-            if (data?.ok === false) {
-
-                throw new Error(
-                    data?.error?.message ||
-                    "O servidor recusou a solicitação."
-                );
-            }
-
-
-            return data;
-        }
-
-
-        /* ==================================================
-           GERAR TEMA
-        ================================================== */
-
-        async function generateTheme() {
-
-            generateThemeBtn.disabled =
-                true;
-
-            showLoading(
-                "Gerando proposta...",
-                "O Hey ENEM está preparando um tema inédito."
+            renderTheme(
+                currentTheme
             );
 
 
-            try {
-
-                const result =
-                    await callAPI({
-                        action: "theme"
-                    });
+            saveThemeHistory(
+                currentTheme
+            );
 
 
-                if (
-                    !result?.data?.tema
-                ) {
-
-                    throw new Error(
-                        "O servidor não retornou um tema válido."
-                    );
-                }
+            showToast(
+                "Novo tema gerado com sucesso!",
+                true
+            );
 
 
-                currentTheme =
-                    result.data;
+        } catch (error) {
 
+            console.error(
+                "ERRO AO GERAR TEMA:",
+                error
+            );
 
-                renderTheme(
-                    currentTheme
-                );
+            showToast(
+                error?.message ||
+                "Não foi possível gerar o tema."
+            );
 
+        } finally {
 
-                saveTheme(
-                    currentTheme
-                );
+            generateThemeButton.disabled = false;
 
-
-                showToast(
-                    "Tema gerado com sucesso."
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "ERRO AO GERAR TEMA:",
-                    error
-                );
-
-
-                showToast(
-                    error?.message ||
-                    "Não foi possível gerar o tema.",
-                    "error"
-                );
-
-
-                /*
-                 * Também deixa o erro visível
-                 * no console para diagnóstico.
-                 */
-
-                console.error(
-                    "Mensagem:",
-                    error?.message
-                );
-
-            } finally {
-
-                hideLoading();
-
-                generateThemeBtn.disabled =
-                    false;
-            }
+            themeLoading.classList.remove("active");
         }
+    }
 
 
-        /* ==================================================
-           RENDER TEMA
-        ================================================== */
+    // =========================================================
+    // RENDER TEMA
+    // =========================================================
 
-        function renderTheme(theme) {
+    function renderTheme(theme) {
 
-            const motivations =
-                Array.isArray(
-                    theme.textos_motivadores
-                )
-                    ? theme.textos_motivadores
-                    : [];
+        const eixos =
+            Array.isArray(theme.eixos)
+                ? theme.eixos
+                : [];
 
 
-            themeBox.innerHTML = `
+        themeBox.innerHTML = `
+
+            <div class="theme-content">
 
                 <div class="theme-label">
-                    Tema da redação
+                    PROPOSTA DE REDAÇÃO
                 </div>
 
                 <div class="theme-title">
                     ${escapeHTML(
-                        theme.tema
+                        theme.tema ||
+                        theme.titulo ||
+                        "Tema"
                     )}
                 </div>
 
-                ${
-                    theme.contexto
-                        ? `
-                            <div class="theme-context">
-                                ${escapeHTML(
-                                    theme.contexto
-                                )}
-                            </div>
-                        `
-                        : ""
-                }
+                <div class="theme-text">
+                    ${escapeHTML(
+                        theme.contextualizacao ||
+                        ""
+                    )}
+                </div>
 
-                ${
-                    motivations.length
-                        ? `
-                            <div class="motivation">
+                <div class="theme-eixos">
 
-                                ${motivations
-                                    .map(
-                                        item => `
-                                            <div class="motivation-item">
+                    ${eixos
+                        .map(
+                            eixo =>
+                                `<span class="tag">
+                                    ${escapeHTML(eixo)}
+                                </span>`
+                        )
+                        .join("")
+                    }
 
-                                                <strong>
-                                                    ${escapeHTML(
-                                                        item.titulo ||
-                                                        "Texto motivador"
-                                                    )}
-                                                </strong>
+                </div>
 
-                                                <span>
-                                                    ${escapeHTML(
-                                                        item.texto ||
-                                                        ""
-                                                    )}
-                                                </span>
+            </div>
+        `;
+    }
 
-                                            </div>
-                                        `
-                                    )
-                                    .join("")}
 
-                            </div>
-                        `
-                        : ""
-                }
+    // =========================================================
+    // HISTÓRICO
+    // =========================================================
 
-                ${
-                    theme.comando
-                        ? `
-                            <div
-                                style="
-                                    margin-top:20px;
-                                    padding-top:18px;
-                                    border-top:1px solid #222;
-                                    color:#777;
-                                    font-size:12px;
-                                "
-                            >
-                                ${escapeHTML(
-                                    theme.comando
-                                )}
-                            </div>
-                        `
-                        : ""
-                }
+    function saveThemeHistory(theme) {
 
+        const item = {
+            ...theme,
+            id:
+                Date.now(),
+            date:
+                new Date().toISOString()
+        };
+
+
+        history.unshift(item);
+
+
+        history =
+            history.slice(0, 10);
+
+
+        localStorage.setItem(
+            "hey-enem-history",
+            JSON.stringify(history)
+        );
+
+
+        renderHistory();
+    }
+
+
+    function renderHistory() {
+
+        const list =
+            document.getElementById(
+                "historyList"
+            );
+
+
+        if (!history.length) {
+
+            list.innerHTML = `
+                <div class="history-empty">
+                    Nenhum tema gerado ainda.
+                </div>
             `;
+
+            return;
         }
 
 
-        /* ==================================================
-           IMAGENS
-        ================================================== */
+        list.innerHTML =
+            history
+                .map(item => `
 
-        imageInput.addEventListener(
-            "change",
-            async event => {
+                    <div
+                        class="history-item"
+                        data-id="${item.id}"
+                    >
 
-                const files =
-                    Array.from(
-                        event.target.files || []
-                    );
+                        <div class="history-title">
+                            ${escapeHTML(
+                                item.tema ||
+                                item.titulo ||
+                                "Tema"
+                            )}
+                        </div>
+
+                        <div class="history-date">
+                            ${formatDate(
+                                item.date
+                            )}
+                        </div>
+
+                    </div>
+
+                `)
+                .join("");
 
 
-                if (!files.length) {
-                    return;
+        list
+            .querySelectorAll(
+                ".history-item"
+            )
+            .forEach(element => {
+
+                element.addEventListener(
+                    "click",
+                    () => {
+
+                        const item =
+                            history.find(
+                                x =>
+                                    String(x.id) ===
+                                    element.dataset.id
+                            );
+
+                        if (!item) return;
+
+                        currentTheme =
+                            item;
+
+                        renderTheme(item);
+
+                        document
+                            .getElementById(
+                                "essaySection"
+                            )
+                            .scrollIntoView({
+                                behavior: "smooth"
+                            });
+                    }
+                );
+
+            });
+    }
+
+
+    // =========================================================
+    // IMAGENS
+    // =========================================================
+
+    imageInput.addEventListener(
+        "change",
+        async event => {
+
+            const files =
+                Array.from(
+                    event.target.files || []
+                );
+
+
+            for (const file of files) {
+
+                if (!file.type.startsWith("image/")) {
+                    continue;
                 }
 
 
-                if (
-                    selectedImages.length +
-                    files.length >
-                    5
-                ) {
+                if (file.size > 5 * 1024 * 1024) {
 
                     showToast(
-                        "Você pode enviar no máximo 5 imagens.",
-                        "error"
+                        `A imagem "${file.name}" ultrapassa 5 MB.`
                     );
 
-                    return;
+                    continue;
                 }
-
-
-                showLoading(
-                    "Preparando imagens...",
-                    "Estamos reduzindo o tamanho das fotos para evitar erros de envio."
-                );
 
 
                 try {
 
-                    for (const file of files) {
-
-                        if (
-                            !file.type.startsWith(
-                                "image/"
-                            )
-                        ) {
-
-                            continue;
-                        }
+                    const data =
+                        await fileToBase64(file);
 
 
-                        const compressed =
-                            await compressImage(
-                                file
-                            );
+                    selectedImages.push({
 
+                        id:
+                            crypto.randomUUID(),
 
-                        selectedImages.push(
-                            compressed
-                        );
-                    }
+                        name:
+                            file.name,
 
+                        mimeType:
+                            file.type,
 
-                    renderPreviews();
+                        data
 
+                    });
 
                 } catch (error) {
 
-                    console.error(
-                        error
-                    );
+                    console.error(error);
 
-                    showToast(
-                        "Não foi possível processar uma das imagens.",
-                        "error"
-                    );
-
-                } finally {
-
-                    hideLoading();
-
-                    imageInput.value =
-                        "";
                 }
             }
-        );
 
 
-        function compressImage(
-            file
-        ) {
+            renderImages();
 
-            return new Promise(
-                (
-                    resolve,
-                    reject
-                ) => {
-
-                    const reader =
-                        new FileReader();
-
-
-                    reader.onload = () => {
-
-                        const img =
-                            new Image();
-
-
-                        img.onload = () => {
-
-                            const maxSize =
-                                1600;
-
-
-                            let width =
-                                img.naturalWidth;
-
-                            let height =
-                                img.naturalHeight;
-
-
-                            if (
-                                width >
-                                    maxSize ||
-                                height >
-                                    maxSize
-                            ) {
-
-                                const ratio =
-                                    Math.min(
-                                        maxSize /
-                                            width,
-                                        maxSize /
-                                            height
-                                    );
-
-                                width =
-                                    Math.round(
-                                        width *
-                                        ratio
-                                    );
-
-                                height =
-                                    Math.round(
-                                        height *
-                                        ratio
-                                    );
-                            }
-
-
-                            const canvas =
-                                document.createElement(
-                                    "canvas"
-                                );
-
-
-                            canvas.width =
-                                width;
-
-                            canvas.height =
-                                height;
-
-
-                            const ctx =
-                                canvas.getContext(
-                                    "2d"
-                                );
-
-
-                            ctx.drawImage(
-                                img,
-                                0,
-                                0,
-                                width,
-                                height
-                            );
-
-
-                            const dataURL =
-                                canvas.toDataURL(
-                                    "image/jpeg",
-                                    .72
-                                );
-
-
-                            resolve({
-                                data:
-                                    dataURL.split(
-                                        ","
-                                    )[1],
-
-                                mimeType:
-                                    "image/jpeg",
-
-                                preview:
-                                    dataURL
-                            });
-                        };
-
-
-                        img.onerror =
-                            () => reject(
-                                new Error(
-                                    "Imagem inválida."
-                                )
-                            );
-
-
-                        img.src =
-                            reader.result;
-                    };
-
-
-                    reader.onerror =
-                        () => reject(
-                            new Error(
-                                "Falha ao ler imagem."
-                            )
-                        );
-
-
-                    reader.readAsDataURL(
-                        file
-                    );
-                }
-            );
+            imageInput.value = "";
         }
+    );
 
 
-        function renderPreviews() {
+    function fileToBase64(file) {
 
-            previews.innerHTML =
-                "";
+        return new Promise(
+            (resolve, reject) => {
+
+                const reader =
+                    new FileReader();
 
 
-            selectedImages.forEach(
-                (
-                    image,
-                    index
-                ) => {
+                reader.onload = () => {
 
-                    const item =
-                        document.createElement(
-                            "div"
+                    const result =
+                        String(
+                            reader.result
                         );
 
+                    const base64 =
+                        result.split(",")[1];
 
-                    item.className =
-                        "preview";
+                    resolve(base64);
+                };
 
 
-                    item.innerHTML = `
+                reader.onerror =
+                    reject;
+
+
+                reader.readAsDataURL(
+                    file
+                );
+            }
+        );
+    }
+
+
+    function renderImages() {
+
+        imagesList.innerHTML =
+            selectedImages
+                .map(image => `
+
+                    <div
+                        class="image-preview"
+                    >
 
                         <img
-                            src="${image.preview}"
+                            src="data:${image.mimeType};base64,${image.data}"
                             alt="Página da redação"
                         >
 
                         <button
                             type="button"
-                            class="preview-remove"
-                            aria-label="Remover imagem"
-                            data-index="${index}"
+                            class="remove-image"
+                            data-id="${image.id}"
                         >
                             ×
                         </button>
 
-                    `;
+                    </div>
 
+                `)
+                .join("");
 
-                    item
-                        .querySelector(
-                            ".preview-remove"
-                        )
-                        .addEventListener(
-                            "click",
-                            () => {
 
-                                selectedImages
-                                    .splice(
-                                        index,
-                                        1
-                                    );
+        imagesList
+            .querySelectorAll(
+                ".remove-image"
+            )
+            .forEach(button => {
 
-                                renderPreviews();
-                            }
-                        );
+                button.addEventListener(
+                    "click",
+                    () => {
 
+                        selectedImages =
+                            selectedImages.filter(
+                                image =>
+                                    image.id !==
+                                    button.dataset.id
+                            );
 
-                    previews.appendChild(
-                        item
-                    );
-                }
-            );
-        }
-
-
-        /* ==================================================
-           CONTADOR
-        ================================================== */
-
-        essayText.addEventListener(
-            "input",
-            updateCounters
-        );
-
-
-        function updateCounters() {
-
-            const text =
-                essayText.value.trim();
-
-
-            const words =
-                text
-                    ? text.split(/\s+/).length
-                    : 0;
-
-
-            $("wordCount")
-                .textContent =
-                words.toLocaleString(
-                    "pt-BR"
-                );
-
-
-            $("charCount")
-                .textContent =
-                essayText.value.length
-                    .toLocaleString(
-                        "pt-BR"
-                    );
-        }
-
-
-        /* ==================================================
-           AVALIAR
-        ================================================== */
-
-        evaluateBtn.addEventListener(
-            "click",
-            evaluateEssay
-        );
-
-
-        async function evaluateEssay() {
-
-            const text =
-                essayText.value.trim();
-
-
-            if (!currentTheme) {
-
-                showToast(
-                    "Gere ou selecione um tema antes de corrigir.",
-                    "error"
-                );
-
-                return;
-            }
-
-
-            if (
-                !text &&
-                !selectedImages.length
-            ) {
-
-                showToast(
-                    "Escreva a redação ou envie fotos das folhas.",
-                    "error"
-                );
-
-                return;
-            }
-
-
-            evaluateBtn.disabled =
-                true;
-
-
-            showLoading(
-                "Corrigindo sua redação...",
-                "O Hey ENEM está analisando as cinco competências do ENEM."
-            );
-
-
-            try {
-
-                const result =
-                    await callAPI({
-
-                        action:
-                            "evaluate",
-
-                        studentName:
-                            studentName.value.trim(),
-
-                        trainingMode:
-                            trainingMode.value,
-
-                        theme:
-                            currentTheme.tema,
-
-                        essayText:
-                            text,
-
-                        images:
-                            selectedImages.map(
-                                image => ({
-                                    mimeType:
-                                        image.mimeType,
-
-                                    data:
-                                        image.data
-                                })
-                            )
-                    });
-
-
-                if (
-                    !result?.data
-                ) {
-
-                    throw new Error(
-                        "A API não retornou o resultado da avaliação."
-                    );
-                }
-
-
-                renderEvaluation(
-                    result.data
-                );
-
-
-                $("resultSection")
-                    .style.display =
-                    "block";
-
-
-                $("resultSection")
-                    .scrollIntoView({
-                        behavior:
-                            "smooth",
-                        block:
-                            "start"
-                    });
-
-
-                showToast(
-                    "Redação avaliada com sucesso."
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "ERRO COMPLETO DO HEY ENEM:",
-                    error
-                );
-
-
-                /*
-                 * Aqui nunca aparece [object Object].
-                 */
-
-                showToast(
-                    error?.message ||
-                    "Não foi possível concluir a análise.",
-                    "error"
-                );
-
-            } finally {
-
-                hideLoading();
-
-                evaluateBtn.disabled =
-                    false;
-            }
-        }
-
-
-        /* ==================================================
-           RENDER AVALIAÇÃO
-        ================================================== */
-
-        function renderEvaluation(
-            result
-        ) {
-
-            const c =
-                result.competencias ||
-                {};
-
-
-            $("totalScore")
-                .textContent =
-                Number(
-                    result.nota_total || 0
-                ).toLocaleString(
-                    "pt-BR"
-                );
-
-
-            $("scoreC1")
-                .textContent =
-                Number(
-                    c.c1?.nota || 0
-                );
-
-            $("scoreC2")
-                .textContent =
-                Number(
-                    c.c2?.nota || 0
-                );
-
-            $("scoreC3")
-                .textContent =
-                Number(
-                    c.c3?.nota || 0
-                );
-
-            $("scoreC4")
-                .textContent =
-                Number(
-                    c.c4?.nota || 0
-                );
-
-            $("scoreC5")
-                .textContent =
-                Number(
-                    c.c5?.nota || 0
-                );
-
-
-            $("diagnosticSummary")
-                .textContent =
-                result
-                    ?.diagnostico
-                    ?.resumo ||
-                "—";
-
-
-            $("finalFeedback")
-                .textContent =
-                result
-                    ?.feedback_final ||
-                "—";
-
-
-            $("introAnalysis")
-                .textContent =
-                result
-                    ?.estrutura
-                    ?.introducao ||
-                "—";
-
-
-            $("developmentAnalysis")
-                .textContent =
-                result
-                    ?.estrutura
-                    ?.desenvolvimento ||
-                "—";
-
-
-            $("conclusionAnalysis")
-                .textContent =
-                result
-                    ?.estrutura
-                    ?.conclusao ||
-                "—";
-
-
-            const intervention =
-                result.intervencao ||
-                {};
-
-
-            $("interventionAnalysis")
-                .textContent =
-                [
-                    `Agente: ${intervention.agente || "—"}`,
-                    `Ação: ${intervention.acao || "—"}`,
-                    `Meio: ${intervention.meio || "—"}`,
-                    `Finalidade: ${intervention.finalidade || "—"}`,
-                    `Detalhamento: ${intervention.detalhamento || "—"}`
-                ].join("\n");
-
-
-            renderList(
-                $("strengths"),
-                result
-                    ?.diagnostico
-                    ?.pontos_fortes
-            );
-
-
-            renderList(
-                $("improvements"),
-                result
-                    ?.diagnostico
-                    ?.pontos_melhorar
-            );
-
-
-            renderLanguageErrors(
-                result
-                    ?.linguagem
-                    ?.erros
-            );
-
-
-            renderCompetencyAnalyses(
-                c
-            );
-        }
-
-
-        function renderList(
-            element,
-            items
-        ) {
-
-            element.innerHTML =
-                "";
-
-
-            if (
-                !Array.isArray(items) ||
-                !items.length
-            ) {
-
-                element.innerHTML =
-                    `
-                        <li>
-                            Nenhum item informado.
-                        </li>
-                    `;
-
-                return;
-            }
-
-
-            items.forEach(
-                item => {
-
-                    const li =
-                        document.createElement(
-                            "li"
-                        );
-
-                    li.textContent =
-                        String(item);
-
-                    element.appendChild(
-                        li
-                    );
-                }
-            );
-        }
-
-
-        function renderLanguageErrors(
-            errors
-        ) {
-
-            const container =
-                $("languageErrors");
-
-
-            container.innerHTML =
-                "";
-
-
-            if (
-                !Array.isArray(errors) ||
-                !errors.length
-            ) {
-
-                container.innerHTML =
-                    `
-                        <p>
-                            Nenhum erro linguístico relevante foi listado.
-                        </p>
-                    `;
-
-                return;
-            }
-
-
-            errors.forEach(
-                error => {
-
-                    const div =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    div.className =
-                        "error-item";
-
-
-                    div.innerHTML = `
-
-                        <strong>
-                            ${escapeHTML(
-                                error.trecho ||
-                                "Trecho"
-                            )}
-                        </strong>
-
-                        <span>
-                            Correção:
-                            ${escapeHTML(
-                                error.correcao ||
-                                "—"
-                            )}
-                        </span>
-
-                        <span>
-                            ${escapeHTML(
-                                error.explicacao ||
-                                ""
-                            )}
-                        </span>
-
-                    `;
-
-
-                    container.appendChild(
-                        div
-                    );
-                }
-            );
-        }
-
-
-        function renderCompetencyAnalyses(
-            competencies
-        ) {
-
-            const container =
-                $("competencyAnalyses");
-
-
-            container.innerHTML =
-                "";
-
-
-            const keys =
-                [
-                    "c1",
-                    "c2",
-                    "c3",
-                    "c4",
-                    "c5"
-                ];
-
-
-            keys.forEach(
-                key => {
-
-                    const item =
-                        competencies[key];
-
-
-                    if (!item) {
-                        return;
+                        renderImages();
                     }
+                );
+            });
+    }
 
 
-                    const div =
-                        document.createElement(
-                            "div"
-                        );
+    // =========================================================
+    // CONTADOR DE PALAVRAS
+    // =========================================================
+
+    essayText.addEventListener(
+        "input",
+        updateWordCount
+    );
 
 
-                    div.style.cssText = `
-                        padding:18px;
-                        border-radius:15px;
-                        background:#0b0b0b;
-                        border:1px solid #222;
-                    `;
+    function updateWordCount() {
+
+        const text =
+            essayText.value.trim();
 
 
-                    div.innerHTML = `
+        if (!text) {
 
-                        <div
-                            style="
-                                display:flex;
-                                justify-content:space-between;
-                                gap:10px;
-                                align-items:center;
-                                margin-bottom:8px;
-                            "
-                        >
+            wordCount.textContent =
+                "0";
 
-                            <strong>
-                                ${escapeHTML(
-                                    item.nome ||
-                                    key.toUpperCase()
-                                )}
-                            </strong>
-
-                            <strong>
-                                ${Number(
-                                    item.nota || 0
-                                )}/200
-                            </strong>
-
-                        </div>
-
-                        <div
-                            style="
-                                color:#777;
-                                font-size:11px;
-                                margin-bottom:8px;
-                            "
-                        >
-                            ${escapeHTML(
-                                item.titulo ||
-                                ""
-                            )}
-                        </div>
-
-                        <div
-                            style="
-                                color:#999;
-                                font-size:13px;
-                                line-height:1.6;
-                            "
-                        >
-                            ${escapeHTML(
-                                item.analise ||
-                                "—"
-                            )}
-                        </div>
-
-                    `;
-
-
-                    container.appendChild(
-                        div
-                    );
-                }
-            );
+            return;
         }
 
 
-        /* ==================================================
-           LIMPAR
-        ================================================== */
-
-        clearBtn.addEventListener(
-            "click",
-            () => {
-
-                essayText.value =
-                    "";
-
-                selectedImages =
-                    [];
-
-                currentTheme =
-                    null;
+        const words =
+            text.split(/\s+/).filter(Boolean);
 
 
-                imageInput.value =
-                    "";
+        wordCount.textContent =
+            words.length;
+    }
 
 
-                previews.innerHTML =
-                    "";
+    // =========================================================
+    // AVALIAR REDAÇÃO
+    // =========================================================
+
+    async function evaluateEssay() {
+
+        if (!currentTheme) {
+
+            showToast(
+                "Gere ou selecione um tema antes de enviar a redação."
+            );
+
+            return;
+        }
 
 
-                $("resultSection")
-                    .style.display =
-                    "none";
+        const text =
+            essayText.value.trim();
 
 
-                themeBox.innerHTML =
-                    `
-                        <div class="empty">
+        if (!text && !selectedImages.length) {
 
-                            <div>
+            showToast(
+                "Escreva sua redação ou envie imagens das páginas."
+            );
 
-                                <div
-                                    style="
-                                        font-size:30px;
-                                        margin-bottom:8px;
-                                    "
-                                >
-                                    ✦
-                                </div>
+            return;
+        }
 
-                                Clique em
-                                <strong>
-                                    “Gerar tema”
-                                </strong>
-                                para começar.
+
+        evaluateButton.disabled = true;
+
+        evaluationLoading.classList.add(
+            "active"
+        );
+
+
+        try {
+
+            const result =
+                await callAPI({
+
+                    action: "evaluate",
+
+                    studentName:
+                        studentName.value.trim(),
+
+                    trainingMode:
+                        trainingMode.value,
+
+                    theme:
+                        currentTheme.tema ||
+                        currentTheme.titulo,
+
+                    essayText:
+                        text,
+
+                    images:
+                        selectedImages.map(
+                            image => ({
+                                mimeType:
+                                    image.mimeType,
+                                data:
+                                    image.data
+                            })
+                        )
+
+                });
+
+
+            const evaluation =
+                result?.data;
+
+
+            if (!evaluation) {
+
+                throw new Error(
+                    "A API não retornou a avaliação."
+                );
+            }
+
+
+            renderEvaluation(
+                evaluation
+            );
+
+
+            results
+                .classList
+                .add("visible");
+
+
+            results.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+
+            showToast(
+                "Redação avaliada com sucesso!",
+                true
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "ERRO COMPLETO DA AVALIAÇÃO:",
+                error
+            );
+
+
+            showToast(
+                error?.message ||
+                "Não foi possível concluir a avaliação."
+            );
+
+        } finally {
+
+            evaluateButton.disabled =
+                false;
+
+            evaluationLoading
+                .classList
+                .remove("active");
+        }
+    }
+
+
+    // =========================================================
+    // RENDER AVALIAÇÃO
+    // =========================================================
+
+    function renderEvaluation(data) {
+
+        const total =
+            Number(
+                data.notaTotal ??
+                data.nota ??
+                0
+            );
+
+
+        document.getElementById(
+            "totalScore"
+        ).textContent =
+            Math.max(
+                0,
+                Math.min(
+                    1000,
+                    total
+                )
+            );
+
+
+        const competencies =
+            document.getElementById(
+                "competencies"
+            );
+
+
+        const competencyData = [
+            {
+                number: 1,
+                data:
+                    data.competencia1
+            },
+            {
+                number: 2,
+                data:
+                    data.competencia2
+            },
+            {
+                number: 3,
+                data:
+                    data.competencia3
+            },
+            {
+                number: 4,
+                data:
+                    data.competencia4
+            },
+            {
+                number: 5,
+                data:
+                    data.competencia5
+            }
+        ];
+
+
+        competencies.innerHTML =
+            competencyData
+                .map(item => `
+
+                    <div class="competency">
+
+                        <div class="competency-number">
+                            Competência ${item.number}
+                        </div>
+
+                        <div class="competency-score">
+                            ${Number(
+                                item.data?.nota || 0
+                            )}
+                        </div>
+
+                        <div class="competency-name">
+                            ${escapeHTML(
+                                item.data?.titulo ||
+                                `Competência ${item.number}`
+                            )}
+                        </div>
+
+                    </div>
+
+                `)
+                .join("");
+
+
+        document.getElementById(
+            "generalSummary"
+        ).textContent =
+            data.resumoGeral ||
+            "Nenhum resumo foi fornecido.";
+
+
+        renderList(
+            "generalStrengths",
+            data.pontosFortesGerais
+        );
+
+
+        renderList(
+            "priorities",
+            data.prioridades
+        );
+
+
+        document.getElementById(
+            "improvementPlan"
+        ).textContent =
+            data.planoMelhoria ||
+            "Nenhum plano de melhoria foi fornecido.";
+
+
+        renderCompetencyDetails(
+            competencyData
+        );
+    }
+
+
+    function renderList(id, values) {
+
+        const element =
+            document.getElementById(id);
+
+
+        if (!Array.isArray(values) ||
+            values.length === 0) {
+
+            element.innerHTML = `
+                <li>
+                    Nenhuma informação adicional.
+                </li>
+            `;
+
+            return;
+        }
+
+
+        element.innerHTML =
+            values
+                .map(
+                    value =>
+                        `<li>
+                            ${escapeHTML(value)}
+                        </li>`
+                )
+                .join("");
+    }
+
+
+    function renderCompetencyDetails(
+        competencies
+    ) {
+
+        const container =
+            document.getElementById(
+                "competencyDetails"
+            );
+
+
+        container.innerHTML =
+            competencies
+                .map(item => {
+
+                    const data =
+                        item.data || {};
+
+
+                    const strengths =
+                        Array.isArray(
+                            data.pontosFortes
+                        )
+                            ? data.pontosFortes
+                            : [];
+
+
+                    const improvements =
+                        Array.isArray(
+                            data.melhorias
+                        )
+                            ? data.melhorias
+                            : [];
+
+
+                    return `
+
+                        <div
+                            class="result-section"
+                        >
+
+                            <h3>
+                                Competência ${item.number}
+                                — ${escapeHTML(
+                                    data.titulo ||
+                                    ""
+                                )}
+                            </h3>
+
+                            <div class="competency-detail">
+
+                                <p>
+                                    <strong>
+                                        Nota:
+                                    </strong>
+
+                                    ${Number(
+                                        data.nota || 0
+                                    )}/200
+                                </p>
+
+                                <br>
+
+                                <p>
+                                    ${escapeHTML(
+                                        data.avaliacao ||
+                                        ""
+                                    )}
+                                </p>
+
+                                ${
+                                    strengths.length
+                                        ? `
+                                            <br>
+                                            <strong>
+                                                Pontos fortes
+                                            </strong>
+
+                                            <ul>
+                                                ${strengths
+                                                    .map(
+                                                        x =>
+                                                            `<li>
+                                                                ${escapeHTML(x)}
+                                                            </li>`
+                                                    )
+                                                    .join("")
+                                                }
+                                            </ul>
+                                        `
+                                        : ""
+                                }
+
+                                ${
+                                    improvements.length
+                                        ? `
+                                            <br>
+                                            <strong>
+                                                Como melhorar
+                                            </strong>
+
+                                            <ul>
+                                                ${improvements
+                                                    .map(
+                                                        x =>
+                                                            `<li>
+                                                                ${escapeHTML(x)}
+                                                            </li>`
+                                                    )
+                                                    .join("")
+                                                }
+                                            </ul>
+                                        `
+                                        : ""
+                                }
 
                             </div>
 
                         </div>
+
                     `;
+                })
+                .join("");
+    }
 
 
-                updateCounters();
+    // =========================================================
+    // LIMPAR REDAÇÃO
+    // =========================================================
 
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-            }
-        );
-
-
-        /* ==================================================
-           HISTÓRICO DE TEMAS
-        ================================================== */
-
-        function saveTheme(theme) {
-
-            try {
-
-                const history =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "hey-enem-themes"
-                        ) || "[]"
-                    );
-
-
-                history.unshift({
-                    ...theme,
-
-                    createdAt:
-                        new Date()
-                            .toISOString()
-                });
-
-
-                const limited =
-                    history.slice(0, 10);
-
-
-                localStorage.setItem(
-                    "hey-enem-themes",
-                    JSON.stringify(
-                        limited
-                    )
-                );
-
-            } catch (error) {
-
-                console.warn(
-                    "Não foi possível salvar histórico.",
-                    error
-                );
-            }
-        }
-
-
-        /* ==================================================
-           ESCAPE HTML
-        ================================================== */
-
-        function escapeHTML(
-            value
-        ) {
-
-            return String(
-                value ?? ""
-            )
-                .replace(
-                    /&/g,
-                    "&amp;"
-                )
-                .replace(
-                    /</g,
-                    "&lt;"
-                )
-                .replace(
-                    />/g,
-                    "&gt;"
-                )
-                .replace(
-                    /"/g,
-                    "&quot;"
-                )
-                .replace(
-                    /'/g,
-                    "&#039;"
-                );
-        }
-
-
-        /* ==================================================
-           INICIALIZAÇÃO
-        ================================================== */
-
-        generateThemeBtn.addEventListener(
+    document
+        .getElementById("clearEssay")
+        .addEventListener(
             "click",
-            generateTheme
+            () => {
+
+                essayText.value = "";
+
+                selectedImages = [];
+
+                renderImages();
+
+                updateWordCount();
+
+                results
+                    .classList
+                    .remove("visible");
+
+                showToast(
+                    "Redação limpa.",
+                    true
+                );
+            }
         );
 
 
-        updateCounters();
+    // =========================================================
+    // LIMPAR HISTÓRICO
+    // =========================================================
 
+    document
+        .getElementById("clearHistory")
+        .addEventListener(
+            "click",
+            () => {
 
-        /*
-         * Testa somente se o endpoint existe.
-         * NÃO faz uma chamada ao Gemini automaticamente,
-         * evitando gastar uma chamada da API ao abrir a página.
-         */
-
-        fetch(
-            "/api/avaliar",
-            {
-                method: "GET"
-            }
-        )
-            .then(
-                response =>
-                    response.json()
-            )
-            .then(
-                data => {
-
-                    if (
-                        !data.configured
-                    ) {
-
-                        console.warn(
-                            "GEMINI_API_KEY não está configurada."
-                        );
-                    }
+                if (!history.length) {
+                    return;
                 }
-            )
-            .catch(
-                error => {
 
-                    console.warn(
-                        "Não foi possível verificar a API:",
-                        error
-                    );
+
+                history = [];
+
+
+                localStorage.removeItem(
+                    "hey-enem-history"
+                );
+
+
+                renderHistory();
+
+
+                showToast(
+                    "Histórico apagado.",
+                    true
+                );
+            }
+        );
+
+
+    // =========================================================
+    // EVENTOS
+    // =========================================================
+
+    generateThemeButton.addEventListener(
+        "click",
+        generateTheme
+    );
+
+
+    evaluateButton.addEventListener(
+        "click",
+        evaluateEssay
+    );
+
+
+    // =========================================================
+    // UTILITÁRIOS
+    // =========================================================
+
+    function escapeHTML(value) {
+
+        return String(
+            value ?? ""
+        )
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    function formatDate(date) {
+
+        try {
+
+            return new Date(
+                date
+            ).toLocaleDateString(
+                "pt-BR",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric"
                 }
             );
 
-    </script>
+        } catch (_) {
+
+            return "";
+        }
+    }
+
+
+    // =========================================================
+    // INICIALIZAÇÃO
+    // =========================================================
+
+    renderHistory();
+
+    updateWordCount();
+
+</script>
 
 </body>
 

@@ -1,3752 +1,3253 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta name="theme-color" content="#0055A4">
-  <meta
-    name="description"
-    content="Hey ENEM! — seu treinador inteligente de redação para o ENEM."
-  >
-
-  <title>Hey ENEM! — Treine sua Redação</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  >
-
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-  <style>
-
-    /* =========================================================
-       RESET
-    ========================================================= */
-
-    :root {
-      --blue: #0055A4;
-      --blue-dark: #003B73;
-      --blue-light: #4D94FF;
-
-      --yellow: #FFC107;
-      --yellow-light: #FFF8D6;
-
-      --green: #00C853;
-      --green-light: #E8F8EF;
-
-      --red: #FF5252;
-      --red-light: #FFE8E8;
-
-      --purple: #7C4DFF;
-      --purple-light: #EEE8FF;
-
-      --white: #FFFFFF;
-      --black: #111111;
-
-      --gray-50: #F8FAFC;
-      --gray-100: #F1F5F9;
-      --gray-200: #E2E8F0;
-      --gray-400: #94A3B8;
-      --gray-600: #475569;
-      --gray-800: #1E293B;
-
-      --shadow: 6px 6px 0 var(--black);
-
-      --radius: 18px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Nunito', sans-serif;
-      background:
-        radial-gradient(
-          circle at 10% 10%,
-          rgba(77,148,255,.45),
-          transparent 28%
-        ),
-        radial-gradient(
-          circle at 90% 90%,
-          rgba(0,200,83,.18),
-          transparent 25%
-        ),
-        var(--blue);
-
-      color: var(--black);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    button,
-    input,
-    textarea {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    .btn-text {
-      font-family: 'Fredoka', sans-serif;
-    }
-
-    /* =========================================================
-       BACKGROUND
-    ========================================================= */
-
-    .floating {
-      position: fixed;
-      pointer-events: none;
-      user-select: none;
-      z-index: 0;
-      animation: float 7s ease-in-out infinite;
-      opacity: .75;
-    }
-
-    .floating.one {
-      top: 8%;
-      left: 4%;
-      font-size: 45px;
-    }
-
-    .floating.two {
-      top: 22%;
-      right: 5%;
-      font-size: 40px;
-      animation-delay: 1.5s;
-    }
-
-    .floating.three {
-      bottom: 10%;
-      left: 7%;
-      font-size: 42px;
-      animation-delay: 3s;
-    }
-
-    .floating.four {
-      bottom: 18%;
-      right: 8%;
-      font-size: 48px;
-      animation-delay: 4s;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0) rotate(0);
-      }
-
-      50% {
-        transform: translateY(-18px) rotate(7deg);
-      }
-    }
-
-    /* =========================================================
-       APP
-    ========================================================= */
-
-    .app {
-      position: relative;
-      z-index: 2;
-
-      width: min(1180px, calc(100% - 30px));
-
-      margin: 35px auto;
-
-      background: var(--white);
-
-      border: 4px solid var(--black);
-      border-radius: 28px;
-
-      box-shadow: 10px 10px 0 var(--black);
-
-      overflow: hidden;
-    }
-
-    /* =========================================================
-       HEADER
-    ========================================================= */
-
-    .topbar {
-      padding: 22px 28px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      border-bottom: 3px solid var(--black);
-
-      background:
-        linear-gradient(
-          135deg,
-          #fff 0%,
-          #f8fbff 100%
-        );
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-icon {
-      width: 48px;
-      height: 48px;
-
-      display: grid;
-      place-items: center;
-
-      background: var(--yellow);
-
-      border: 3px solid var(--black);
-      border-radius: 14px;
-
-      box-shadow: 4px 4px 0 var(--black);
-
-      font-size: 25px;
-    }
-
-    .brand-name {
-      font-size: 1.65rem;
-      color: var(--blue);
-      line-height: 1;
-    }
-
-    .brand-subtitle {
-      color: var(--gray-600);
-      font-weight: 700;
-      font-size: .8rem;
-      margin-top: 3px;
-    }
-
-    .header-badge {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-
-      padding: 9px 13px;
-
-      background: var(--green-light);
-
-      border: 2px solid var(--black);
-      border-radius: 999px;
-
-      font-size: .82rem;
-      font-weight: 900;
-    }
-
-    .header-badge i {
-      color: var(--green);
-    }
-
-    /* =========================================================
-       MAIN
-    ========================================================= */
-
-    .main {
-      padding: 34px;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 25px;
-
-      margin-bottom: 30px;
-    }
-
-    .hero-text h1 {
-      color: var(--blue);
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1.05;
-      margin-bottom: 12px;
-    }
-
-    .hero-text h1 span {
-      color: var(--yellow);
-      -webkit-text-stroke: 1.5px var(--black);
-      text-shadow: 3px 3px 0 var(--black);
-    }
-
-    .hero-text p {
-      max-width: 680px;
-
-      color: var(--gray-600);
-
-      font-size: 1.05rem;
-      font-weight: 700;
-      line-height: 1.55;
-    }
-
-    .hero-card {
-      background: var(--yellow-light);
-
-      border: 3px solid var(--black);
-      border-radius: var(--radius);
-
-      padding: 20px;
-
-      box-shadow: 5px 5px 0 var(--black);
-    }
-
-    .hero-card-title {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.1rem;
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#050505"
+    >
+
+    <meta
+        name="description"
+        content="Hey ENEM! — plataforma inteligente para treinar redação do ENEM."
+    >
+
+    <title>Hey ENEM! — Redação ENEM</title>
+
+    <link
+        rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✍️%3C/text%3E%3C/svg%3E"
+    >
+
+    <style>
+
+        /* ==================================================
+           RESET
+        ================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #050505;
+            --bg-2: #090909;
+            --card: #101010;
+            --card-2: #151515;
+            --border: #252525;
+
+            --text: #f5f5f5;
+            --muted: #9a9a9a;
+
+            --accent: #ffffff;
+            --accent-dark: #d8d8d8;
+
+            --green: #43d17c;
+            --yellow: #ffd166;
+            --red: #ff5c5c;
+            --blue: #6ea8fe;
+
+            --radius: 22px;
+        }
 
-      display: flex;
-      gap: 8px;
-      align-items: center;
-
-      margin-bottom: 13px;
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    .hero-card ul {
-      list-style: none;
-      display: grid;
-      gap: 9px;
-    }
+        body {
+            min-height: 100vh;
 
-    .hero-card li {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
+            background:
+                radial-gradient(
+                    circle at 50% -10%,
+                    #222 0,
+                    transparent 35%
+                ),
+                var(--bg);
 
-      font-size: .9rem;
-      font-weight: 800;
-    }
+            color: var(--text);
 
-    .hero-card li i {
-      color: var(--green);
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    /* =========================================================
-       STATS
-    ========================================================= */
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
 
-    .quick-stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+            line-height: 1.5;
+        }
 
-      margin-bottom: 25px;
-    }
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
 
-    .stat {
-      padding: 15px;
+        button {
+            cursor: pointer;
+        }
 
-      background: var(--gray-50);
+        ::selection {
+            background: #fff;
+            color: #000;
+        }
 
-      border: 3px solid var(--black);
-      border-radius: 15px;
+        /* ==================================================
+           HEADER
+        ================================================== */
 
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
 
-    .stat-icon {
-      width: 40px;
-      height: 40px;
+            backdrop-filter: blur(18px);
 
-      display: grid;
-      place-items: center;
+            background: rgba(5, 5, 5, .78);
 
-      border: 2px solid var(--black);
-      border-radius: 11px;
+            border-bottom: 1px solid rgba(255,255,255,.07);
+        }
 
-      background: var(--white);
+        .nav {
+            width: min(1180px, calc(100% - 32px));
+            margin: auto;
 
-      font-size: 20px;
-    }
+            min-height: 72px;
 
-    .stat strong {
-      display: block;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.2rem;
-    }
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
 
-    .stat span {
-      color: var(--gray-600);
-      font-size: .76rem;
-      font-weight: 800;
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
 
-    /* =========================================================
-       THEME
-    ========================================================= */
+            font-weight: 900;
+            letter-spacing: -.04em;
 
-    .theme-panel {
-      border: 3px solid var(--black);
-      border-radius: var(--radius);
+            font-size: 21px;
+        }
 
-      padding: 20px;
+        .logo-mark {
+            width: 36px;
+            height: 36px;
 
-      background: var(--blue);
+            border-radius: 11px;
 
-      color: white;
+            display: grid;
+            place-items: center;
 
-      margin-bottom: 25px;
+            background: #fff;
+            color: #000;
 
-      box-shadow: 5px 5px 0 var(--black);
-    }
+            font-size: 19px;
+        }
 
-    .theme-panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
 
-      gap: 10px;
+            color: var(--muted);
 
-      margin-bottom: 12px;
-    }
+            font-size: 13px;
+        }
 
-    .theme-panel-title {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.2rem;
+        .status-dot {
+            width: 8px;
+            height: 8px;
 
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+            border-radius: 50%;
 
-    .theme-actions {
-      display: flex;
-      gap: 8px;
-    }
+            background: var(--green);
 
-    .small-btn {
-      border: 2px solid var(--black);
-      background: var(--white);
-      color: var(--black);
+            box-shadow:
+                0 0 12px rgba(67,209,124,.7);
+        }
 
-      border-radius: 10px;
-      padding: 7px 11px;
+        /* ==================================================
+           HERO
+        ================================================== */
 
-      font-size: .78rem;
-      font-weight: 900;
+        .hero {
+            width: min(1180px, calc(100% - 32px));
+            margin: auto;
 
-      box-shadow: 2px 2px 0 var(--black);
+            padding:
+                90px 0
+                55px;
 
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
+            text-align: center;
+        }
 
-    .small-btn:active {
-      transform: translate(2px, 2px);
-      box-shadow: none;
-    }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
 
-    .theme-text {
-      background: rgba(255,255,255,.13);
+            padding: 8px 13px;
 
-      border: 2px dashed rgba(255,255,255,.65);
+            border: 1px solid var(--border);
+            border-radius: 999px;
 
-      border-radius: 12px;
+            background: rgba(255,255,255,.035);
 
-      padding: 15px;
+            color: #ccc;
 
-      font-size: 1rem;
-      line-height: 1.45;
-      font-weight: 800;
-    }
+            font-size: 12px;
+            font-weight: 700;
 
-    /* =========================================================
-       FORM
-    ========================================================= */
+            margin-bottom: 25px;
+        }
 
-    .workspace {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;
-    }
+        .hero h1 {
+            max-width: 900px;
+            margin: auto;
 
-    .panel {
-      background: var(--white);
+            font-size:
+                clamp(46px, 8vw, 92px);
 
-      border: 3px solid var(--black);
-      border-radius: var(--radius);
+            line-height: .92;
 
-      padding: 22px;
+            letter-spacing: -.07em;
 
-      box-shadow: 4px 4px 0 var(--black);
-    }
+            font-weight: 950;
+        }
 
-    .panel-title {
-      display: flex;
-      align-items: center;
-      gap: 9px;
+        .hero h1 span {
+            color: #888;
+        }
 
-      font-size: 1.25rem;
+        .hero p {
+            max-width: 660px;
+            margin: 28px auto 0;
 
-      margin-bottom: 5px;
-    }
+            color: var(--muted);
 
-    .panel-title i {
-      color: var(--blue);
-    }
+            font-size:
+                clamp(16px, 2vw, 19px);
+        }
 
-    .panel-description {
-      color: var(--gray-600);
-      font-size: .85rem;
-      font-weight: 700;
+        /* ==================================================
+           MAIN
+        ================================================== */
 
-      margin-bottom: 18px;
-    }
+        main {
+            width: min(1180px, calc(100% - 32px));
+            margin: auto;
 
-    .field {
-      margin-bottom: 18px;
-    }
+            padding-bottom: 100px;
+        }
 
-    .field label {
-      display: block;
+        .grid {
+            display: grid;
 
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1rem;
+            grid-template-columns:
+                1fr 1fr;
 
-      margin-bottom: 7px;
-    }
+            gap: 18px;
+        }
 
-    .input {
-      width: 100%;
+        .card {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.045),
+                    rgba(255,255,255,.015)
+                );
 
-      border: 3px solid var(--black);
-      border-radius: 12px;
+            border:
+                1px solid var(--border);
 
-      background: var(--gray-50);
+            border-radius:
+                var(--radius);
 
-      padding: 13px 14px;
+            padding: 25px;
 
-      outline: none;
+            box-shadow:
+                0 20px 80px rgba(0,0,0,.25);
+        }
 
-      font-size: .95rem;
-      font-weight: 700;
+        .card.full {
+            grid-column: 1 / -1;
+        }
 
-      transition: .15s;
-    }
+        .card-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
 
-    .input:focus {
-      background: white;
+            margin-bottom: 22px;
+        }
 
-      transform: translate(2px, 2px);
+        .card-title {
+            font-size: 18px;
+            font-weight: 850;
+            letter-spacing: -.025em;
+        }
 
-      box-shadow: 2px 2px 0 var(--black);
-    }
+        .card-description {
+            margin-top: 5px;
 
-    /* =========================================================
-       DROPZONE
-    ========================================================= */
+            color: var(--muted);
 
-    .dropzone {
-      position: relative;
+            font-size: 13px;
+        }
 
-      border: 3px dashed var(--blue);
+        .number {
+            width: 34px;
+            height: 34px;
 
-      background: #EEF6FF;
+            flex: 0 0 auto;
 
-      border-radius: 15px;
+            border-radius: 11px;
 
-      min-height: 260px;
+            display: grid;
+            place-items: center;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+            background: #fff;
+            color: #000;
 
-      text-align: center;
+            font-weight: 900;
+            font-size: 13px;
+        }
 
-      overflow: hidden;
+        /* ==================================================
+           FORM
+        ================================================== */
 
-      cursor: pointer;
+        label {
+            display: block;
 
-      transition: .2s;
-    }
+            margin-bottom: 8px;
 
-    .dropzone:hover,
-    .dropzone.dragover {
-      background: var(--yellow-light);
-      border-style: solid;
-      transform: scale(1.01);
-    }
+            color: #ddd;
 
-    .dropzone-content {
-      padding: 25px;
-    }
+            font-size: 13px;
+            font-weight: 700;
+        }
 
-    .upload-icon {
-      width: 70px;
-      height: 70px;
+        input,
+        textarea,
+        select {
+            width: 100%;
 
-      margin: 0 auto 13px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
 
-      display: grid;
-      place-items: center;
+            outline: none;
 
-      background: white;
+            background: #0b0b0b;
+            color: #fff;
 
-      border: 3px solid var(--black);
-      border-radius: 18px;
+            padding: 14px 15px;
 
-      box-shadow: 4px 4px 0 var(--black);
+            transition:
+                border .2s,
+                box-shadow .2s;
+        }
 
-      color: var(--blue);
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #777;
 
-      font-size: 35px;
-    }
+            box-shadow:
+                0 0 0 4px
+                rgba(255,255,255,.05);
+        }
 
-    .dropzone h3 {
-      font-size: 1.15rem;
-      color: var(--blue);
-      margin-bottom: 5px;
-    }
+        textarea {
+            min-height: 350px;
 
-    .dropzone p {
-      color: var(--gray-600);
-      font-size: .82rem;
-      font-weight: 700;
-    }
+            resize: vertical;
 
-    #fileInput {
-      display: none;
-    }
+            line-height: 1.75;
 
-    .preview {
-      display: none;
+            font-size: 15px;
+        }
 
-      position: absolute;
-      inset: 0;
+        .form-group {
+            margin-bottom: 18px;
+        }
 
-      background: #111;
+        .row {
+            display: grid;
 
-      align-items: center;
-      justify-content: center;
-    }
+            grid-template-columns:
+                1fr 1fr;
 
-    .preview img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
+            gap: 14px;
+        }
 
-    .preview-overlay {
-      position: absolute;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
+        /* ==================================================
+           BUTTONS
+        ================================================== */
 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+        .button {
+            width: 100%;
 
-      gap: 10px;
+            border: 0;
+            border-radius: 15px;
 
-      background: rgba(0,0,0,.75);
-      color: white;
+            padding: 15px 18px;
 
-      border-radius: 10px;
+            font-weight: 850;
 
-      padding: 8px 10px;
+            transition:
+                transform .15s,
+                opacity .15s,
+                box-shadow .15s;
+        }
 
-      font-size: .75rem;
-      font-weight: 800;
-    }
+        .button:hover {
+            transform: translateY(-1px);
+        }
 
-    /* =========================================================
-       CTA
-    ========================================================= */
+        .button:active {
+            transform: translateY(1px);
+        }
 
-    .cta {
-      width: 100%;
+        .button:disabled {
+            cursor: not-allowed;
+            opacity: .45;
+            transform: none;
+        }
 
-      border: 4px solid var(--black);
-      border-radius: 15px;
+        .button-primary {
+            background: #fff;
+            color: #000;
 
-      padding: 16px;
+            box-shadow:
+                0 12px 35px
+                rgba(255,255,255,.08);
+        }
 
-      background: var(--yellow);
+        .button-secondary {
+            background: #171717;
+            color: #fff;
 
-      box-shadow: 5px 5px 0 var(--black);
+            border: 1px solid #2b2b2b;
+        }
 
-      font-family: 'Fredoka', sans-serif;
+        .button-danger {
+            background: rgba(255,92,92,.08);
+            color: #ff8c8c;
 
-      font-size: 1.3rem;
+            border: 1px solid rgba(255,92,92,.18);
+        }
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
+        .button-row {
+            display: grid;
 
-      gap: 9px;
+            grid-template-columns:
+                1fr 1fr;
 
-      transition: .12s;
-    }
+            gap: 10px;
 
-    .cta:hover {
-      filter: brightness(1.05);
-    }
+            margin-top: 15px;
+        }
 
-    .cta:active {
-      transform: translate(5px, 5px);
-      box-shadow: none;
-    }
+        /* ==================================================
+           THEME
+        ================================================== */
 
-    .cta:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: 5px 5px 0 var(--black);
-    }
+        .theme-box {
+            min-height: 240px;
 
-    /* =========================================================
-       SECONDARY BUTTONS
-    ========================================================= */
+            border-radius: 18px;
 
-    .tool-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
+            border: 1px solid #292929;
 
-      margin-bottom: 18px;
-    }
+            background:
+                radial-gradient(
+                    circle at 100% 0,
+                    rgba(255,255,255,.06),
+                    transparent 45%
+                ),
+                #0b0b0b;
 
-    .tool-btn {
-      padding: 11px;
+            padding: 24px;
+        }
 
-      border: 3px solid var(--black);
-      border-radius: 11px;
+        .theme-label {
+            color: #777;
 
-      background: var(--white);
+            text-transform: uppercase;
 
-      box-shadow: 3px 3px 0 var(--black);
+            letter-spacing: .12em;
 
-      font-size: .82rem;
-      font-weight: 900;
+            font-size: 10px;
+            font-weight: 900;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+            margin-bottom: 10px;
+        }
 
-      transition: .1s;
-    }
+        .theme-title {
+            font-size:
+                clamp(23px, 4vw, 34px);
 
-    .tool-btn:hover {
-      background: var(--gray-100);
-    }
+            line-height: 1.1;
 
-    .tool-btn:active {
-      transform: translate(3px, 3px);
-      box-shadow: none;
-    }
+            font-weight: 900;
 
-    .tool-btn.blue {
-      background: var(--blue-light);
-      color: white;
-    }
+            letter-spacing: -.04em;
+        }
 
-    .tool-btn.green {
-      background: var(--green);
-    }
+        .theme-context {
+            margin-top: 18px;
 
-    /* =========================================================
-       LOADING
-    ========================================================= */
+            color: #aaa;
 
-    .loading {
-      display: none;
+            font-size: 14px;
+        }
 
-      text-align: center;
+        .motivation {
+            display: grid;
 
-      padding: 70px 20px;
-    }
+            gap: 10px;
 
-    .loading.active {
-      display: block;
-    }
+            margin-top: 20px;
+        }
 
-    .brain {
-      font-size: 75px;
-      color: var(--blue);
+        .motivation-item {
+            padding: 15px;
 
-      animation: brainPulse 1.1s infinite;
-    }
+            border-radius: 14px;
 
-    @keyframes brainPulse {
-      0%, 100% {
-        transform: scale(1);
-      }
+            background: rgba(255,255,255,.025);
 
-      50% {
-        transform: scale(1.12);
-      }
-    }
+            border: 1px solid #222;
+        }
 
-    .loading h2 {
-      margin-top: 18px;
-      color: var(--blue);
-      font-size: 1.6rem;
-    }
+        .motivation-item strong {
+            display: block;
 
-    .loading p {
-      color: var(--gray-600);
-      font-weight: 700;
-      margin-top: 5px;
-    }
+            margin-bottom: 5px;
 
-    .loading-bar {
-      width: min(350px, 90%);
-      height: 10px;
+            font-size: 13px;
+        }
 
-      margin: 22px auto 0;
+        .motivation-item span {
+            color: #999;
 
-      border: 2px solid var(--black);
-      border-radius: 999px;
+            font-size: 13px;
+        }
 
-      overflow: hidden;
-      background: var(--gray-100);
-    }
+        .empty {
+            display: grid;
+            place-items: center;
 
-    .loading-bar div {
-      width: 35%;
-      height: 100%;
+            min-height: 180px;
 
-      background: var(--blue);
+            color: #666;
 
-      animation: loadingBar 1.5s infinite ease-in-out;
-    }
+            text-align: center;
 
-    @keyframes loadingBar {
-      0% {
-        transform: translateX(-120%);
-      }
+            font-size: 14px;
+        }
 
-      100% {
-        transform: translateX(320%);
-      }
-    }
+        /* ==================================================
+           UPLOAD
+        ================================================== */
 
-    /* =========================================================
-       RESULT
-    ========================================================= */
+        .upload {
+            position: relative;
 
-    .result {
-      display: none;
-    }
+            min-height: 150px;
 
-    .result.active {
-      display: block;
-      animation: appear .4s ease;
-    }
+            border:
+                1px dashed #3a3a3a;
 
-    @keyframes appear {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
+            border-radius: 18px;
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+            background: #0b0b0b;
 
-    .result-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+            display: grid;
+            place-items: center;
 
-      gap: 15px;
+            text-align: center;
 
-      margin-bottom: 22px;
-    }
+            padding: 25px;
 
-    .result-header h2 {
-      color: var(--blue);
-      font-size: 1.9rem;
-    }
+            transition:
+                border .2s,
+                background .2s;
+        }
 
-    .result-header p {
-      color: var(--gray-600);
-      font-weight: 700;
-    }
+        .upload:hover {
+            border-color: #666;
+            background: #0e0e0e;
+        }
 
-    .score-card {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 22px;
+        .upload input {
+            position: absolute;
 
-      margin-bottom: 20px;
-    }
+            inset: 0;
 
-    .score-main {
-      border: 4px solid var(--black);
-      border-radius: 20px;
+            width: 100%;
+            height: 100%;
 
-      background: var(--blue);
+            opacity: 0;
 
-      color: white;
+            cursor: pointer;
+        }
 
-      padding: 28px;
+        .upload-icon {
+            font-size: 30px;
 
-      text-align: center;
+            margin-bottom: 8px;
+        }
 
-      box-shadow: 6px 6px 0 var(--black);
-    }
+        .upload strong {
+            display: block;
 
-    .score-label {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1rem;
-    }
+            font-size: 14px;
+        }
 
-    .score-number {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 4.8rem;
-      line-height: 1;
+        .upload span {
+            color: #777;
 
-      margin: 10px 0;
-    }
+            font-size: 12px;
+        }
 
-    .score-status {
-      display: inline-block;
+        .previews {
+            display: grid;
 
-      background: var(--yellow);
-      color: var(--black);
+            grid-template-columns:
+                repeat(4, 1fr);
 
-      border: 2px solid var(--black);
+            gap: 9px;
 
-      border-radius: 999px;
+            margin-top: 12px;
+        }
 
-      padding: 5px 10px;
+        .preview {
+            position: relative;
 
-      font-size: .75rem;
-      font-weight: 900;
-    }
+            aspect-ratio: 3 / 4;
 
-    .score-summary {
-      border: 3px solid var(--black);
-      border-radius: 18px;
+            border-radius: 12px;
 
-      padding: 22px;
+            overflow: hidden;
 
-      background: var(--gray-50);
-    }
+            background: #111;
 
-    .score-summary h3 {
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
+            border: 1px solid #292929;
+        }
 
-    .score-summary p {
-      color: var(--gray-600);
-      line-height: 1.6;
-      font-weight: 700;
-    }
+        .preview img {
+            width: 100%;
+            height: 100%;
 
-    /* =========================================================
-       COMPETENCIES
-    ========================================================= */
+            object-fit: cover;
+        }
 
-    .section-title {
-      font-size: 1.45rem;
-      margin: 25px 0 12px;
+        .preview-remove {
+            position: absolute;
 
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+            top: 6px;
+            right: 6px;
 
-    .section-title i {
-      color: var(--blue);
-    }
+            width: 26px;
+            height: 26px;
 
-    .competencies {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-    }
+            border: 0;
+            border-radius: 50%;
 
-    .competency {
-      border: 3px solid var(--black);
-      border-radius: 14px;
+            background: rgba(0,0,0,.75);
 
-      padding: 13px;
+            color: #fff;
 
-      background: white;
+            font-size: 14px;
+        }
 
-      box-shadow: 3px 3px 0 var(--black);
-    }
+        /* ==================================================
+           RESULTS
+        ================================================== */
 
-    .competency-code {
-      font-family: 'Fredoka', sans-serif;
-      color: var(--blue);
-      font-size: .9rem;
-    }
+        #resultSection {
+            display: none;
 
-    .competency-name {
-      font-size: .76rem;
-      font-weight: 800;
-      line-height: 1.25;
+            margin-top: 18px;
+        }
 
-      min-height: 39px;
+        .score-box {
+            display: grid;
 
-      margin: 5px 0;
-    }
+            grid-template-columns:
+                180px 1fr;
 
-    .competency-score {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.3rem;
-    }
+            gap: 25px;
 
-    .progress {
-      width: 100%;
-      height: 8px;
+            align-items: center;
+        }
 
-      border: 2px solid var(--black);
-      border-radius: 999px;
+        .score-circle {
+            aspect-ratio: 1;
 
-      background: var(--gray-100);
+            border-radius: 50%;
 
-      overflow: hidden;
+            display: grid;
+            place-items: center;
 
-      margin-top: 7px;
-    }
+            text-align: center;
 
-    .progress div {
-      height: 100%;
-      background: var(--green);
+            border: 8px solid #222;
 
-      width: 0;
+            background:
+                radial-gradient(
+                    circle,
+                    #151515,
+                    #080808
+                );
+        }
 
-      transition: width 1s ease;
-    }
+        .score-number {
+            font-size: 43px;
 
-    /* =========================================================
-       FEEDBACK GRID
-    ========================================================= */
+            font-weight: 950;
 
-    .feedback-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+            letter-spacing: -.06em;
+        }
 
-      gap: 14px;
+        .score-label {
+            color: #777;
 
-      margin-top: 20px;
-    }
+            font-size: 11px;
 
-    .feedback-box {
-      border: 3px solid var(--black);
-      border-radius: 16px;
+            text-transform: uppercase;
 
-      padding: 18px;
+            letter-spacing: .12em;
+        }
 
-      background: white;
-    }
+        .competencies {
+            display: grid;
 
-    .feedback-box.green {
-      background: var(--green-light);
-    }
+            grid-template-columns:
+                repeat(5, 1fr);
 
-    .feedback-box.red {
-      background: var(--red-light);
-    }
+            gap: 10px;
+        }
 
-    .feedback-box.yellow {
-      background: var(--yellow-light);
-    }
+        .competency {
+            padding: 17px 13px;
 
-    .feedback-box.blue {
-      background: #EDF5FF;
-    }
+            border-radius: 15px;
 
-    .feedback-box h3 {
-      font-size: 1.05rem;
+            background: #0b0b0b;
 
-      display: flex;
-      align-items: center;
-      gap: 7px;
+            border: 1px solid #222;
+        }
 
-      margin-bottom: 12px;
-    }
+        .competency-number {
+            color: #777;
 
-    .feedback-box ul {
-      list-style: none;
-      display: grid;
-      gap: 9px;
-    }
+            font-size: 10px;
 
-    .feedback-box li {
-      display: flex;
-      align-items: flex-start;
-      gap: 7px;
+            font-weight: 900;
 
-      font-size: .86rem;
-      font-weight: 700;
-      line-height: 1.45;
-    }
+            text-transform: uppercase;
+        }
 
-    .feedback-box li i {
-      margin-top: 3px;
-      flex-shrink: 0;
-    }
+        .competency-score {
+            margin-top: 5px;
 
-    /* =========================================================
-       STRUCTURE
-    ========================================================= */
+            font-size: 26px;
 
-    .structure-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+            font-weight: 900;
 
-      gap: 12px;
-    }
+            letter-spacing: -.05em;
+        }
 
-    .structure-card {
-      border: 3px solid var(--black);
-      border-radius: 14px;
+        .competency-name {
+            color: #999;
 
-      padding: 16px;
+            margin-top: 3px;
 
-      background: var(--gray-50);
-    }
+            font-size: 11px;
+        }
 
-    .structure-card h4 {
-      font-size: 1rem;
-      margin-bottom: 8px;
-      color: var(--blue);
-    }
+        .result-grid {
+            display: grid;
 
-    .structure-card p {
-      font-size: .83rem;
-      color: var(--gray-600);
-      font-weight: 700;
-      line-height: 1.45;
-    }
+            grid-template-columns:
+                1fr 1fr;
 
-    /* =========================================================
-       ACTION PLAN
-    ========================================================= */
+            gap: 18px;
 
-    .action-plan {
-      margin-top: 20px;
+            margin-top: 18px;
+        }
 
-      background: var(--purple-light);
+        .result-block {
+            padding: 20px;
 
-      border: 3px solid var(--black);
-      border-radius: 16px;
+            border-radius: 17px;
 
-      padding: 20px;
-    }
+            background: #0b0b0b;
 
-    .action-plan h3 {
-      color: var(--purple);
-      margin-bottom: 13px;
-    }
+            border: 1px solid #222;
+        }
 
-    .action-item {
-      display: grid;
-      grid-template-columns: 35px 1fr;
+        .result-block h3 {
+            font-size: 15px;
 
-      gap: 10px;
+            margin-bottom: 10px;
+        }
 
-      margin-bottom: 12px;
-    }
+        .result-block p {
+            color: #aaa;
 
-    .action-number {
-      width: 30px;
-      height: 30px;
+            font-size: 13px;
 
-      border-radius: 50%;
+            white-space: pre-line;
+        }
 
-      background: var(--purple);
-      color: white;
+        .result-list {
+            list-style: none;
 
-      display: grid;
-      place-items: center;
+            display: grid;
 
-      font-weight: 900;
+            gap: 8px;
+        }
 
-      border: 2px solid var(--black);
-    }
+        .result-list li {
+            position: relative;
 
-    .action-item p {
-      font-size: .88rem;
-      font-weight: 700;
-      line-height: 1.45;
-    }
+            padding-left: 17px;
 
-    /* =========================================================
-       HISTORY
-    ========================================================= */
+            color: #aaa;
 
-    .history {
-      margin-top: 25px;
-    }
+            font-size: 13px;
+        }
 
-    .history-list {
-      display: grid;
-      gap: 10px;
-    }
+        .result-list li::before {
+            content: "";
 
-    .history-item {
-      border: 3px solid var(--black);
-      border-radius: 13px;
+            position: absolute;
 
-      padding: 12px 15px;
+            left: 0;
+            top: 8px;
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+            width: 5px;
+            height: 5px;
 
-      gap: 12px;
+            border-radius: 50%;
 
-      background: var(--gray-50);
-    }
+            background: #777;
+        }
 
-    .history-info strong {
-      display: block;
-      font-family: 'Fredoka', sans-serif;
-    }
+        .error-item {
+            padding: 12px;
 
-    .history-info span {
-      color: var(--gray-600);
-      font-size: .75rem;
-      font-weight: 700;
-    }
+            margin-top: 8px;
 
-    .history-score {
-      font-family: 'Fredoka', sans-serif;
-      color: var(--blue);
-      font-size: 1.35rem;
-    }
+            border-radius: 12px;
 
-    /* =========================================================
-       RESULT BUTTONS
-    ========================================================= */
+            background: rgba(255,92,92,.05);
 
-    .result-actions {
-      display: flex;
-      gap: 10px;
+            border:
+                1px solid
+                rgba(255,92,92,.12);
+        }
 
-      margin-top: 22px;
-    }
+        .error-item strong {
+            display: block;
 
-    .result-btn {
-      flex: 1;
+            color: #ff8e8e;
 
-      padding: 14px;
+            font-size: 12px;
+        }
 
-      border: 3px solid var(--black);
-      border-radius: 12px;
+        .error-item span {
+            display: block;
 
-      background: white;
+            color: #999;
 
-      box-shadow: 4px 4px 0 var(--black);
+            font-size: 12px;
 
-      font-family: 'Fredoka', sans-serif;
+            margin-top: 3px;
+        }
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+        /* ==================================================
+           LOADING
+        ================================================== */
 
-      gap: 7px;
-    }
+        .loading {
+            display: none;
 
-    .result-btn.primary {
-      background: var(--yellow);
-    }
+            position: fixed;
 
-    .result-btn:active {
-      transform: translate(4px, 4px);
-      box-shadow: none;
-    }
+            inset: 0;
 
-    /* =========================================================
-       MODAL
-    ========================================================= */
+            z-index: 999;
 
-    .modal {
-      display: none;
+            background:
+                rgba(0,0,0,.78);
 
-      position: fixed;
-      inset: 0;
+            backdrop-filter: blur(10px);
 
-      background: rgba(0,0,0,.72);
+            place-items: center;
+        }
 
-      z-index: 1000;
+        .loading.active {
+            display: grid;
+        }
 
-      padding: 20px;
+        .loading-card {
+            width: min(360px, calc(100% - 30px));
 
-      align-items: center;
-      justify-content: center;
-    }
+            padding: 30px;
 
-    .modal.active {
-      display: flex;
-    }
+            border-radius: 22px;
 
-    .modal-box {
-      width: min(900px, 100%);
-      max-height: 90vh;
+            background: #111;
 
-      background: white;
+            border: 1px solid #2a2a2a;
 
-      border: 4px solid var(--black);
-      border-radius: 20px;
+            text-align: center;
+        }
 
-      box-shadow: 8px 8px 0 var(--black);
+        .spinner {
+            width: 38px;
+            height: 38px;
 
-      overflow: hidden;
+            margin: 0 auto 18px;
 
-      display: flex;
-      flex-direction: column;
-    }
+            border-radius: 50%;
 
-    .modal-head {
-      padding: 15px 18px;
+            border:
+                3px solid #333;
 
-      background: var(--yellow);
+            border-top-color: #fff;
 
-      border-bottom: 4px solid var(--black);
+            animation:
+                spin .8s linear infinite;
+        }
 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
-    .modal-head h2 {
-      font-size: 1.3rem;
-    }
+        .loading-title {
+            font-weight: 850;
 
-    .close {
-      width: 36px;
-      height: 36px;
+            margin-bottom: 5px;
+        }
 
-      border: 3px solid var(--black);
-      border-radius: 9px;
+        .loading-text {
+            color: #777;
 
-      background: white;
+            font-size: 13px;
+        }
 
-      box-shadow: 2px 2px 0 var(--black);
-    }
+        /* ==================================================
+           TOAST
+        ================================================== */
 
-    .modal-body {
-      overflow: auto;
-      padding: 20px;
-    }
+        .toast {
+            position: fixed;
 
-    .theme-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+            left: 50%;
+            bottom: 25px;
 
-    .theme-table th,
-    .theme-table td {
-      border: 2px solid var(--black);
+            z-index: 1000;
 
-      padding: 11px;
+            transform:
+                translate(-50%, 20px);
 
-      text-align: left;
+            opacity: 0;
 
-      font-size: .85rem;
-    }
+            pointer-events: none;
 
-    .theme-table th {
-      background: var(--blue);
-      color: white;
+            width: min(500px, calc(100% - 30px));
 
-      font-family: 'Fredoka', sans-serif;
-    }
+            padding: 15px 17px;
 
-    .theme-table tbody tr {
-      cursor: pointer;
-    }
+            border-radius: 15px;
 
-    .theme-table tbody tr:hover td {
-      background: var(--yellow-light);
-    }
+            background: #171717;
 
-    /* =========================================================
-       TOAST
-    ========================================================= */
+            border: 1px solid #303030;
 
-    #toast {
-      position: fixed;
+            box-shadow:
+                0 20px 50px rgba(0,0,0,.5);
 
-      left: 50%;
-      bottom: 25px;
+            transition:
+                opacity .2s,
+                transform .2s;
 
-      transform: translate(-50%, 120px);
+            font-size: 13px;
+        }
 
-      z-index: 5000;
+        .toast.show {
+            opacity: 1;
 
-      background: var(--black);
-      color: white;
+            transform:
+                translate(-50%, 0);
+        }
 
-      padding: 12px 18px;
+        .toast.error {
+            border-color:
+                rgba(255,92,92,.35);
+        }
 
-      border-radius: 10px;
+        /* ==================================================
+           FOOTER
+        ================================================== */
 
-      font-size: .85rem;
-      font-weight: 800;
+        footer {
+            width: min(1180px, calc(100% - 32px));
 
-      opacity: 0;
+            margin: auto;
 
-      transition: .25s;
-    }
+            padding: 30px 0 60px;
 
-    #toast.show {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
+            border-top: 1px solid #181818;
 
-    /* =========================================================
-       FOOTER
-    ========================================================= */
+            color: #555;
 
-    footer {
-      border-top: 3px solid var(--black);
+            font-size: 12px;
 
-      padding: 17px 28px;
+            text-align: center;
+        }
 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
 
-      gap: 15px;
+        @media (max-width: 850px) {
 
-      background: var(--gray-50);
+            .grid,
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
 
-      color: var(--gray-600);
+            .card.full {
+                grid-column: auto;
+            }
 
-      font-size: .75rem;
-      font-weight: 800;
-    }
+            .score-box {
+                grid-template-columns: 1fr;
+            }
 
-    footer strong {
-      color: var(--blue);
-    }
+            .score-circle {
+                width: 170px;
+                margin: auto;
+            }
 
-    /* =========================================================
-       MOBILE
-    ========================================================= */
+            .competencies {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
 
-    @media (max-width: 850px) {
+        @media (max-width: 600px) {
 
-      .hero {
-        grid-template-columns: 1fr;
-      }
+            .nav {
+                min-height: 62px;
+            }
 
-      .workspace {
-        grid-template-columns: 1fr;
-      }
+            .nav-status {
+                display: none;
+            }
 
-      .quick-stats {
-        grid-template-columns: 1fr 1fr;
-      }
+            .hero {
+                padding-top: 65px;
+            }
 
-      .competencies {
-        grid-template-columns: 1fr 1fr;
-      }
+            .row,
+            .button-row {
+                grid-template-columns: 1fr;
+            }
 
-      .score-card {
-        grid-template-columns: 1fr;
-      }
+            .card {
+                padding: 19px;
+            }
 
-      .structure-grid {
-        grid-template-columns: 1fr;
-      }
+            textarea {
+                min-height: 300px;
+            }
 
-      .feedback-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+            .previews {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
 
-    @media (max-width: 560px) {
-
-      .app {
-        width: calc(100% - 12px);
-        margin: 15px 6px;
-
-        border-width: 3px;
-        border-radius: 20px;
-
-        box-shadow: 6px 6px 0 var(--black);
-      }
-
-      .topbar {
-        padding: 16px;
-      }
-
-      .header-badge {
-        display: none;
-      }
-
-      .main {
-        padding: 18px 15px;
-      }
-
-      .hero-text h1 {
-        font-size: 2.15rem;
-      }
-
-      .quick-stats {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .stat {
-        padding: 10px;
-      }
-
-      .stat-icon {
-        width: 34px;
-        height: 34px;
-        font-size: 17px;
-      }
-
-      .stat strong {
-        font-size: 1rem;
-      }
-
-      .stat span {
-        font-size: .65rem;
-      }
-
-      .panel {
-        padding: 16px;
-      }
-
-      .tool-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .theme-panel-header {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .competencies {
-        grid-template-columns: 1fr;
-      }
-
-      .result-actions {
-        flex-direction: column;
-      }
-
-      footer {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .score-number {
-        font-size: 4rem;
-      }
-    }
-
-    /* =========================================================
-       ACCESSIBILITY
-    ========================================================= */
-
-    button:focus-visible,
-    input:focus-visible {
-      outline: 4px solid var(--purple);
-      outline-offset: 2px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-
-  </style>
+    </style>
 </head>
 
 <body>
 
-  <div class="floating one">🌟</div>
-  <div class="floating two">✍️</div>
-  <div class="floating three">📚</div>
-  <div class="floating four">🚀</div>
+    <!-- ====================================================
+         HEADER
+    ===================================================== -->
 
-  <div id="toast"></div>
+    <header>
 
-  <!-- =======================================================
-       MODAL DE TEMAS
-  ======================================================== -->
+        <nav class="nav">
 
-  <div class="modal" id="themeModal">
+            <div class="logo">
 
-    <div class="modal-box">
+                <div class="logo-mark">
+                    ✦
+                </div>
 
-      <div class="modal-head">
+                <span>
+                    Hey ENEM!
+                </span>
 
-        <h2>
-          <i class="ph-bold ph-books"></i>
-          Temas anteriores do ENEM
-        </h2>
+            </div>
 
-        <button
-          class="close"
-          id="closeThemeModal"
-          aria-label="Fechar"
-        >
-          <i class="ph-bold ph-x"></i>
-        </button>
+            <div class="nav-status">
 
-      </div>
+                <span class="status-dot"></span>
 
-      <div class="modal-body">
+                <span>
+                    Sistema online
+                </span>
 
-        <p style="
-          margin-bottom:15px;
-          color:#475569;
-          font-weight:700;
-        ">
-          Clique em um tema para usá-lo como tema da sua redação.
-        </p>
+            </div>
 
-        <div id="themesContainer"></div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- =======================================================
-       APP
-  ======================================================== -->
-
-  <div class="app">
-
-    <!-- HEADER -->
-
-    <header class="topbar">
-
-      <div class="brand">
-
-        <div class="brand-icon">
-          <i class="ph-bold ph-pencil-line"></i>
-        </div>
-
-        <div>
-          <div class="brand-name">
-            Hey ENEM!
-          </div>
-
-          <div class="brand-subtitle">
-            Seu treinador de redação
-          </div>
-        </div>
-
-      </div>
-
-      <div class="header-badge">
-        <i class="ph-fill ph-sparkle"></i>
-        Feito para quem quer evoluir
-      </div>
+        </nav>
 
     </header>
 
-    <!-- MAIN -->
 
-    <main class="main">
+    <!-- ====================================================
+         HERO
+    ===================================================== -->
 
-      <!-- =====================================================
-           HOME
-      ====================================================== -->
+    <section class="hero">
 
-      <section id="homeSection">
-
-        <div class="hero">
-
-          <div class="hero-text">
-
-            <h1>
-              Transforme sua redação em
-              <span>nota 1000.</span>
-            </h1>
-
-            <p>
-              Envie sua redação, receba uma análise detalhada
-              baseada nas cinco competências do ENEM e descubra
-              exatamente o que precisa melhorar.
-            </p>
-
-          </div>
-
-          <div class="hero-card">
-
-            <div class="hero-card-title">
-              <i class="ph-fill ph-sparkle"></i>
-              O que o Hey ENEM! analisa?
-            </div>
-
-            <ul>
-
-              <li>
-                <i class="ph-fill ph-check-circle"></i>
-                Competências C1, C2, C3, C4 e C5
-              </li>
-
-              <li>
-                <i class="ph-fill ph-check-circle"></i>
-                Argumentação e repertório
-              </li>
-
-              <li>
-                <i class="ph-fill ph-check-circle"></i>
-                Coesão e coerência
-              </li>
-
-              <li>
-                <i class="ph-fill ph-check-circle"></i>
-                Proposta de intervenção
-              </li>
-
-              <li>
-                <i class="ph-fill ph-check-circle"></i>
-                Plano personalizado de evolução
-              </li>
-
-            </ul>
-
-          </div>
-
+        <div class="eyebrow">
+            ✍️ TREINO INTELIGENTE DE REDAÇÃO
         </div>
 
-        <!-- STATS -->
-
-        <div class="quick-stats">
-
-          <div class="stat">
-
-            <div class="stat-icon">
-              🎯
-            </div>
-
-            <div>
-              <strong>0–1000</strong>
-              <span>Nota estimada</span>
-            </div>
-
-          </div>
-
-          <div class="stat">
-
-            <div class="stat-icon">
-              📊
-            </div>
-
-            <div>
-              <strong>5</strong>
-              <span>Competências</span>
-            </div>
-
-          </div>
-
-          <div class="stat">
-
-            <div class="stat-icon">
-              🧠
-            </div>
-
-            <div>
-              <strong>IA</strong>
-              <span>Análise inteligente</span>
-            </div>
-
-          </div>
-
-          <div class="stat">
-
-            <div class="stat-icon">
-              📈
-            </div>
-
-            <div>
-              <strong id="historyCount">0</strong>
-              <span>Redações avaliadas</span>
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- THEME -->
-
-        <div
-          class="theme-panel"
-          id="themePanel"
-          style="display:none;"
-        >
-
-          <div class="theme-panel-header">
-
-            <div class="theme-panel-title">
-              <i class="ph-fill ph-target"></i>
-              Tema da redação
-            </div>
-
-            <div class="theme-actions">
-
-              <button
-                class="small-btn"
-                id="copyThemeBtn"
-              >
-                <i class="ph-bold ph-copy"></i>
-                Copiar
-              </button>
-
-              <button
-                class="small-btn"
-                id="clearThemeBtn"
-              >
-                <i class="ph-bold ph-x"></i>
-                Limpar
-              </button>
-
-            </div>
-
-          </div>
-
-          <div
-            class="theme-text"
-            id="themeText"
-          ></div>
-
-        </div>
-
-        <!-- WORKSPACE -->
-
-        <div class="workspace">
-
-          <!-- LEFT -->
-
-          <div class="panel">
-
-            <div class="panel-title">
-              <i class="ph-fill ph-lightning"></i>
-              Comece seu treino
-            </div>
-
-            <p class="panel-description">
-              Escolha um tema ou deixe a IA criar um desafio para você.
-            </p>
-
-            <div class="tool-grid">
-
-              <button
-                class="tool-btn blue"
-                id="generateThemeBtn"
-              >
-                <i class="ph-bold ph-magic-wand"></i>
-                Gerar tema
-              </button>
-
-              <button
-                class="tool-btn green"
-                id="previousThemesBtn"
-              >
-                <i class="ph-bold ph-books"></i>
-                Temas anteriores
-              </button>
-
-            </div>
-
-            <div class="field">
-
-              <label for="studentName">
-                Seu nome
-              </label>
-
-              <input
-                id="studentName"
-                class="input"
-                type="text"
-                maxlength="80"
-                autocomplete="name"
-                placeholder="Ex.: Maria Eduarda"
-              >
-
-            </div>
-
-            <div class="field">
-
-              <label for="essayType">
-                Tipo de treino
-              </label>
-
-              <select
-                id="essayType"
-                class="input"
-              >
-                <option value="simulado">
-                  Simulado completo
-                </option>
-
-                <option value="treino">
-                  Treino de redação
-                </option>
-
-                <option value="revisao">
-                  Revisão e diagnóstico
-                </option>
-              </select>
-
-            </div>
-
-            <div
-              style="
-                background:#FFF8D6;
-                border:2px dashed #FFC107;
-                border-radius:12px;
-                padding:12px;
-                font-size:.78rem;
-                font-weight:800;
-                line-height:1.4;
-              "
-            >
-              💡 <strong>Dica:</strong> escreva sua redação como faria
-              no ENEM. Quanto melhor estiver a foto, melhor será a
-              leitura automática do texto.
-            </div>
-
-          </div>
-
-          <!-- RIGHT -->
-
-          <div class="panel">
-
-            <div class="panel-title">
-              <i class="ph-fill ph-image"></i>
-              Sua redação
-            </div>
-
-            <p class="panel-description">
-              Tire uma foto nítida ou envie a imagem da sua redação.
-            </p>
-
-            <div
-              class="dropzone"
-              id="dropzone"
-            >
-
-              <input
-                type="file"
-                id="fileInput"
-                accept="image/jpeg,image/png,image/webp"
-              >
-
-              <div
-                class="dropzone-content"
-                id="dropzoneContent"
-              >
-
-                <div class="upload-icon">
-                  <i class="ph-duotone ph-camera-plus"></i>
-                </div>
-
-                <h3>
-                  Arraste sua redação aqui
-                </h3>
-
-                <p>
-                  ou clique para escolher uma imagem
-                </p>
-
-                <p style="
-                  margin-top:7px;
-                  font-size:.7rem;
-                ">
-                  JPG, PNG ou WEBP • até 8 MB
-                </p>
-
-              </div>
-
-              <div
-                class="preview"
-                id="preview"
-              >
-
-                <img
-                  id="previewImage"
-                  alt="Pré-visualização da redação"
-                >
-
-                <div class="preview-overlay">
-
-                  <span id="fileName">
-                    redação.jpg
-                  </span>
-
-                  <span>
-                    Clique para trocar
-                  </span>
-
-                </div>
-
-              </div>
-
-            </div>
-
-            <button
-              class="cta"
-              id="submitBtn"
-              disabled
-              style="margin-top:18px;"
-            >
-              <span>
-                Avaliar minha redação
-              </span>
-
-              <i class="ph-bold ph-paper-plane-tilt"></i>
-            </button>
-
-          </div>
-
-        </div>
-
-        <!-- HISTORY -->
-
-        <div
-          class="history"
-          id="historySection"
-          style="display:none;"
-        >
-
-          <div class="section-title">
-
-            <i class="ph-fill ph-chart-line-up"></i>
-
-            Meu histórico
-
-          </div>
-
-          <div
-            class="history-list"
-            id="historyList"
-          ></div>
-
-        </div>
-
-      </section>
-
-      <!-- =====================================================
-           LOADING
-      ====================================================== -->
-
-      <section
-        class="loading"
-        id="loadingSection"
-      >
-
-        <i class="ph-fill ph-brain brain"></i>
-
-        <h2 id="loadingTitle">
-          A IA está corrigindo...
-        </h2>
-
-        <p id="loadingText">
-          Lendo sua redação e analisando as cinco competências.
+        <h1>
+            Sua redação.
+            <span>Seu próximo 1000.</span>
+        </h1>
+
+        <p>
+            Gere propostas de redação, escreva seu texto
+            e receba uma análise detalhada baseada nas
+            cinco competências do ENEM.
         </p>
 
-        <div class="loading-bar">
-          <div></div>
-        </div>
+    </section>
 
-      </section>
 
-      <!-- =====================================================
-           RESULT
-      ====================================================== -->
+    <!-- ====================================================
+         MAIN
+    ===================================================== -->
 
-      <section
-        class="result"
-        id="resultSection"
-      >
+    <main>
 
-        <div class="result-header">
+        <div class="grid">
 
-          <div>
 
-            <h2>
-              Diagnóstico concluído! 🎯
-            </h2>
+            <!-- ============================================
+                 DADOS
+            ============================================= -->
 
-            <p>
-              Redação de
-              <strong id="resultName"></strong>
-            </p>
+            <section class="card">
 
-          </div>
+                <div class="card-head">
 
-        </div>
+                    <div>
 
-        <!-- SCORE -->
+                        <div class="card-title">
+                            Identificação
+                        </div>
 
-        <div class="score-card">
+                        <div class="card-description">
+                            Personalize sua sessão de estudo.
+                        </div>
 
-          <div class="score-main">
+                    </div>
 
-            <div class="score-label">
-              NOTA ESTIMADA
-            </div>
+                    <div class="number">
+                        01
+                    </div>
 
-            <div
-              class="score-number"
-              id="scoreNumber"
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="studentName">
+                        Seu nome
+                    </label>
+
+                    <input
+                        id="studentName"
+                        type="text"
+                        maxlength="80"
+                        placeholder="Digite seu nome"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="trainingMode">
+                        Modo de treino
+                    </label>
+
+                    <select id="trainingMode">
+
+                        <option value="Treino">
+                            Treino
+                        </option>
+
+                        <option value="Simulado">
+                            Simulado
+                        </option>
+
+                        <option value="Revisão">
+                            Revisão
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </section>
+
+
+            <!-- ============================================
+                 TEMA
+            ============================================= -->
+
+            <section class="card">
+
+                <div class="card-head">
+
+                    <div>
+
+                        <div class="card-title">
+                            Proposta
+                        </div>
+
+                        <div class="card-description">
+                            Gere um tema inédito para praticar.
+                        </div>
+
+                    </div>
+
+                    <div class="number">
+                        02
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="generateThemeBtn"
+                    class="button button-primary"
+                    type="button"
+                >
+                    ✦ Gerar tema
+                </button>
+
+
+                <div
+                    id="themeBox"
+                    class="theme-box"
+                    style="margin-top: 15px;"
+                >
+
+                    <div class="empty">
+
+                        <div>
+                            <div style="font-size:30px;margin-bottom:8px;">
+                                ✦
+                            </div>
+
+                            Clique em
+                            <strong>“Gerar tema”</strong>
+                            para começar.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ============================================
+                 REDAÇÃO
+            ============================================= -->
+
+            <section class="card full">
+
+                <div class="card-head">
+
+                    <div>
+
+                        <div class="card-title">
+                            Sua redação
+                        </div>
+
+                        <div class="card-description">
+                            Cole seu texto ou envie fotos das folhas.
+                        </div>
+
+                    </div>
+
+                    <div class="number">
+                        03
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="essayText">
+                        Texto da redação
+                    </label>
+
+                    <textarea
+                        id="essayText"
+                        placeholder="Escreva ou cole sua redação aqui..."
+                    ></textarea>
+
+                </div>
+
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        gap:10px;
+                        color:#666;
+                        font-size:11px;
+                        margin-top:-10px;
+                        margin-bottom:15px;
+                    "
+                >
+
+                    <span>
+                        <span id="wordCount">
+                            0
+                        </span>
+                        palavras
+                    </span>
+
+                    <span>
+                        <span id="charCount">
+                            0
+                        </span>
+                        caracteres
+                    </span>
+
+                </div>
+
+
+                <div class="upload">
+
+                    <input
+                        id="imageInput"
+                        type="file"
+                        accept="image/*"
+                        multiple
+                    >
+
+                    <div>
+
+                        <div class="upload-icon">
+                            📷
+                        </div>
+
+                        <strong>
+                            Enviar fotos da redação
+                        </strong>
+
+                        <span>
+                            JPG, PNG, WEBP • até 5 imagens
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="previews"
+                    class="previews"
+                ></div>
+
+
+                <div class="button-row">
+
+                    <button
+                        id="evaluateBtn"
+                        class="button button-primary"
+                        type="button"
+                    >
+                        ✦ Corrigir redação
+                    </button>
+
+                    <button
+                        id="clearBtn"
+                        class="button button-secondary"
+                        type="button"
+                    >
+                        Limpar
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- ============================================
+                 RESULTADO
+            ============================================= -->
+
+            <section
+                id="resultSection"
+                class="card full"
             >
-              0
-            </div>
 
-            <div
-              class="score-status"
-              id="scoreStatus"
-            >
-              Analisando
-            </div>
+                <div class="card-head">
 
-          </div>
+                    <div>
 
-          <div class="score-summary">
+                        <div class="card-title">
+                            Resultado da avaliação
+                        </div>
 
-            <h3>
-              Diagnóstico geral
-            </h3>
+                        <div
+                            id="resultSubtitle"
+                            class="card-description"
+                        >
+                            Análise da sua redação.
+                        </div>
 
-            <p id="generalFeedback">
-              —
-            </p>
+                    </div>
 
-          </div>
+                    <div class="number">
+                        04
+                    </div>
+
+                </div>
+
+
+                <div class="score-box">
+
+                    <div class="score-circle">
+
+                        <div>
+
+                            <div
+                                id="totalScore"
+                                class="score-number"
+                            >
+                                0
+                            </div>
+
+                            <div class="score-label">
+                                / 1000
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="competencies">
+
+                        <div class="competency">
+
+                            <div class="competency-number">
+                                C1
+                            </div>
+
+                            <div
+                                id="scoreC1"
+                                class="competency-score"
+                            >
+                                0
+                            </div>
+
+                            <div class="competency-name">
+                                Norma padrão
+                            </div>
+
+                        </div>
+
+
+                        <div class="competency">
+
+                            <div class="competency-number">
+                                C2
+                            </div>
+
+                            <div
+                                id="scoreC2"
+                                class="competency-score"
+                            >
+                                0
+                            </div>
+
+                            <div class="competency-name">
+                                Tema
+                            </div>
+
+                        </div>
+
+
+                        <div class="competency">
+
+                            <div class="competency-number">
+                                C3
+                            </div>
+
+                            <div
+                                id="scoreC3"
+                                class="competency-score"
+                            >
+                                0
+                            </div>
+
+                            <div class="competency-name">
+                                Argumentação
+                            </div>
+
+                        </div>
+
+
+                        <div class="competency">
+
+                            <div class="competency-number">
+                                C4
+                            </div>
+
+                            <div
+                                id="scoreC4"
+                                class="competency-score"
+                            >
+                                0
+                            </div>
+
+                            <div class="competency-name">
+                                Coesão
+                            </div>
+
+                        </div>
+
+
+                        <div class="competency">
+
+                            <div class="competency-number">
+                                C5
+                            </div>
+
+                            <div
+                                id="scoreC5"
+                                class="competency-score"
+                            >
+                                0
+                            </div>
+
+                            <div class="competency-name">
+                                Intervenção
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-grid">
+
+
+                    <div class="result-block">
+
+                        <h3>
+                            Diagnóstico
+                        </h3>
+
+                        <p id="diagnosticSummary">
+                            —
+                        </p>
+
+                    </div>
+
+
+                    <div class="result-block">
+
+                        <h3>
+                            Feedback final
+                        </h3>
+
+                        <p id="finalFeedback">
+                            —
+                        </p>
+
+                    </div>
+
+
+                    <div class="result-block">
+
+                        <h3>
+                            Pontos fortes
+                        </h3>
+
+                        <ul
+                            id="strengths"
+                            class="result-list"
+                        ></ul>
+
+                    </div>
+
+
+                    <div class="result-block">
+
+                        <h3>
+                            O que melhorar
+                        </h3>
+
+                        <ul
+                            id="improvements"
+                            class="result-list"
+                        ></ul>
+
+                    </div>
+
+
+                    <div class="result-block">
+
+                        <h3>
+                            Estrutura — Introdução
+                        </h3>
+
+                        <p id="introAnalysis">
+                            —
+                        </p>
+
+                    </div>
+
+
+                    <div class="result-block">
+
+                        <h3>
+                            Estrutura — Desenvolvimento
+                        </h3>
+
+                        <p id="developmentAnalysis">
+                            —
+                        </p>
+
+                    </div>
+
+
+                    <div class="result-block">
+
+                        <h3>
+                            Estrutura — Conclusão
+                        </h3>
+
+                        <p id="conclusionAnalysis">
+                            —
+                        </p>
+
+                    </div>
+
+
+                    <div class="result-block">
+
+                        <h3>
+                            Proposta de intervenção
+                        </h3>
+
+                        <p id="interventionAnalysis">
+                            —
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        id="languageBlock"
+                        class="result-block"
+                        style="grid-column:1/-1;"
+                    >
+
+                        <h3>
+                            Correções linguísticas
+                        </h3>
+
+                        <div id="languageErrors">
+                            <p>
+                                Nenhum erro listado.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="result-block"
+                        style="grid-column:1/-1;"
+                    >
+
+                        <h3>
+                            Análise por competência
+                        </h3>
+
+                        <div
+                            id="competencyAnalyses"
+                            style="
+                                display:grid;
+                                gap:10px;
+                            "
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </section>
 
         </div>
-
-        <!-- COMPETENCIES -->
-
-        <div class="section-title">
-
-          <i class="ph-fill ph-chart-bar"></i>
-
-          Suas 5 competências
-
-        </div>
-
-        <div
-          class="competencies"
-          id="competencies"
-        ></div>
-
-        <!-- FEEDBACK -->
-
-        <div class="feedback-grid">
-
-          <div class="feedback-box green">
-
-            <h3>
-              <i class="ph-fill ph-thumbs-up"></i>
-              O que você fez bem
-            </h3>
-
-            <ul id="strengths"></ul>
-
-          </div>
-
-          <div class="feedback-box red">
-
-            <h3>
-              <i class="ph-fill ph-warning"></i>
-              O que está diminuindo sua nota
-            </h3>
-
-            <ul id="weaknesses"></ul>
-
-          </div>
-
-          <div class="feedback-box blue">
-
-            <h3>
-              <i class="ph-fill ph-books"></i>
-              Repertório e argumentação
-            </h3>
-
-            <ul id="argumentation"></ul>
-
-          </div>
-
-          <div class="feedback-box yellow">
-
-            <h3>
-              <i class="ph-fill ph-pencil"></i>
-              Escrita e linguagem
-            </h3>
-
-            <ul id="language"></ul>
-
-          </div>
-
-        </div>
-
-        <!-- STRUCTURE -->
-
-        <div class="section-title">
-
-          <i class="ph-fill ph-tree-structure"></i>
-
-          Estrutura da redação
-
-        </div>
-
-        <div class="structure-grid">
-
-          <div class="structure-card">
-
-            <h4>
-              Introdução
-            </h4>
-
-            <p id="introFeedback">
-              —
-            </p>
-
-          </div>
-
-          <div class="structure-card">
-
-            <h4>
-              Desenvolvimento
-            </h4>
-
-            <p id="developmentFeedback">
-              —
-            </p>
-
-          </div>
-
-          <div class="structure-card">
-
-            <h4>
-              Conclusão
-            </h4>
-
-            <p id="conclusionFeedback">
-              —
-            </p>
-
-          </div>
-
-        </div>
-
-        <!-- ACTION PLAN -->
-
-        <div class="action-plan">
-
-          <h3>
-            <i class="ph-fill ph-rocket-launch"></i>
-            Seu plano para subir de nota
-          </h3>
-
-          <div id="actionPlan"></div>
-
-        </div>
-
-        <!-- ACTIONS -->
-
-        <div class="result-actions">
-
-          <button
-            class="result-btn primary"
-            id="newEssayBtn"
-          >
-            <i class="ph-bold ph-arrow-counter-clockwise"></i>
-            Corrigir outra redação
-          </button>
-
-          <button
-            class="result-btn"
-            id="saveResultBtn"
-          >
-            <i class="ph-bold ph-download-simple"></i>
-            Salvar diagnóstico
-          </button>
-
-        </div>
-
-      </section>
 
     </main>
 
+
+    <!-- ====================================================
+         FOOTER
+    ===================================================== -->
+
     <footer>
 
-      <span>
-        <strong>Hey ENEM!</strong> • Treine. Corrija. Evolua.
-      </span>
-
-      <span>
-        O resultado é uma estimativa educacional.
-      </span>
+        Hey ENEM! • Plataforma de treinamento de redação
 
     </footer>
 
-  </div>
 
-  <!-- =========================================================
-       JAVASCRIPT
-  ========================================================== -->
+    <!-- ====================================================
+         LOADING
+    ===================================================== -->
 
-  <script>
+    <div
+        id="loading"
+        class="loading"
+    >
 
-    /* =========================================================
-       CONFIGURAÇÃO
-    ========================================================= */
+        <div class="loading-card">
 
-    const API_URL = "/api/avaliar";
+            <div class="spinner"></div>
 
-    const MAX_FILE_SIZE = 8 * 1024 * 1024;
-
-    const PREVIOUS_THEMES = [
-
-      {
-        year: "2025",
-        theme: "Perspectivas acerca do envelhecimento na sociedade brasileira"
-      },
-
-      {
-        year: "2024",
-        theme: "Desafios para a valorização da herança africana no Brasil"
-      },
-
-      {
-        year: "2023",
-        theme: "Desafios para o enfrentamento da invisibilidade do trabalho de cuidado realizado pela mulher no Brasil"
-      },
-
-      {
-        year: "2022",
-        theme: "Desafios para a valorização de comunidades e povos tradicionais no Brasil"
-      },
-
-      {
-        year: "2021",
-        theme: "Invisibilidade e registro civil: garantia de acesso à cidadania no Brasil"
-      },
-
-      {
-        year: "2020",
-        theme: "O estigma associado às doenças mentais na sociedade brasileira"
-      },
-
-      {
-        year: "2019",
-        theme: "Democratização do acesso ao cinema no Brasil"
-      },
-
-      {
-        year: "2018",
-        theme: "Manipulação do comportamento do usuário pelo controle de dados na internet"
-      },
-
-      {
-        year: "2017",
-        theme: "Desafios para a formação educacional de surdos no Brasil"
-      },
-
-      {
-        year: "2016",
-        theme: "Caminhos para combater a intolerância religiosa no Brasil"
-      },
-
-      {
-        year: "2015",
-        theme: "A persistência da violência contra a mulher na sociedade brasileira"
-      }
-
-    ];
-
-    /* =========================================================
-       DOM
-    ========================================================= */
-
-    const $ = id => document.getElementById(id);
-
-    const dropzone = $("dropzone");
-    const fileInput = $("fileInput");
-    const dropzoneContent = $("dropzoneContent");
-
-    const preview = $("preview");
-    const previewImage = $("previewImage");
-    const fileName = $("fileName");
-
-    const submitBtn = $("submitBtn");
-
-    const studentName = $("studentName");
-
-    const themePanel = $("themePanel");
-    const themeText = $("themeText");
-
-    const homeSection = $("homeSection");
-    const loadingSection = $("loadingSection");
-    const resultSection = $("resultSection");
-
-    let selectedFile = null;
-
-    let currentTheme = "";
-
-    let currentResult = null;
-
-    /* =========================================================
-       TOAST
-    ========================================================= */
-
-    let toastTimer = null;
-
-    function showToast(message) {
-
-      const toast = $("toast");
-
-      toast.textContent = message;
-
-      toast.classList.add("show");
-
-      clearTimeout(toastTimer);
-
-      toastTimer = setTimeout(() => {
-        toast.classList.remove("show");
-      }, 3500);
-    }
-
-    /* =========================================================
-       TEMA
-    ========================================================= */
-
-    function setTheme(theme) {
-
-      currentTheme = theme.trim();
-
-      if (!currentTheme) {
-
-        themePanel.style.display = "none";
-
-        updateSubmitState();
-
-        return;
-      }
-
-      themeText.textContent = currentTheme;
-
-      themePanel.style.display = "block";
-
-      updateSubmitState();
-
-      themePanel.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-    }
-
-    $("clearThemeBtn").addEventListener("click", () => {
-
-      currentTheme = "";
-
-      themePanel.style.display = "none";
-
-      updateSubmitState();
-
-    });
-
-    $("copyThemeBtn").addEventListener("click", async () => {
-
-      if (!currentTheme) return;
-
-      try {
-
-        await navigator.clipboard.writeText(currentTheme);
-
-        showToast("Tema copiado!");
-
-      } catch {
-
-        showToast("Não foi possível copiar automaticamente.");
-
-      }
-
-    });
-
-    /* =========================================================
-       GERAR TEMA
-    ========================================================= */
-
-    $("generateThemeBtn").addEventListener("click", async () => {
-
-      const button = $("generateThemeBtn");
-
-      const original = button.innerHTML;
-
-      button.disabled = true;
-
-      button.innerHTML = `
-        <i class="ph ph-spinner ph-spin"></i>
-        Criando...
-      `;
-
-      try {
-
-        const response = await fetch(API_URL, {
-
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            action: "generate_theme"
-          })
-
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(
-            data.error || "Erro ao gerar tema."
-          );
-        }
-
-        setTheme(data.theme);
-
-        showToast("Novo tema criado!");
-
-      } catch (error) {
-
-        console.error(error);
-
-        showToast(
-          error.message ||
-          "Não foi possível gerar o tema."
-        );
-
-      } finally {
-
-        button.disabled = false;
-
-        button.innerHTML = original;
-
-      }
-
-    });
-
-    /* =========================================================
-       TEMAS ANTERIORES
-    ========================================================= */
-
-    $("previousThemesBtn").addEventListener("click", () => {
-
-      renderPreviousThemes();
-
-      $("themeModal").classList.add("active");
-
-    });
-
-    $("closeThemeModal").addEventListener("click", () => {
-
-      $("themeModal").classList.remove("active");
-
-    });
-
-    $("themeModal").addEventListener("click", event => {
-
-      if (event.target === $("themeModal")) {
-
-        $("themeModal").classList.remove("active");
-
-      }
-
-    });
-
-    function renderPreviousThemes() {
-
-      const container = $("themesContainer");
-
-      container.innerHTML = "";
-
-      const table = document.createElement("table");
-
-      table.className = "theme-table";
-
-      table.innerHTML = `
-        <thead>
-          <tr>
-            <th style="width:100px;">Ano</th>
-            <th>Tema</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      `;
-
-      const tbody = table.querySelector("tbody");
-
-      PREVIOUS_THEMES.forEach(item => {
-
-        const tr = document.createElement("tr");
-
-        tr.innerHTML = `
-          <td>
-            <strong>${escapeHTML(item.year)}</strong>
-          </td>
-
-          <td>
-            ${escapeHTML(item.theme)}
-          </td>
-        `;
-
-        tr.addEventListener("click", () => {
-
-          setTheme(item.theme);
-
-          $("themeModal").classList.remove("active");
-
-          showToast("Tema selecionado!");
-
-        });
-
-        tbody.appendChild(tr);
-
-      });
-
-      container.appendChild(table);
-
-    }
-
-    /* =========================================================
-       UPLOAD
-    ========================================================= */
-
-    dropzone.addEventListener("click", () => {
-
-      fileInput.click();
-
-    });
-
-    [
-      "dragenter",
-      "dragover"
-    ].forEach(eventName => {
-
-      dropzone.addEventListener(eventName, event => {
-
-        event.preventDefault();
-
-        dropzone.classList.add("dragover");
-
-      });
-
-    });
-
-    [
-      "dragleave",
-      "drop"
-    ].forEach(eventName => {
-
-      dropzone.addEventListener(eventName, event => {
-
-        event.preventDefault();
-
-        dropzone.classList.remove("dragover");
-
-      });
-
-    });
-
-    dropzone.addEventListener("drop", event => {
-
-      const files = event.dataTransfer.files;
-
-      if (files.length) {
-
-        processFile(files[0]);
-
-      }
-
-    });
-
-    fileInput.addEventListener("change", event => {
-
-      if (event.target.files.length) {
-
-        processFile(event.target.files[0]);
-
-      }
-
-    });
-
-    function processFile(file) {
-
-      if (!file.type.startsWith("image/")) {
-
-        showToast(
-          "Envie uma imagem JPG, PNG ou WEBP."
-        );
-
-        return;
-
-      }
-
-      if (file.size > MAX_FILE_SIZE) {
-
-        showToast(
-          "A imagem precisa ter no máximo 8 MB."
-        );
-
-        return;
-
-      }
-
-      selectedFile = file;
-
-      fileName.textContent = file.name;
-
-      const reader = new FileReader();
-
-      reader.onload = event => {
-
-        previewImage.src = event.target.result;
-
-        preview.style.display = "flex";
-
-        dropzoneContent.style.display = "none";
-
-        updateSubmitState();
-
-      };
-
-      reader.readAsDataURL(file);
-
-      showToast("Redação carregada!");
-
-    }
-
-    /* =========================================================
-       VALIDATION
-    ========================================================= */
-
-    function updateSubmitState() {
-
-      submitBtn.disabled = !(
-        selectedFile &&
-        studentName.value.trim().length >= 2 &&
-        currentTheme
-      );
-
-    }
-
-    studentName.addEventListener(
-      "input",
-      updateSubmitState
-    );
-
-    /* =========================================================
-       FILE -> BASE64
-    ========================================================= */
-
-    function fileToDataURL(file) {
-
-      return new Promise((resolve, reject) => {
-
-        const reader = new FileReader();
-
-        reader.onload = () => resolve(reader.result);
-
-        reader.onerror = reject;
-
-        reader.readAsDataURL(file);
-
-      });
-
-    }
-
-    /* =========================================================
-       ENVIAR REDAÇÃO
-    ========================================================= */
-
-    submitBtn.addEventListener("click", evaluateEssay);
-
-    async function evaluateEssay() {
-
-      if (!selectedFile) {
-
-        showToast("Envie uma imagem primeiro.");
-
-        return;
-
-      }
-
-      if (!studentName.value.trim()) {
-
-        showToast("Digite seu nome.");
-
-        studentName.focus();
-
-        return;
-
-      }
-
-      if (!currentTheme) {
-
-        showToast("Escolha um tema primeiro.");
-
-        return;
-
-      }
-
-      try {
-
-        homeSection.style.display = "none";
-
-        resultSection.classList.remove("active");
-
-        loadingSection.classList.add("active");
-
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-
-        setLoadingMessage(
-          "A IA está lendo sua redação...",
-          "Identificando o texto escrito na imagem."
-        );
-
-        const image = await fileToDataURL(selectedFile);
-
-        await delay(700);
-
-        setLoadingMessage(
-          "Analisando as competências...",
-          "Verificando C1, C2, C3, C4 e C5."
-        );
-
-        const response = await fetch(API_URL, {
-
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-
-            action: "evaluate",
-
-            studentName:
-              studentName.value.trim(),
-
-            theme: currentTheme,
-
-            essayType:
-              $("essayType").value,
-
-            image
-
-          })
-
-        });
-
-        await delay(500);
-
-        const data = await response.json();
-
-        if (!response.ok) {
-
-          throw new Error(
-            data.error ||
-            "Não foi possível avaliar a redação."
-          );
-
-        }
-
-        setLoadingMessage(
-          "Preparando seu diagnóstico...",
-          "Transformando a análise em um plano de estudo."
-        );
-
-        await delay(600);
-
-        currentResult = data.result;
-
-        renderResult(data.result);
-
-        saveHistory(data.result);
-
-        loadingSection.classList.remove("active");
-
-        resultSection.classList.add("active");
-
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-
-        launchConfetti();
-
-      } catch (error) {
-
-        console.error(error);
-
-        loadingSection.classList.remove("active");
-
-        homeSection.style.display = "block";
-
-        showToast(
-          error.message ||
-          "Ocorreu um erro ao avaliar."
-        );
-
-      }
-
-    }
-
-    function setLoadingMessage(title, text) {
-
-      $("loadingTitle").textContent = title;
-
-      $("loadingText").textContent = text;
-
-    }
-
-    function delay(ms) {
-
-      return new Promise(resolve =>
-        setTimeout(resolve, ms)
-      );
-
-    }
-
-    /* =========================================================
-       RENDER RESULTADO
-    ========================================================= */
-
-    function renderResult(result) {
-
-      $("resultName").textContent =
-        studentName.value.trim();
-
-      const score =
-        Number(result.total_score) || 0;
-
-      animateNumber(
-        $("scoreNumber"),
-        score
-      );
-
-      $("scoreStatus").textContent =
-        getScoreStatus(score);
-
-      $("generalFeedback").textContent =
-        result.general_feedback ||
-        "A IA não forneceu um diagnóstico geral.";
-
-      renderCompetencies(
-        result.competencies || {}
-      );
-
-      renderList(
-        $("strengths"),
-        result.strengths
-      );
-
-      renderList(
-        $("weaknesses"),
-        result.weaknesses
-      );
-
-      renderList(
-        $("argumentation"),
-        result.argumentation
-      );
-
-      renderList(
-        $("language"),
-        result.language
-      );
-
-      $("introFeedback").textContent =
-        result.structure?.introduction ||
-        "Sem análise disponível.";
-
-      $("developmentFeedback").textContent =
-        result.structure?.development ||
-        "Sem análise disponível.";
-
-      $("conclusionFeedback").textContent =
-        result.structure?.conclusion ||
-        "Sem análise disponível.";
-
-      renderActionPlan(
-        result.action_plan
-      );
-
-    }
-
-    /* =========================================================
-       COMPETENCIES
-    ========================================================= */
-
-    const competencyNames = {
-
-      c1: "Domínio da norma-padrão",
-
-      c2: "Compreensão do tema",
-
-      c3: "Seleção e organização de argumentos",
-
-      c4: "Coesão e mecanismos linguísticos",
-
-      c5: "Proposta de intervenção"
-
-    };
-
-    function renderCompetencies(data) {
-
-      const container =
-        $("competencies");
-
-      container.innerHTML = "";
-
-      Object.keys(competencyNames)
-        .forEach(code => {
-
-          const item =
-            data[code] || {};
-
-          const score =
-            Number(item.score) || 0;
-
-          const max =
-            Number(item.max) || 200;
-
-          const percentage =
-            Math.min(
-              100,
-              Math.max(
-                0,
-                (score / max) * 100
-              )
-            );
-
-          const card =
-            document.createElement("div");
-
-          card.className =
-            "competency";
-
-          card.innerHTML = `
-
-            <div class="competency-code">
-              ${code.toUpperCase()}
+            <div
+                id="loadingTitle"
+                class="loading-title"
+            >
+                Processando...
             </div>
 
-            <div class="competency-name">
-              ${escapeHTML(
-                competencyNames[code]
-              )}
+            <div
+                id="loadingText"
+                class="loading-text"
+            >
+                Aguarde alguns segundos.
             </div>
 
-            <div class="competency-score">
-              ${score}/200
-            </div>
+        </div>
 
-            <div class="progress">
-              <div
-                style="width:${percentage}%"
-              ></div>
-            </div>
+    </div>
 
-            <p style="
-              margin-top:9px;
-              color:#475569;
-              font-size:.72rem;
-              font-weight:700;
-              line-height:1.35;
-            ">
-              ${escapeHTML(
-                item.feedback ||
-                "Sem comentário."
-              )}
-            </p>
 
-          `;
+    <!-- ====================================================
+         TOAST
+    ===================================================== -->
 
-          container.appendChild(card);
+    <div
+        id="toast"
+        class="toast"
+    ></div>
 
-          requestAnimationFrame(() => {
 
-            const bar =
-              card.querySelector(".progress div");
+    <!-- ====================================================
+         JAVASCRIPT
+    ===================================================== -->
 
-            bar.style.width =
-              `${percentage}%`;
+    <script>
 
-          });
+        "use strict";
 
-        });
 
-    }
+        /* ==================================================
+           ESTADO
+        ================================================== */
 
-    /* =========================================================
-       LISTS
-    ========================================================= */
+        let currentTheme = null;
 
-    function renderList(container, items) {
+        let selectedImages = [];
 
-      container.innerHTML = "";
+        let toastTimer = null;
 
-      if (!Array.isArray(items) || !items.length) {
 
-        container.innerHTML = `
-          <li>
-            <i class="ph-fill ph-info"></i>
-            Nenhum item informado.
-          </li>
-        `;
+        /* ==================================================
+           ELEMENTOS
+        ================================================== */
 
-        return;
+        const $ = id =>
+            document.getElementById(id);
 
-      }
 
-      items.slice(0, 6).forEach(item => {
+        const studentName =
+            $("studentName");
 
-        const li =
-          document.createElement("li");
+        const trainingMode =
+            $("trainingMode");
 
-        li.innerHTML = `
-          <i class="ph-fill ph-caret-right"></i>
-          <span>${escapeHTML(
-            String(item)
-          )}</span>
-        `;
+        const essayText =
+            $("essayText");
 
-        container.appendChild(li);
+        const imageInput =
+            $("imageInput");
 
-      });
+        const previews =
+            $("previews");
 
-    }
+        const themeBox =
+            $("themeBox");
 
-    /* =========================================================
-       ACTION PLAN
-    ========================================================= */
+        const generateThemeBtn =
+            $("generateThemeBtn");
 
-    function renderActionPlan(items) {
+        const evaluateBtn =
+            $("evaluateBtn");
 
-      const container =
-        $("actionPlan");
+        const clearBtn =
+            $("clearBtn");
 
-      container.innerHTML = "";
+        const loading =
+            $("loading");
 
-      if (!Array.isArray(items)) {
+        const loadingTitle =
+            $("loadingTitle");
 
-        items = [];
+        const loadingText =
+            $("loadingText");
 
-      }
+        const toast =
+            $("toast");
 
-      items.slice(0, 5).forEach(
-        (item, index) => {
 
-          const div =
-            document.createElement("div");
+        /* ==================================================
+           TOAST
+        ================================================== */
 
-          div.className =
-            "action-item";
+        function showToast(message, type = "normal") {
 
-          div.innerHTML = `
+            clearTimeout(toastTimer);
 
-            <div class="action-number">
-              ${index + 1}
-            </div>
+            toast.textContent =
+                String(message);
 
-            <p>
-              ${escapeHTML(
-                String(item)
-              )}
-            </p>
+            toast.className =
+                "toast show" +
+                (type === "error"
+                    ? " error"
+                    : "");
 
-          `;
+            toastTimer =
+                setTimeout(() => {
 
-          container.appendChild(div);
+                    toast.className =
+                        "toast";
 
-        }
-      );
-
-      if (!items.length) {
-
-        container.innerHTML = `
-          <p style="font-weight:700;">
-            Continue praticando e revise os pontos
-            destacados na avaliação.
-          </p>
-        `;
-
-      }
-
-    }
-
-    /* =========================================================
-       SCORE
-    ========================================================= */
-
-    function animateNumber(element, target) {
-
-      const duration = 900;
-
-      const start = performance.now();
-
-      function update(now) {
-
-        const progress =
-          Math.min(
-            1,
-            (now - start) / duration
-          );
-
-        const eased =
-          1 - Math.pow(1 - progress, 3);
-
-        const value =
-          Math.round(target * eased);
-
-        element.textContent = value;
-
-        if (progress < 1) {
-
-          requestAnimationFrame(update);
-
+                }, 5000);
         }
 
-      }
 
-      requestAnimationFrame(update);
+        /* ==================================================
+           LOADING
+        ================================================== */
 
-    }
-
-    function getScoreStatus(score) {
-
-      if (score >= 900) return "Excelente! 🏆";
-
-      if (score >= 800) return "Muito boa! 🔥";
-
-      if (score >= 700) return "Boa base! 🚀";
-
-      if (score >= 600) return "Pode evoluir! 📈";
-
-      if (score >= 500) return "Hora de treinar! 💪";
-
-      return "Vamos começar! ✍️";
-
-    }
-
-    /* =========================================================
-       HISTÓRICO
-    ========================================================= */
-
-    function getHistory() {
-
-      try {
-
-        return JSON.parse(
-          localStorage.getItem(
-            "hey_enem_history"
-          )
-        ) || [];
-
-      } catch {
-
-        return [];
-
-      }
-
-    }
-
-    function saveHistory(result) {
-
-      const history = getHistory();
-
-      history.unshift({
-
-        id: Date.now(),
-
-        name:
-          studentName.value.trim(),
-
-        theme:
-          currentTheme,
-
-        score:
-          Number(result.total_score) || 0,
-
-        date:
-          new Date().toLocaleDateString(
-            "pt-BR"
-          )
-
-      });
-
-      localStorage.setItem(
-        "hey_enem_history",
-        JSON.stringify(
-          history.slice(0, 10)
-        )
-      );
-
-      renderHistory();
-
-    }
-
-    function renderHistory() {
-
-      const history =
-        getHistory();
-
-      $("historyCount").textContent =
-        history.length;
-
-      const section =
-        $("historySection");
-
-      const list =
-        $("historyList");
-
-      if (!history.length) {
-
-        section.style.display =
-          "none";
-
-        return;
-
-      }
-
-      section.style.display =
-        "block";
-
-      list.innerHTML = "";
-
-      history.forEach(item => {
-
-        const element =
-          document.createElement("div");
-
-        element.className =
-          "history-item";
-
-        element.innerHTML = `
-
-          <div class="history-info">
-
-            <strong>
-              ${escapeHTML(
-                item.name || "Estudante"
-              )}
-            </strong>
-
-            <span>
-              ${escapeHTML(
-                item.date
-              )}
-              •
-              ${escapeHTML(
-                item.theme
-              )}
-            </span>
-
-          </div>
-
-          <div class="history-score">
-            ${item.score}
-          </div>
-
-        `;
-
-        list.appendChild(element);
-
-      });
-
-    }
-
-    renderHistory();
-
-    /* =========================================================
-       NOVA REDAÇÃO
-    ========================================================= */
-
-    $("newEssayBtn").addEventListener(
-      "click",
-      resetApplication
-    );
-
-    function resetApplication() {
-
-      selectedFile = null;
-
-      currentTheme = "";
-
-      currentResult = null;
-
-      fileInput.value = "";
-
-      preview.style.display =
-        "none";
-
-      dropzoneContent.style.display =
-        "block";
-
-      themePanel.style.display =
-        "none";
-
-      studentName.value = "";
-
-      submitBtn.disabled = true;
-
-      resultSection.classList.remove(
-        "active"
-      );
-
-      loadingSection.classList.remove(
-        "active"
-      );
-
-      homeSection.style.display =
-        "block";
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-    }
-
-    /* =========================================================
-       SALVAR DIAGNÓSTICO
-    ========================================================= */
-
-    $("saveResultBtn").addEventListener(
-      "click",
-      () => {
-
-        if (!currentResult) {
-
-          showToast(
-            "Nenhum diagnóstico disponível."
-          );
-
-          return;
-
-        }
-
-        const text = createReportText(
-          currentResult
-        );
-
-        const blob =
-          new Blob(
-            [text],
-            {
-              type: "text/plain;charset=utf-8"
-            }
-          );
-
-        const url =
-          URL.createObjectURL(blob);
-
-        const a =
-          document.createElement("a");
-
-        a.href = url;
-
-        a.download =
-          "diagnostico-hey-enem.txt";
-
-        a.click();
-
-        URL.revokeObjectURL(url);
-
-        showToast(
-          "Diagnóstico salvo!"
-        );
-
-      }
-    );
-
-    function createReportText(result) {
-
-      let text = "";
-
-      text += "HEY ENEM!\n";
-
-      text += "DIAGNÓSTICO DE REDAÇÃO\n";
-
-      text += "============================\n\n";
-
-      text += `Aluno: ${studentName.value.trim()}\n`;
-
-      text += `Tema: ${currentTheme}\n`;
-
-      text += `Nota estimada: ${result.total_score}\n\n`;
-
-      text += "COMPETÊNCIAS\n";
-
-      Object.keys(competencyNames)
-        .forEach(code => {
-
-          const item =
-            result.competencies?.[code];
-
-          text += `${code.toUpperCase()}: ${
-            item?.score || 0
-          }/200\n`;
-
-        });
-
-      text += "\nDIAGNÓSTICO\n";
-
-      text += `${
-        result.general_feedback || ""
-      }\n\n`;
-
-      text += "PONTOS FORTES\n";
-
-      (result.strengths || [])
-        .forEach(item => {
-
-          text += `- ${item}\n`;
-
-        });
-
-      text += "\nPONTOS A MELHORAR\n";
-
-      (result.weaknesses || [])
-        .forEach(item => {
-
-          text += `- ${item}\n`;
-
-        });
-
-      text += "\nPLANO DE AÇÃO\n";
-
-      (result.action_plan || [])
-        .forEach((item, index) => {
-
-          text += `${index + 1}. ${item}\n`;
-
-        });
-
-      return text;
-
-    }
-
-    /* =========================================================
-       SECURITY
-    ========================================================= */
-
-    function escapeHTML(value) {
-
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
-
-    /* =========================================================
-       CONFETTI
-    ========================================================= */
-
-    function launchConfetti() {
-
-      const canvas =
-        document.createElement("canvas");
-
-      canvas.style.position = "fixed";
-      canvas.style.inset = "0";
-      canvas.style.width = "100%";
-      canvas.style.height = "100%";
-      canvas.style.pointerEvents = "none";
-      canvas.style.zIndex = "9999";
-
-      document.body.appendChild(canvas);
-
-      const ctx =
-        canvas.getContext("2d");
-
-      canvas.width =
-        window.innerWidth;
-
-      canvas.height =
-        window.innerHeight;
-
-      const particles = [];
-
-      const colors = [
-        "#FFC107",
-        "#0055A4",
-        "#00C853",
-        "#FF5252",
-        "#7C4DFF"
-      ];
-
-      for (
-        let i = 0;
-        i < 130;
-        i++
-      ) {
-
-        particles.push({
-
-          x:
-            canvas.width / 2,
-
-          y:
-            canvas.height * .25,
-
-          vx:
-            (Math.random() - .5) * 12,
-
-          vy:
-            Math.random() * -10 - 3,
-
-          size:
-            Math.random() * 8 + 4,
-
-          color:
-            colors[
-              Math.floor(
-                Math.random() *
-                colors.length
-              )
-            ],
-
-          gravity:
-            .35,
-
-          rotation:
-            Math.random() * 6
-
-        });
-
-      }
-
-      let frames = 0;
-
-      function animate() {
-
-        ctx.clearRect(
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-
-        particles.forEach(p => {
-
-          p.x += p.vx;
-
-          p.y += p.vy;
-
-          p.vy += p.gravity;
-
-          p.rotation += .1;
-
-          ctx.save();
-
-          ctx.translate(
-            p.x,
-            p.y
-          );
-
-          ctx.rotate(
-            p.rotation
-          );
-
-          ctx.fillStyle =
-            p.color;
-
-          ctx.fillRect(
-            -p.size / 2,
-            -p.size / 2,
-            p.size,
-            p.size
-          );
-
-          ctx.restore();
-
-        });
-
-        frames++;
-
-        if (frames < 130) {
-
-          requestAnimationFrame(
-            animate
-          );
-
-        } else {
-
-          canvas.remove();
-
-        }
-
-      }
-
-      animate();
-
-    }
-
-    /* =========================================================
-       ESC
-    ========================================================= */
-
-    document.addEventListener(
-      "keydown",
-      event => {
-
-        if (
-          event.key === "Escape"
+        function showLoading(
+            title,
+            text
         ) {
 
-          $("themeModal")
-            .classList
-            .remove("active");
+            loadingTitle.textContent =
+                title;
 
+            loadingText.textContent =
+                text;
+
+            loading.classList.add(
+                "active"
+            );
         }
 
-      }
-    );
 
-  </script>
+        function hideLoading() {
+
+            loading.classList.remove(
+                "active"
+            );
+        }
+
+
+        /* ==================================================
+           API
+        ================================================== */
+
+        async function callAPI(payload) {
+
+            let response;
+
+            try {
+
+                response =
+                    await fetch(
+                        "/api/avaliar",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    payload
+                                )
+                        }
+                    );
+
+            } catch (networkError) {
+
+                throw new Error(
+                    "Não foi possível conectar ao servidor do Hey ENEM."
+                );
+            }
+
+
+            const raw =
+                await response.text();
+
+
+            let data = {};
+
+            try {
+
+                data =
+                    raw
+                        ? JSON.parse(raw)
+                        : {};
+
+            } catch {
+
+                throw new Error(
+                    `O servidor retornou uma resposta inválida (HTTP ${response.status}).`
+                );
+            }
+
+
+            /*
+             * ESTE É O PONTO QUE ELIMINA O [object Object].
+             *
+             * Nunca fazemos:
+             *
+             * throw new Error(data.error)
+             *
+             * porque data.error é um objeto.
+             */
+
+            if (!response.ok) {
+
+                const message =
+                    data?.error?.message ||
+                    data?.message ||
+                    `Erro HTTP ${response.status}`;
+
+                throw new Error(
+                    message
+                );
+            }
+
+
+            if (data?.ok === false) {
+
+                throw new Error(
+                    data?.error?.message ||
+                    "O servidor recusou a solicitação."
+                );
+            }
+
+
+            return data;
+        }
+
+
+        /* ==================================================
+           GERAR TEMA
+        ================================================== */
+
+        async function generateTheme() {
+
+            generateThemeBtn.disabled =
+                true;
+
+            showLoading(
+                "Gerando proposta...",
+                "O Hey ENEM está preparando um tema inédito."
+            );
+
+
+            try {
+
+                const result =
+                    await callAPI({
+                        action: "theme"
+                    });
+
+
+                if (
+                    !result?.data?.tema
+                ) {
+
+                    throw new Error(
+                        "O servidor não retornou um tema válido."
+                    );
+                }
+
+
+                currentTheme =
+                    result.data;
+
+
+                renderTheme(
+                    currentTheme
+                );
+
+
+                saveTheme(
+                    currentTheme
+                );
+
+
+                showToast(
+                    "Tema gerado com sucesso."
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "ERRO AO GERAR TEMA:",
+                    error
+                );
+
+
+                showToast(
+                    error?.message ||
+                    "Não foi possível gerar o tema.",
+                    "error"
+                );
+
+
+                /*
+                 * Também deixa o erro visível
+                 * no console para diagnóstico.
+                 */
+
+                console.error(
+                    "Mensagem:",
+                    error?.message
+                );
+
+            } finally {
+
+                hideLoading();
+
+                generateThemeBtn.disabled =
+                    false;
+            }
+        }
+
+
+        /* ==================================================
+           RENDER TEMA
+        ================================================== */
+
+        function renderTheme(theme) {
+
+            const motivations =
+                Array.isArray(
+                    theme.textos_motivadores
+                )
+                    ? theme.textos_motivadores
+                    : [];
+
+
+            themeBox.innerHTML = `
+
+                <div class="theme-label">
+                    Tema da redação
+                </div>
+
+                <div class="theme-title">
+                    ${escapeHTML(
+                        theme.tema
+                    )}
+                </div>
+
+                ${
+                    theme.contexto
+                        ? `
+                            <div class="theme-context">
+                                ${escapeHTML(
+                                    theme.contexto
+                                )}
+                            </div>
+                        `
+                        : ""
+                }
+
+                ${
+                    motivations.length
+                        ? `
+                            <div class="motivation">
+
+                                ${motivations
+                                    .map(
+                                        item => `
+                                            <div class="motivation-item">
+
+                                                <strong>
+                                                    ${escapeHTML(
+                                                        item.titulo ||
+                                                        "Texto motivador"
+                                                    )}
+                                                </strong>
+
+                                                <span>
+                                                    ${escapeHTML(
+                                                        item.texto ||
+                                                        ""
+                                                    )}
+                                                </span>
+
+                                            </div>
+                                        `
+                                    )
+                                    .join("")}
+
+                            </div>
+                        `
+                        : ""
+                }
+
+                ${
+                    theme.comando
+                        ? `
+                            <div
+                                style="
+                                    margin-top:20px;
+                                    padding-top:18px;
+                                    border-top:1px solid #222;
+                                    color:#777;
+                                    font-size:12px;
+                                "
+                            >
+                                ${escapeHTML(
+                                    theme.comando
+                                )}
+                            </div>
+                        `
+                        : ""
+                }
+
+            `;
+        }
+
+
+        /* ==================================================
+           IMAGENS
+        ================================================== */
+
+        imageInput.addEventListener(
+            "change",
+            async event => {
+
+                const files =
+                    Array.from(
+                        event.target.files || []
+                    );
+
+
+                if (!files.length) {
+                    return;
+                }
+
+
+                if (
+                    selectedImages.length +
+                    files.length >
+                    5
+                ) {
+
+                    showToast(
+                        "Você pode enviar no máximo 5 imagens.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                showLoading(
+                    "Preparando imagens...",
+                    "Estamos reduzindo o tamanho das fotos para evitar erros de envio."
+                );
+
+
+                try {
+
+                    for (const file of files) {
+
+                        if (
+                            !file.type.startsWith(
+                                "image/"
+                            )
+                        ) {
+
+                            continue;
+                        }
+
+
+                        const compressed =
+                            await compressImage(
+                                file
+                            );
+
+
+                        selectedImages.push(
+                            compressed
+                        );
+                    }
+
+
+                    renderPreviews();
+
+
+                } catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+                    showToast(
+                        "Não foi possível processar uma das imagens.",
+                        "error"
+                    );
+
+                } finally {
+
+                    hideLoading();
+
+                    imageInput.value =
+                        "";
+                }
+            }
+        );
+
+
+        function compressImage(
+            file
+        ) {
+
+            return new Promise(
+                (
+                    resolve,
+                    reject
+                ) => {
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload = () => {
+
+                        const img =
+                            new Image();
+
+
+                        img.onload = () => {
+
+                            const maxSize =
+                                1600;
+
+
+                            let width =
+                                img.naturalWidth;
+
+                            let height =
+                                img.naturalHeight;
+
+
+                            if (
+                                width >
+                                    maxSize ||
+                                height >
+                                    maxSize
+                            ) {
+
+                                const ratio =
+                                    Math.min(
+                                        maxSize /
+                                            width,
+                                        maxSize /
+                                            height
+                                    );
+
+                                width =
+                                    Math.round(
+                                        width *
+                                        ratio
+                                    );
+
+                                height =
+                                    Math.round(
+                                        height *
+                                        ratio
+                                    );
+                            }
+
+
+                            const canvas =
+                                document.createElement(
+                                    "canvas"
+                                );
+
+
+                            canvas.width =
+                                width;
+
+                            canvas.height =
+                                height;
+
+
+                            const ctx =
+                                canvas.getContext(
+                                    "2d"
+                                );
+
+
+                            ctx.drawImage(
+                                img,
+                                0,
+                                0,
+                                width,
+                                height
+                            );
+
+
+                            const dataURL =
+                                canvas.toDataURL(
+                                    "image/jpeg",
+                                    .72
+                                );
+
+
+                            resolve({
+                                data:
+                                    dataURL.split(
+                                        ","
+                                    )[1],
+
+                                mimeType:
+                                    "image/jpeg",
+
+                                preview:
+                                    dataURL
+                            });
+                        };
+
+
+                        img.onerror =
+                            () => reject(
+                                new Error(
+                                    "Imagem inválida."
+                                )
+                            );
+
+
+                        img.src =
+                            reader.result;
+                    };
+
+
+                    reader.onerror =
+                        () => reject(
+                            new Error(
+                                "Falha ao ler imagem."
+                            )
+                        );
+
+
+                    reader.readAsDataURL(
+                        file
+                    );
+                }
+            );
+        }
+
+
+        function renderPreviews() {
+
+            previews.innerHTML =
+                "";
+
+
+            selectedImages.forEach(
+                (
+                    image,
+                    index
+                ) => {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "preview";
+
+
+                    item.innerHTML = `
+
+                        <img
+                            src="${image.preview}"
+                            alt="Página da redação"
+                        >
+
+                        <button
+                            type="button"
+                            class="preview-remove"
+                            aria-label="Remover imagem"
+                            data-index="${index}"
+                        >
+                            ×
+                        </button>
+
+                    `;
+
+
+                    item
+                        .querySelector(
+                            ".preview-remove"
+                        )
+                        .addEventListener(
+                            "click",
+                            () => {
+
+                                selectedImages
+                                    .splice(
+                                        index,
+                                        1
+                                    );
+
+                                renderPreviews();
+                            }
+                        );
+
+
+                    previews.appendChild(
+                        item
+                    );
+                }
+            );
+        }
+
+
+        /* ==================================================
+           CONTADOR
+        ================================================== */
+
+        essayText.addEventListener(
+            "input",
+            updateCounters
+        );
+
+
+        function updateCounters() {
+
+            const text =
+                essayText.value.trim();
+
+
+            const words =
+                text
+                    ? text.split(/\s+/).length
+                    : 0;
+
+
+            $("wordCount")
+                .textContent =
+                words.toLocaleString(
+                    "pt-BR"
+                );
+
+
+            $("charCount")
+                .textContent =
+                essayText.value.length
+                    .toLocaleString(
+                        "pt-BR"
+                    );
+        }
+
+
+        /* ==================================================
+           AVALIAR
+        ================================================== */
+
+        evaluateBtn.addEventListener(
+            "click",
+            evaluateEssay
+        );
+
+
+        async function evaluateEssay() {
+
+            const text =
+                essayText.value.trim();
+
+
+            if (!currentTheme) {
+
+                showToast(
+                    "Gere ou selecione um tema antes de corrigir.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (
+                !text &&
+                !selectedImages.length
+            ) {
+
+                showToast(
+                    "Escreva a redação ou envie fotos das folhas.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            evaluateBtn.disabled =
+                true;
+
+
+            showLoading(
+                "Corrigindo sua redação...",
+                "O Hey ENEM está analisando as cinco competências do ENEM."
+            );
+
+
+            try {
+
+                const result =
+                    await callAPI({
+
+                        action:
+                            "evaluate",
+
+                        studentName:
+                            studentName.value.trim(),
+
+                        trainingMode:
+                            trainingMode.value,
+
+                        theme:
+                            currentTheme.tema,
+
+                        essayText:
+                            text,
+
+                        images:
+                            selectedImages.map(
+                                image => ({
+                                    mimeType:
+                                        image.mimeType,
+
+                                    data:
+                                        image.data
+                                })
+                            )
+                    });
+
+
+                if (
+                    !result?.data
+                ) {
+
+                    throw new Error(
+                        "A API não retornou o resultado da avaliação."
+                    );
+                }
+
+
+                renderEvaluation(
+                    result.data
+                );
+
+
+                $("resultSection")
+                    .style.display =
+                    "block";
+
+
+                $("resultSection")
+                    .scrollIntoView({
+                        behavior:
+                            "smooth",
+                        block:
+                            "start"
+                    });
+
+
+                showToast(
+                    "Redação avaliada com sucesso."
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "ERRO COMPLETO DO HEY ENEM:",
+                    error
+                );
+
+
+                /*
+                 * Aqui nunca aparece [object Object].
+                 */
+
+                showToast(
+                    error?.message ||
+                    "Não foi possível concluir a análise.",
+                    "error"
+                );
+
+            } finally {
+
+                hideLoading();
+
+                evaluateBtn.disabled =
+                    false;
+            }
+        }
+
+
+        /* ==================================================
+           RENDER AVALIAÇÃO
+        ================================================== */
+
+        function renderEvaluation(
+            result
+        ) {
+
+            const c =
+                result.competencias ||
+                {};
+
+
+            $("totalScore")
+                .textContent =
+                Number(
+                    result.nota_total || 0
+                ).toLocaleString(
+                    "pt-BR"
+                );
+
+
+            $("scoreC1")
+                .textContent =
+                Number(
+                    c.c1?.nota || 0
+                );
+
+            $("scoreC2")
+                .textContent =
+                Number(
+                    c.c2?.nota || 0
+                );
+
+            $("scoreC3")
+                .textContent =
+                Number(
+                    c.c3?.nota || 0
+                );
+
+            $("scoreC4")
+                .textContent =
+                Number(
+                    c.c4?.nota || 0
+                );
+
+            $("scoreC5")
+                .textContent =
+                Number(
+                    c.c5?.nota || 0
+                );
+
+
+            $("diagnosticSummary")
+                .textContent =
+                result
+                    ?.diagnostico
+                    ?.resumo ||
+                "—";
+
+
+            $("finalFeedback")
+                .textContent =
+                result
+                    ?.feedback_final ||
+                "—";
+
+
+            $("introAnalysis")
+                .textContent =
+                result
+                    ?.estrutura
+                    ?.introducao ||
+                "—";
+
+
+            $("developmentAnalysis")
+                .textContent =
+                result
+                    ?.estrutura
+                    ?.desenvolvimento ||
+                "—";
+
+
+            $("conclusionAnalysis")
+                .textContent =
+                result
+                    ?.estrutura
+                    ?.conclusao ||
+                "—";
+
+
+            const intervention =
+                result.intervencao ||
+                {};
+
+
+            $("interventionAnalysis")
+                .textContent =
+                [
+                    `Agente: ${intervention.agente || "—"}`,
+                    `Ação: ${intervention.acao || "—"}`,
+                    `Meio: ${intervention.meio || "—"}`,
+                    `Finalidade: ${intervention.finalidade || "—"}`,
+                    `Detalhamento: ${intervention.detalhamento || "—"}`
+                ].join("\n");
+
+
+            renderList(
+                $("strengths"),
+                result
+                    ?.diagnostico
+                    ?.pontos_fortes
+            );
+
+
+            renderList(
+                $("improvements"),
+                result
+                    ?.diagnostico
+                    ?.pontos_melhorar
+            );
+
+
+            renderLanguageErrors(
+                result
+                    ?.linguagem
+                    ?.erros
+            );
+
+
+            renderCompetencyAnalyses(
+                c
+            );
+        }
+
+
+        function renderList(
+            element,
+            items
+        ) {
+
+            element.innerHTML =
+                "";
+
+
+            if (
+                !Array.isArray(items) ||
+                !items.length
+            ) {
+
+                element.innerHTML =
+                    `
+                        <li>
+                            Nenhum item informado.
+                        </li>
+                    `;
+
+                return;
+            }
+
+
+            items.forEach(
+                item => {
+
+                    const li =
+                        document.createElement(
+                            "li"
+                        );
+
+                    li.textContent =
+                        String(item);
+
+                    element.appendChild(
+                        li
+                    );
+                }
+            );
+        }
+
+
+        function renderLanguageErrors(
+            errors
+        ) {
+
+            const container =
+                $("languageErrors");
+
+
+            container.innerHTML =
+                "";
+
+
+            if (
+                !Array.isArray(errors) ||
+                !errors.length
+            ) {
+
+                container.innerHTML =
+                    `
+                        <p>
+                            Nenhum erro linguístico relevante foi listado.
+                        </p>
+                    `;
+
+                return;
+            }
+
+
+            errors.forEach(
+                error => {
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    div.className =
+                        "error-item";
+
+
+                    div.innerHTML = `
+
+                        <strong>
+                            ${escapeHTML(
+                                error.trecho ||
+                                "Trecho"
+                            )}
+                        </strong>
+
+                        <span>
+                            Correção:
+                            ${escapeHTML(
+                                error.correcao ||
+                                "—"
+                            )}
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                error.explicacao ||
+                                ""
+                            )}
+                        </span>
+
+                    `;
+
+
+                    container.appendChild(
+                        div
+                    );
+                }
+            );
+        }
+
+
+        function renderCompetencyAnalyses(
+            competencies
+        ) {
+
+            const container =
+                $("competencyAnalyses");
+
+
+            container.innerHTML =
+                "";
+
+
+            const keys =
+                [
+                    "c1",
+                    "c2",
+                    "c3",
+                    "c4",
+                    "c5"
+                ];
+
+
+            keys.forEach(
+                key => {
+
+                    const item =
+                        competencies[key];
+
+
+                    if (!item) {
+                        return;
+                    }
+
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    div.style.cssText = `
+                        padding:18px;
+                        border-radius:15px;
+                        background:#0b0b0b;
+                        border:1px solid #222;
+                    `;
+
+
+                    div.innerHTML = `
+
+                        <div
+                            style="
+                                display:flex;
+                                justify-content:space-between;
+                                gap:10px;
+                                align-items:center;
+                                margin-bottom:8px;
+                            "
+                        >
+
+                            <strong>
+                                ${escapeHTML(
+                                    item.nome ||
+                                    key.toUpperCase()
+                                )}
+                            </strong>
+
+                            <strong>
+                                ${Number(
+                                    item.nota || 0
+                                )}/200
+                            </strong>
+
+                        </div>
+
+                        <div
+                            style="
+                                color:#777;
+                                font-size:11px;
+                                margin-bottom:8px;
+                            "
+                        >
+                            ${escapeHTML(
+                                item.titulo ||
+                                ""
+                            )}
+                        </div>
+
+                        <div
+                            style="
+                                color:#999;
+                                font-size:13px;
+                                line-height:1.6;
+                            "
+                        >
+                            ${escapeHTML(
+                                item.analise ||
+                                "—"
+                            )}
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(
+                        div
+                    );
+                }
+            );
+        }
+
+
+        /* ==================================================
+           LIMPAR
+        ================================================== */
+
+        clearBtn.addEventListener(
+            "click",
+            () => {
+
+                essayText.value =
+                    "";
+
+                selectedImages =
+                    [];
+
+                currentTheme =
+                    null;
+
+
+                imageInput.value =
+                    "";
+
+
+                previews.innerHTML =
+                    "";
+
+
+                $("resultSection")
+                    .style.display =
+                    "none";
+
+
+                themeBox.innerHTML =
+                    `
+                        <div class="empty">
+
+                            <div>
+
+                                <div
+                                    style="
+                                        font-size:30px;
+                                        margin-bottom:8px;
+                                    "
+                                >
+                                    ✦
+                                </div>
+
+                                Clique em
+                                <strong>
+                                    “Gerar tema”
+                                </strong>
+                                para começar.
+
+                            </div>
+
+                        </div>
+                    `;
+
+
+                updateCounters();
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        );
+
+
+        /* ==================================================
+           HISTÓRICO DE TEMAS
+        ================================================== */
+
+        function saveTheme(theme) {
+
+            try {
+
+                const history =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "hey-enem-themes"
+                        ) || "[]"
+                    );
+
+
+                history.unshift({
+                    ...theme,
+
+                    createdAt:
+                        new Date()
+                            .toISOString()
+                });
+
+
+                const limited =
+                    history.slice(0, 10);
+
+
+                localStorage.setItem(
+                    "hey-enem-themes",
+                    JSON.stringify(
+                        limited
+                    )
+                );
+
+            } catch (error) {
+
+                console.warn(
+                    "Não foi possível salvar histórico.",
+                    error
+                );
+            }
+        }
+
+
+        /* ==================================================
+           ESCAPE HTML
+        ================================================== */
+
+        function escapeHTML(
+            value
+        ) {
+
+            return String(
+                value ?? ""
+            )
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+        }
+
+
+        /* ==================================================
+           INICIALIZAÇÃO
+        ================================================== */
+
+        generateThemeBtn.addEventListener(
+            "click",
+            generateTheme
+        );
+
+
+        updateCounters();
+
+
+        /*
+         * Testa somente se o endpoint existe.
+         * NÃO faz uma chamada ao Gemini automaticamente,
+         * evitando gastar uma chamada da API ao abrir a página.
+         */
+
+        fetch(
+            "/api/avaliar",
+            {
+                method: "GET"
+            }
+        )
+            .then(
+                response =>
+                    response.json()
+            )
+            .then(
+                data => {
+
+                    if (
+                        !data.configured
+                    ) {
+
+                        console.warn(
+                            "GEMINI_API_KEY não está configurada."
+                        );
+                    }
+                }
+            )
+            .catch(
+                error => {
+
+                    console.warn(
+                        "Não foi possível verificar a API:",
+                        error
+                    );
+                }
+            );
+
+    </script>
 
 </body>
+
 </html>

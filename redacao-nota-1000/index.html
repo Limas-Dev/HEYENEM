@@ -3,23 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hey ENEM!</title>
+
+  <meta name="theme-color" content="#0055A4">
+  <meta
+    name="description"
+    content="Hey ENEM! — seu treinador inteligente de redação para o ENEM."
+  >
+
+  <title>Hey ENEM! — Treine sua Redação</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
   <style>
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
     :root {
-      --blue-main: #0055A4;
+      --blue: #0055A4;
+      --blue-dark: #003B73;
       --blue-light: #4D94FF;
+
+      --yellow: #FFC107;
+      --yellow-light: #FFF8D6;
+
+      --green: #00C853;
+      --green-light: #E8F8EF;
+
+      --red: #FF5252;
+      --red-light: #FFE8E8;
+
+      --purple: #7C4DFF;
+      --purple-light: #EEE8FF;
+
       --white: #FFFFFF;
-      --black: #000000;
-      --yellow-mango: #FFC107;
-      --green-mint: #00E676;
-      --red-coral: #FF5252;
-      --bg-color: #E6F0FA;
+      --black: #111111;
+
+      --gray-50: #F8FAFC;
+      --gray-100: #F1F5F9;
+      --gray-200: #E2E8F0;
+      --gray-400: #94A3B8;
+      --gray-600: #475569;
+      --gray-800: #1E293B;
+
+      --shadow: 6px 6px 0 var(--black);
+
+      --radius: 18px;
     }
 
     * {
@@ -28,1069 +66,3687 @@
       padding: 0;
     }
 
-    body {
-      font-family: 'Nunito', sans-serif;
-      background-color: var(--blue-main);
-      color: var(--black);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
-      position: relative;
-      background-image:
-        radial-gradient(circle at 10% 20%, var(--blue-light) 0%, transparent 20%),
-        radial-gradient(circle at 90% 80%, var(--blue-light) 0%, transparent 20%);
+    html {
+      scroll-behavior: smooth;
     }
 
-    h1, h2, h3, .btn-text {
+    body {
+      font-family: 'Nunito', sans-serif;
+      background:
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(77,148,255,.45),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 90% 90%,
+          rgba(0,200,83,.18),
+          transparent 25%
+        ),
+        var(--blue);
+
+      color: var(--black);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .btn-text {
       font-family: 'Fredoka', sans-serif;
     }
 
-    .bg-shape {
-      position: absolute;
+    /* =========================================================
+       BACKGROUND
+    ========================================================= */
+
+    .floating {
+      position: fixed;
+      pointer-events: none;
+      user-select: none;
       z-index: 0;
-      opacity: 0.8;
-      animation: float 6s ease-in-out infinite;
+      animation: float 7s ease-in-out infinite;
+      opacity: .75;
     }
 
-    .shape-1 {
-      top: 10%;
-      left: 5%;
-      font-size: 3rem;
-      animation-delay: 0s;
+    .floating.one {
+      top: 8%;
+      left: 4%;
+      font-size: 45px;
     }
 
-    .shape-2 {
-      bottom: 15%;
-      right: 8%;
-      font-size: 4rem;
-      animation-delay: 2s;
+    .floating.two {
+      top: 22%;
+      right: 5%;
+      font-size: 40px;
+      animation-delay: 1.5s;
     }
 
-    .shape-3 {
-      top: 20%;
-      right: 10%;
-      font-size: 2.5rem;
-      animation-delay: 1s;
-    }
-
-    .shape-4 {
-      bottom: 20%;
-      left: 10%;
-      font-size: 3.5rem;
+    .floating.three {
+      bottom: 10%;
+      left: 7%;
+      font-size: 42px;
       animation-delay: 3s;
-      color: var(--yellow-mango);
+    }
+
+    .floating.four {
+      bottom: 18%;
+      right: 8%;
+      font-size: 48px;
+      animation-delay: 4s;
     }
 
     @keyframes float {
-      0% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(10deg); }
-      100% { transform: translateY(0px) rotate(0deg); }
+      0%, 100% {
+        transform: translateY(0) rotate(0);
+      }
+
+      50% {
+        transform: translateY(-18px) rotate(7deg);
+      }
     }
 
-    .card-container {
-      background-color: var(--white);
-      width: 100%;
-      max-width: 480px;
-      margin: 20px;
-      padding: 40px 30px;
+    /* =========================================================
+       APP
+    ========================================================= */
+
+    .app {
+      position: relative;
+      z-index: 2;
+
+      width: min(1180px, calc(100% - 30px));
+
+      margin: 35px auto;
+
+      background: var(--white);
+
       border: 4px solid var(--black);
-      border-radius: 24px;
-      box-shadow: 8px 8px 0px var(--black);
-      position: relative;
-      z-index: 10;
-    }
+      border-radius: 28px;
 
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+      box-shadow: 10px 10px 0 var(--black);
 
-    .header h1 {
-      color: var(--blue-main);
-      font-size: 2.2rem;
-      line-height: 1.2;
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-
-    .header p {
-      font-size: 1.1rem;
-      color: #444;
-      font-weight: 600;
-    }
-
-    .form-group {
-      margin-bottom: 24px;
-      text-align: left;
-    }
-
-    .form-group label {
-      display: block;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-      color: var(--black);
-    }
-
-    .input-neo {
-      width: 100%;
-      padding: 16px;
-      font-size: 1rem;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 600;
-      color: var(--black);
-      background-color: #F8F9FA;
-      border: 3px solid var(--black);
-      border-radius: 12px;
-      box-shadow: 4px 4px 0px var(--black);
-      transition: all 0.2s ease;
-      outline: none;
-    }
-
-    .input-neo:focus {
-      transform: translate(2px, 2px);
-      box-shadow: 2px 2px 0px var(--black);
-      background-color: var(--white);
-    }
-
-    .input-neo::placeholder {
-      color: #999;
-    }
-
-    .dropzone {
-      width: 100%;
-      padding: 30px 20px;
-      background-color: var(--bg-color);
-      border: 3px dashed var(--blue-main);
-      border-radius: 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
       overflow: hidden;
     }
 
-    .dropzone.dragover {
-      background-color: var(--yellow-mango);
-      border-color: var(--black);
-      border-style: solid;
-      transform: scale(1.02);
-      box-shadow: inset 0 0 0 4px rgba(255,255,255,0.3);
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    .topbar {
+      padding: 22px 28px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      border-bottom: 3px solid var(--black);
+
+      background:
+        linear-gradient(
+          135deg,
+          #fff 0%,
+          #f8fbff 100%
+        );
     }
 
-    .dropzone-icon {
-      font-size: 3.5rem;
-      color: var(--blue-main);
-      margin-bottom: 10px;
-      transition: transform 0.3s;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .dropzone:hover .dropzone-icon {
-      transform: scale(1.1) rotate(-5deg);
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+
+      display: grid;
+      place-items: center;
+
+      background: var(--yellow);
+
+      border: 3px solid var(--black);
+      border-radius: 14px;
+
+      box-shadow: 4px 4px 0 var(--black);
+
+      font-size: 25px;
     }
 
-    .dropzone-text {
+    .brand-name {
+      font-size: 1.65rem;
+      color: var(--blue);
+      line-height: 1;
+    }
+
+    .brand-subtitle {
+      color: var(--gray-600);
       font-weight: 700;
+      font-size: .8rem;
+      margin-top: 3px;
+    }
+
+    .header-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 9px 13px;
+
+      background: var(--green-light);
+
+      border: 2px solid var(--black);
+      border-radius: 999px;
+
+      font-size: .82rem;
+      font-weight: 900;
+    }
+
+    .header-badge i {
+      color: var(--green);
+    }
+
+    /* =========================================================
+       MAIN
+    ========================================================= */
+
+    .main {
+      padding: 34px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 25px;
+
+      margin-bottom: 30px;
+    }
+
+    .hero-text h1 {
+      color: var(--blue);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.05;
+      margin-bottom: 12px;
+    }
+
+    .hero-text h1 span {
+      color: var(--yellow);
+      -webkit-text-stroke: 1.5px var(--black);
+      text-shadow: 3px 3px 0 var(--black);
+    }
+
+    .hero-text p {
+      max-width: 680px;
+
+      color: var(--gray-600);
+
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .hero-card {
+      background: var(--yellow-light);
+
+      border: 3px solid var(--black);
+      border-radius: var(--radius);
+
+      padding: 20px;
+
+      box-shadow: 5px 5px 0 var(--black);
+    }
+
+    .hero-card-title {
+      font-family: 'Fredoka', sans-serif;
       font-size: 1.1rem;
-      color: var(--blue-main);
+
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      margin-bottom: 13px;
+    }
+
+    .hero-card ul {
+      list-style: none;
+      display: grid;
+      gap: 9px;
+    }
+
+    .hero-card li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+
+      font-size: .9rem;
+      font-weight: 800;
+    }
+
+    .hero-card li i {
+      color: var(--green);
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+
+      margin-bottom: 25px;
+    }
+
+    .stat {
+      padding: 15px;
+
+      background: var(--gray-50);
+
+      border: 3px solid var(--black);
+      border-radius: 15px;
+
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+
+      display: grid;
+      place-items: center;
+
+      border: 2px solid var(--black);
+      border-radius: 11px;
+
+      background: var(--white);
+
+      font-size: 20px;
+    }
+
+    .stat strong {
+      display: block;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.2rem;
+    }
+
+    .stat span {
+      color: var(--gray-600);
+      font-size: .76rem;
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       THEME
+    ========================================================= */
+
+    .theme-panel {
+      border: 3px solid var(--black);
+      border-radius: var(--radius);
+
+      padding: 20px;
+
+      background: var(--blue);
+
+      color: white;
+
+      margin-bottom: 25px;
+
+      box-shadow: 5px 5px 0 var(--black);
+    }
+
+    .theme-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 10px;
+
+      margin-bottom: 12px;
+    }
+
+    .theme-panel-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.2rem;
+
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .theme-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .small-btn {
+      border: 2px solid var(--black);
+      background: var(--white);
+      color: var(--black);
+
+      border-radius: 10px;
+      padding: 7px 11px;
+
+      font-size: .78rem;
+      font-weight: 900;
+
+      box-shadow: 2px 2px 0 var(--black);
+
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .small-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
+
+    .theme-text {
+      background: rgba(255,255,255,.13);
+
+      border: 2px dashed rgba(255,255,255,.65);
+
+      border-radius: 12px;
+
+      padding: 15px;
+
+      font-size: 1rem;
+      line-height: 1.45;
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       FORM
+    ========================================================= */
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .panel {
+      background: var(--white);
+
+      border: 3px solid var(--black);
+      border-radius: var(--radius);
+
+      padding: 22px;
+
+      box-shadow: 4px 4px 0 var(--black);
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+
+      font-size: 1.25rem;
+
       margin-bottom: 5px;
     }
 
-    .dropzone-subtext {
-      font-size: 0.9rem;
-      color: #666;
-      font-weight: 600;
+    .panel-title i {
+      color: var(--blue);
+    }
+
+    .panel-description {
+      color: var(--gray-600);
+      font-size: .85rem;
+      font-weight: 700;
+
+      margin-bottom: 18px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+
+      margin-bottom: 7px;
+    }
+
+    .input {
+      width: 100%;
+
+      border: 3px solid var(--black);
+      border-radius: 12px;
+
+      background: var(--gray-50);
+
+      padding: 13px 14px;
+
+      outline: none;
+
+      font-size: .95rem;
+      font-weight: 700;
+
+      transition: .15s;
+    }
+
+    .input:focus {
+      background: white;
+
+      transform: translate(2px, 2px);
+
+      box-shadow: 2px 2px 0 var(--black);
+    }
+
+    /* =========================================================
+       DROPZONE
+    ========================================================= */
+
+    .dropzone {
+      position: relative;
+
+      border: 3px dashed var(--blue);
+
+      background: #EEF6FF;
+
+      border-radius: 15px;
+
+      min-height: 260px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      overflow: hidden;
+
+      cursor: pointer;
+
+      transition: .2s;
+    }
+
+    .dropzone:hover,
+    .dropzone.dragover {
+      background: var(--yellow-light);
+      border-style: solid;
+      transform: scale(1.01);
+    }
+
+    .dropzone-content {
+      padding: 25px;
+    }
+
+    .upload-icon {
+      width: 70px;
+      height: 70px;
+
+      margin: 0 auto 13px;
+
+      display: grid;
+      place-items: center;
+
+      background: white;
+
+      border: 3px solid var(--black);
+      border-radius: 18px;
+
+      box-shadow: 4px 4px 0 var(--black);
+
+      color: var(--blue);
+
+      font-size: 35px;
+    }
+
+    .dropzone h3 {
+      font-size: 1.15rem;
+      color: var(--blue);
+      margin-bottom: 5px;
+    }
+
+    .dropzone p {
+      color: var(--gray-600);
+      font-size: .82rem;
+      font-weight: 700;
     }
 
     #fileInput {
       display: none;
     }
 
-    .file-loaded {
+    .preview {
       display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
 
-    .file-loaded i {
-      font-size: 3rem;
-      color: var(--green-mint);
-    }
+      position: absolute;
+      inset: 0;
 
-    .file-name {
-      font-weight: 800;
-      color: var(--black);
-      background: rgba(255,255,255,0.8);
-      padding: 4px 12px;
-      border-radius: 8px;
-      word-break: break-all;
-    }
+      background: #111;
 
-    .btn-cta {
-      width: 100%;
-      padding: 18px;
-      background-color: var(--yellow-mango);
-      color: var(--black);
-      border: 4px solid var(--black);
-      border-radius: 16px;
-      font-size: 1.4rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow: 6px 6px 0px var(--black);
-      transition: all 0.1s ease;
-      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
     }
 
-    .btn-cta:hover {
-      background-color: #FFD54F;
+    .preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
 
-    .btn-cta:active {
-      transform: translate(6px, 6px);
-      box-shadow: 0px 0px 0px var(--black);
-    }
+    .preview-overlay {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
 
-    .buttons-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .btn-secondary {
-      flex: 1;
-      padding: 12px;
-      background-color: var(--blue-light);
-      color: var(--white);
-      border: 3px solid var(--black);
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 700;
-      font-family: 'Fredoka', sans-serif;
-      cursor: pointer;
-      box-shadow: 4px 4px 0px var(--black);
-      transition: all 0.1s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn-secondary:hover {
-      background-color: var(--blue-main);
-    }
-
-    .btn-secondary:active {
-      transform: translate(4px, 4px);
-      box-shadow: 0px 0px 0px var(--black);
-    }
-
-    .btn-green {
-      background-color: var(--green-mint);
-      color: var(--black);
-    }
-
-    .btn-green:hover {
-      background-color: #00C853;
-    }
-
-    .theme-display {
-      background-color: #FFF9C4;
-      border: 3px dashed var(--yellow-mango);
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 24px;
-      text-align: center;
-      animation: fadeIn 0.4s ease;
-    }
-
-    .theme-label {
-      font-size: 0.9rem;
-      color: #666;
-      font-weight: 700;
-      margin-bottom: 5px;
-      text-transform: uppercase;
-      font-family: 'Fredoka', sans-serif;
-    }
-
-    .theme-text {
-      font-size: 1.15rem;
-      color: var(--black);
-      font-weight: 800;
-    }
-
-    .shake {
-      animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
-      border-color: var(--red-coral) !important;
-    }
-
-    @keyframes shake {
-      10%, 90% { transform: translate3d(-2px, 0, 0); }
-      20%, 80% { transform: translate3d(4px, 0, 0); }
-      30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
-      40%, 60% { transform: translate3d(6px, 0, 0); }
-    }
-
-    #confetti-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 100;
-    }
-
-    .loading-screen {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 0;
-      animation: fadeIn 0.4s ease;
-    }
-
-    .loading-screen i {
-      font-size: 5rem;
-      color: var(--blue-main);
-      margin-bottom: 20px;
-    }
-
-    .feedback-screen {
-      display: none;
-      text-align: left;
-      animation: fadeIn 0.4s ease;
-    }
-
-    .ai-response-box {
-      background-color: #F8F9FA;
-      border: 3px solid var(--black);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-      max-height: 450px;
-      overflow-y: auto;
-      box-shadow: inset 4px 4px 0px rgba(0,0,0,0.05);
-      font-size: 1.05rem;
-      line-height: 1.5;
-      color: #222;
-    }
-
-    .ai-response-box p {
-      margin-bottom: 12px;
-    }
-
-    .ai-response-box h1,
-    .ai-response-box h2,
-    .ai-response-box h3 {
-      color: var(--blue-main);
-      margin-top: 15px;
-      margin-bottom: 8px;
-    }
-
-    .ai-response-box ul {
-      margin-left: 20px;
-      margin-bottom: 15px;
-    }
-
-    .ai-response-box li {
-      margin-bottom: 5px;
-    }
-
-    .ai-response-box strong {
-      color: var(--black);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      z-index: 2000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-content {
-      background: var(--bg-color);
-      width: 100%;
-      max-width: 700px;
-      max-height: 90vh;
-      border-radius: 20px;
-      border: 4px solid var(--black);
-      box-shadow: 8px 8px 0px var(--black);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .modal-header {
-      padding: 15px 20px;
-      border-bottom: 4px solid var(--black);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--yellow-mango);
+
+      gap: 10px;
+
+      background: rgba(0,0,0,.75);
+      color: white;
+
+      border-radius: 10px;
+
+      padding: 8px 10px;
+
+      font-size: .75rem;
+      font-weight: 800;
     }
 
-    .modal-header h2 {
-      font-size: 1.4rem;
+    /* =========================================================
+       CTA
+    ========================================================= */
+
+    .cta {
+      width: 100%;
+
+      border: 4px solid var(--black);
+      border-radius: 15px;
+
+      padding: 16px;
+
+      background: var(--yellow);
+
+      box-shadow: 5px 5px 0 var(--black);
+
+      font-family: 'Fredoka', sans-serif;
+
+      font-size: 1.3rem;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      gap: 9px;
+
+      transition: .12s;
+    }
+
+    .cta:hover {
+      filter: brightness(1.05);
+    }
+
+    .cta:active {
+      transform: translate(5px, 5px);
+      box-shadow: none;
+    }
+
+    .cta:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: 5px 5px 0 var(--black);
+    }
+
+    /* =========================================================
+       SECONDARY BUTTONS
+    ========================================================= */
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+
+      margin-bottom: 18px;
+    }
+
+    .tool-btn {
+      padding: 11px;
+
+      border: 3px solid var(--black);
+      border-radius: 11px;
+
+      background: var(--white);
+
+      box-shadow: 3px 3px 0 var(--black);
+
+      font-size: .82rem;
+      font-weight: 900;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+
+      transition: .1s;
+    }
+
+    .tool-btn:hover {
+      background: var(--gray-100);
+    }
+
+    .tool-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: none;
+    }
+
+    .tool-btn.blue {
+      background: var(--blue-light);
+      color: white;
+    }
+
+    .tool-btn.green {
+      background: var(--green);
+    }
+
+    /* =========================================================
+       LOADING
+    ========================================================= */
+
+    .loading {
+      display: none;
+
+      text-align: center;
+
+      padding: 70px 20px;
+    }
+
+    .loading.active {
+      display: block;
+    }
+
+    .brain {
+      font-size: 75px;
+      color: var(--blue);
+
+      animation: brainPulse 1.1s infinite;
+    }
+
+    @keyframes brainPulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.12);
+      }
+    }
+
+    .loading h2 {
+      margin-top: 18px;
+      color: var(--blue);
+      font-size: 1.6rem;
+    }
+
+    .loading p {
+      color: var(--gray-600);
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    .loading-bar {
+      width: min(350px, 90%);
+      height: 10px;
+
+      margin: 22px auto 0;
+
+      border: 2px solid var(--black);
+      border-radius: 999px;
+
+      overflow: hidden;
+      background: var(--gray-100);
+    }
+
+    .loading-bar div {
+      width: 35%;
+      height: 100%;
+
+      background: var(--blue);
+
+      animation: loadingBar 1.5s infinite ease-in-out;
+    }
+
+    @keyframes loadingBar {
+      0% {
+        transform: translateX(-120%);
+      }
+
+      100% {
+        transform: translateX(320%);
+      }
+    }
+
+    /* =========================================================
+       RESULT
+    ========================================================= */
+
+    .result {
+      display: none;
+    }
+
+    .result.active {
+      display: block;
+      animation: appear .4s ease;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin-bottom: 22px;
+    }
+
+    .result-header h2 {
+      color: var(--blue);
+      font-size: 1.9rem;
+    }
+
+    .result-header p {
+      color: var(--gray-600);
+      font-weight: 700;
+    }
+
+    .score-card {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 22px;
+
+      margin-bottom: 20px;
+    }
+
+    .score-main {
+      border: 4px solid var(--black);
+      border-radius: 20px;
+
+      background: var(--blue);
+
+      color: white;
+
+      padding: 28px;
+
+      text-align: center;
+
+      box-shadow: 6px 6px 0 var(--black);
+    }
+
+    .score-label {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+    }
+
+    .score-number {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 4.8rem;
+      line-height: 1;
+
+      margin: 10px 0;
+    }
+
+    .score-status {
+      display: inline-block;
+
+      background: var(--yellow);
+      color: var(--black);
+
+      border: 2px solid var(--black);
+
+      border-radius: 999px;
+
+      padding: 5px 10px;
+
+      font-size: .75rem;
+      font-weight: 900;
+    }
+
+    .score-summary {
+      border: 3px solid var(--black);
+      border-radius: 18px;
+
+      padding: 22px;
+
+      background: var(--gray-50);
+    }
+
+    .score-summary h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    .score-summary p {
+      color: var(--gray-600);
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    /* =========================================================
+       COMPETENCIES
+    ========================================================= */
+
+    .section-title {
+      font-size: 1.45rem;
+      margin: 25px 0 12px;
+
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .modal-header button {
-      background: var(--white);
+    .section-title i {
+      color: var(--blue);
+    }
+
+    .competencies {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .competency {
       border: 3px solid var(--black);
-      border-radius: 8px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      padding: 5px 10px;
-      box-shadow: 2px 2px 0px var(--black);
+      border-radius: 14px;
+
+      padding: 13px;
+
+      background: white;
+
+      box-shadow: 3px 3px 0 var(--black);
     }
 
-    .modal-body {
-      padding: 20px;
-      overflow-y: auto;
-      flex: 1;
+    .competency-code {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--blue);
+      font-size: .9rem;
     }
 
-    .modal-instructions {
-      background: var(--white);
-      border: 2px dashed var(--blue-main);
-      padding: 10px;
-      border-radius: 10px;
-      text-align: center;
-      font-weight: 700;
-      margin-bottom: 15px;
-      color: var(--blue-main);
+    .competency-name {
+      font-size: .76rem;
+      font-weight: 800;
+      line-height: 1.25;
+
+      min-height: 39px;
+
+      margin: 5px 0;
     }
 
-    .modal-body table {
+    .competency-score {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.3rem;
+    }
+
+    .progress {
       width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-      background: var(--white);
-      border: 3px solid var(--black);
-    }
+      height: 8px;
 
-    .modal-body th,
-    .modal-body td {
       border: 2px solid var(--black);
-      padding: 12px;
-      text-align: left;
-      font-size: 0.95rem;
+      border-radius: 999px;
+
+      background: var(--gray-100);
+
+      overflow: hidden;
+
+      margin-top: 7px;
     }
 
-    .modal-body th {
-      background: var(--blue-light);
-      color: var(--white);
+    .progress div {
+      height: 100%;
+      background: var(--green);
+
+      width: 0;
+
+      transition: width 1s ease;
+    }
+
+    /* =========================================================
+       FEEDBACK GRID
+    ========================================================= */
+
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      gap: 14px;
+
+      margin-top: 20px;
+    }
+
+    .feedback-box {
+      border: 3px solid var(--black);
+      border-radius: 16px;
+
+      padding: 18px;
+
+      background: white;
+    }
+
+    .feedback-box.green {
+      background: var(--green-light);
+    }
+
+    .feedback-box.red {
+      background: var(--red-light);
+    }
+
+    .feedback-box.yellow {
+      background: var(--yellow-light);
+    }
+
+    .feedback-box.blue {
+      background: #EDF5FF;
+    }
+
+    .feedback-box h3 {
+      font-size: 1.05rem;
+
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      margin-bottom: 12px;
+    }
+
+    .feedback-box ul {
+      list-style: none;
+      display: grid;
+      gap: 9px;
+    }
+
+    .feedback-box li {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+
+      font-size: .86rem;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .feedback-box li i {
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    /* =========================================================
+       STRUCTURE
+    ========================================================= */
+
+    .structure-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 12px;
+    }
+
+    .structure-card {
+      border: 3px solid var(--black);
+      border-radius: 14px;
+
+      padding: 16px;
+
+      background: var(--gray-50);
+    }
+
+    .structure-card h4 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: var(--blue);
+    }
+
+    .structure-card p {
+      font-size: .83rem;
+      color: var(--gray-600);
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    /* =========================================================
+       ACTION PLAN
+    ========================================================= */
+
+    .action-plan {
+      margin-top: 20px;
+
+      background: var(--purple-light);
+
+      border: 3px solid var(--black);
+      border-radius: 16px;
+
+      padding: 20px;
+    }
+
+    .action-plan h3 {
+      color: var(--purple);
+      margin-bottom: 13px;
+    }
+
+    .action-item {
+      display: grid;
+      grid-template-columns: 35px 1fr;
+
+      gap: 10px;
+
+      margin-bottom: 12px;
+    }
+
+    .action-number {
+      width: 30px;
+      height: 30px;
+
+      border-radius: 50%;
+
+      background: var(--purple);
+      color: white;
+
+      display: grid;
+      place-items: center;
+
+      font-weight: 900;
+
+      border: 2px solid var(--black);
+    }
+
+    .action-item p {
+      font-size: .88rem;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    /* =========================================================
+       HISTORY
+    ========================================================= */
+
+    .history {
+      margin-top: 25px;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .history-item {
+      border: 3px solid var(--black);
+      border-radius: 13px;
+
+      padding: 12px 15px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      background: var(--gray-50);
+    }
+
+    .history-info strong {
+      display: block;
       font-family: 'Fredoka', sans-serif;
     }
 
-    .modal-body tr:hover td {
-      background: #FFF9C4;
+    .history-info span {
+      color: var(--gray-600);
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    .history-score {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--blue);
+      font-size: 1.35rem;
+    }
+
+    /* =========================================================
+       RESULT BUTTONS
+    ========================================================= */
+
+    .result-actions {
+      display: flex;
+      gap: 10px;
+
+      margin-top: 22px;
+    }
+
+    .result-btn {
+      flex: 1;
+
+      padding: 14px;
+
+      border: 3px solid var(--black);
+      border-radius: 12px;
+
+      background: white;
+
+      box-shadow: 4px 4px 0 var(--black);
+
+      font-family: 'Fredoka', sans-serif;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 7px;
+    }
+
+    .result-btn.primary {
+      background: var(--yellow);
+    }
+
+    .result-btn:active {
+      transform: translate(4px, 4px);
+      box-shadow: none;
+    }
+
+    /* =========================================================
+       MODAL
+    ========================================================= */
+
+    .modal {
+      display: none;
+
+      position: fixed;
+      inset: 0;
+
+      background: rgba(0,0,0,.72);
+
+      z-index: 1000;
+
+      padding: 20px;
+
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(900px, 100%);
+      max-height: 90vh;
+
+      background: white;
+
+      border: 4px solid var(--black);
+      border-radius: 20px;
+
+      box-shadow: 8px 8px 0 var(--black);
+
+      overflow: hidden;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-head {
+      padding: 15px 18px;
+
+      background: var(--yellow);
+
+      border-bottom: 4px solid var(--black);
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-head h2 {
+      font-size: 1.3rem;
+    }
+
+    .close {
+      width: 36px;
+      height: 36px;
+
+      border: 3px solid var(--black);
+      border-radius: 9px;
+
+      background: white;
+
+      box-shadow: 2px 2px 0 var(--black);
+    }
+
+    .modal-body {
+      overflow: auto;
+      padding: 20px;
+    }
+
+    .theme-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .theme-table th,
+    .theme-table td {
+      border: 2px solid var(--black);
+
+      padding: 11px;
+
+      text-align: left;
+
+      font-size: .85rem;
+    }
+
+    .theme-table th {
+      background: var(--blue);
+      color: white;
+
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    .theme-table tbody tr {
       cursor: pointer;
     }
 
-    #toast-container {
+    .theme-table tbody tr:hover td {
+      background: var(--yellow-light);
+    }
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    #toast {
       position: fixed;
-      bottom: 20px;
+
       left: 50%;
-      transform: translateX(-50%);
-      z-index: 3000;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      bottom: 25px;
+
+      transform: translate(-50%, 120px);
+
+      z-index: 5000;
+
+      background: var(--black);
+      color: white;
+
+      padding: 12px 18px;
+
+      border-radius: 10px;
+
+      font-size: .85rem;
+      font-weight: 800;
+
+      opacity: 0;
+
+      transition: .25s;
     }
 
-    .toast {
-      background-color: var(--black);
-      color: var(--white);
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: 600;
+    #toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer {
+      border-top: 3px solid var(--black);
+
+      padding: 17px 28px;
+
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+
+      gap: 15px;
+
+      background: var(--gray-50);
+
+      color: var(--gray-600);
+
+      font-size: .75rem;
+      font-weight: 800;
     }
 
-    @media (max-width: 480px) {
-      .card-container {
-        padding: 30px 20px;
+    footer strong {
+      color: var(--blue);
+    }
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 850px) {
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .competencies {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .score-card {
+        grid-template-columns: 1fr;
+      }
+
+      .structure-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feedback-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+
+      .app {
+        width: calc(100% - 12px);
+        margin: 15px 6px;
+
         border-width: 3px;
+        border-radius: 20px;
+
+        box-shadow: 6px 6px 0 var(--black);
       }
-      .buttons-row {
-        flex-direction: column;
+
+      .topbar {
+        padding: 16px;
       }
-      .bg-shape {
+
+      .header-badge {
         display: none;
       }
+
+      .main {
+        padding: 18px 15px;
+      }
+
+      .hero-text h1 {
+        font-size: 2.15rem;
+      }
+
+      .quick-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stat {
+        padding: 10px;
+      }
+
+      .stat-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 17px;
+      }
+
+      .stat strong {
+        font-size: 1rem;
+      }
+
+      .stat span {
+        font-size: .65rem;
+      }
+
+      .panel {
+        padding: 16px;
+      }
+
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .theme-panel-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .competencies {
+        grid-template-columns: 1fr;
+      }
+
+      .result-actions {
+        flex-direction: column;
+      }
+
+      footer {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .score-number {
+        font-size: 4rem;
+      }
     }
+
+    /* =========================================================
+       ACCESSIBILITY
+    ========================================================= */
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 4px solid var(--purple);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
   </style>
 </head>
 
 <body>
 
-  <div class="bg-shape shape-1">🌟</div>
-  <div class="bg-shape shape-2">📝</div>
-  <div class="bg-shape shape-3">🚀</div>
-  <div class="bg-shape shape-4">💡</div>
+  <div class="floating one">🌟</div>
+  <div class="floating two">✍️</div>
+  <div class="floating three">📚</div>
+  <div class="floating four">🚀</div>
 
-  <canvas id="confetti-canvas"></canvas>
+  <div id="toast"></div>
 
-  <div id="tableModal" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
+  <!-- =======================================================
+       MODAL DE TEMAS
+  ======================================================== -->
+
+  <div class="modal" id="themeModal">
+
+    <div class="modal-box">
+
+      <div class="modal-head">
+
         <h2>
           <i class="ph-bold ph-books"></i>
-          Temas anteriores
+          Temas anteriores do ENEM
         </h2>
-        <button id="closeModalBtn">
+
+        <button
+          class="close"
+          id="closeThemeModal"
+          aria-label="Fechar"
+        >
           <i class="ph-bold ph-x"></i>
         </button>
+
       </div>
 
       <div class="modal-body">
-        <div class="modal-instructions">
-          <i class="ph-bold ph-pointer"></i>
-          Clique em uma linha para selecionar o tema.
-        </div>
-        <div id="scrapedTablesContainer"></div>
+
+        <p style="
+          margin-bottom:15px;
+          color:#475569;
+          font-weight:700;
+        ">
+          Clique em um tema para usá-lo como tema da sua redação.
+        </p>
+
+        <div id="themesContainer"></div>
+
       </div>
+
     </div>
+
   </div>
 
-  <div class="card-container">
-    <div class="loading-screen" id="loadingScreen">
-      <i class="ph-duotone ph-brain ph-spin"></i>
-      <h2 style="font-family:'Fredoka',sans-serif;color:var(--blue-main);margin-bottom:10px;">
-        A IA está lendo...
-      </h2>
-      <p style="font-weight:600;color:#555;">
-        Analisando estrutura, coesão e argumentos!
-      </p>
-    </div>
+  <!-- =======================================================
+       APP
+  ======================================================== -->
 
-    <div class="feedback-screen" id="feedbackScreen">
-      <div class="header" style="margin-bottom:20px;text-align:left;">
-        <h1 style="font-size:1.8rem;">
-          Avaliação Concluída! 🤖
-        </h1>
-        <p>
-          Veja o feedback da IA para
-          <strong id="feedbackNome" style="color:var(--blue-main);"></strong>
-        </p>
-      </div>
-      <div class="ai-response-box" id="aiResponseBox"></div>
-      <button class="btn-cta" onclick="resetForm()">
-        <span class="btn-text">Enviar Nova Redação</span>
-        <i class="ph-bold ph-arrow-counter-clockwise"></i>
-      </button>
-    </div>
+  <div class="app">
 
-    <div id="mainFormContent">
-      <div class="header">
-        <h1>Pronto para a Nota 1000?</h1>
-        <p>Envie sua redação e dê o primeiro passo para a aprovação!</p>
-      </div>
+    <!-- HEADER -->
 
-      <form id="uploadForm">
-        <div class="buttons-row">
-          <button type="button" id="generateThemeBtn" class="btn-secondary">
-            <i class="ph-bold ph-magic-wand"></i>
-            Gerar Tema IA
-          </button>
+    <header class="topbar">
 
-          <button type="button" id="fetchTableBtn" class="btn-secondary btn-green">
-            <i class="ph-bold ph-table"></i>
-            Temas anteriores
-          </button>
+      <div class="brand">
+
+        <div class="brand-icon">
+          <i class="ph-bold ph-pencil-line"></i>
         </div>
 
-        <div id="themeDisplayArea" class="theme-display" style="display:none;">
-          <p class="theme-label">O tema escolhido é:</p>
-          <p id="generatedThemeText" class="theme-text">...</p>
-        </div>
+        <div>
+          <div class="brand-name">
+            Hey ENEM!
+          </div>
 
-        <div class="form-group">
-          <label for="studentName">Nome do estudante</label>
-          <input
-            type="text"
-            id="studentName"
-            class="input-neo"
-            placeholder="Ex: Maria Eduarda Silva"
-            autocomplete="off">
-        </div>
-
-        <div class="form-group">
-          <label>Foto da Redação</label>
-          <div class="dropzone" id="dropzone">
-            <input type="file" id="fileInput" accept="image/*">
-            <div id="dropzone-initial">
-              <i class="ph-duotone ph-camera-plus dropzone-icon"></i>
-              <div class="dropzone-text">
-                Arraste a foto ou clique aqui
-              </div>
-              <div class="dropzone-subtext">
-                Formatos aceitos: JPG, PNG
-              </div>
-            </div>
-
-            <div id="dropzone-loaded" class="file-loaded">
-              <i class="ph-fill ph-file-image"></i>
-              <div class="dropzone-text" style="color:var(--green-mint);">
-                Imagem pronta!
-              </div>
-              <div class="file-name" id="fileNameDisplay">
-                minha-redacao.jpg
-              </div>
-              <div class="dropzone-subtext" style="margin-top:5px;">
-                Clique para trocar a foto
-              </div>
-            </div>
+          <div class="brand-subtitle">
+            Seu treinador de redação
           </div>
         </div>
 
-        <button type="button" class="btn-cta" id="submitBtn" style="display:none;">
-          <span class="btn-text">Enviar Minha Redação!</span>
-          <i class="ph-bold ph-paper-plane-tilt"></i>
-        </button>
-      </form>
-    </div>
+      </div>
+
+      <div class="header-badge">
+        <i class="ph-fill ph-sparkle"></i>
+        Feito para quem quer evoluir
+      </div>
+
+    </header>
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+      <!-- =====================================================
+           HOME
+      ====================================================== -->
+
+      <section id="homeSection">
+
+        <div class="hero">
+
+          <div class="hero-text">
+
+            <h1>
+              Transforme sua redação em
+              <span>nota 1000.</span>
+            </h1>
+
+            <p>
+              Envie sua redação, receba uma análise detalhada
+              baseada nas cinco competências do ENEM e descubra
+              exatamente o que precisa melhorar.
+            </p>
+
+          </div>
+
+          <div class="hero-card">
+
+            <div class="hero-card-title">
+              <i class="ph-fill ph-sparkle"></i>
+              O que o Hey ENEM! analisa?
+            </div>
+
+            <ul>
+
+              <li>
+                <i class="ph-fill ph-check-circle"></i>
+                Competências C1, C2, C3, C4 e C5
+              </li>
+
+              <li>
+                <i class="ph-fill ph-check-circle"></i>
+                Argumentação e repertório
+              </li>
+
+              <li>
+                <i class="ph-fill ph-check-circle"></i>
+                Coesão e coerência
+              </li>
+
+              <li>
+                <i class="ph-fill ph-check-circle"></i>
+                Proposta de intervenção
+              </li>
+
+              <li>
+                <i class="ph-fill ph-check-circle"></i>
+                Plano personalizado de evolução
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div class="quick-stats">
+
+          <div class="stat">
+
+            <div class="stat-icon">
+              🎯
+            </div>
+
+            <div>
+              <strong>0–1000</strong>
+              <span>Nota estimada</span>
+            </div>
+
+          </div>
+
+          <div class="stat">
+
+            <div class="stat-icon">
+              📊
+            </div>
+
+            <div>
+              <strong>5</strong>
+              <span>Competências</span>
+            </div>
+
+          </div>
+
+          <div class="stat">
+
+            <div class="stat-icon">
+              🧠
+            </div>
+
+            <div>
+              <strong>IA</strong>
+              <span>Análise inteligente</span>
+            </div>
+
+          </div>
+
+          <div class="stat">
+
+            <div class="stat-icon">
+              📈
+            </div>
+
+            <div>
+              <strong id="historyCount">0</strong>
+              <span>Redações avaliadas</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- THEME -->
+
+        <div
+          class="theme-panel"
+          id="themePanel"
+          style="display:none;"
+        >
+
+          <div class="theme-panel-header">
+
+            <div class="theme-panel-title">
+              <i class="ph-fill ph-target"></i>
+              Tema da redação
+            </div>
+
+            <div class="theme-actions">
+
+              <button
+                class="small-btn"
+                id="copyThemeBtn"
+              >
+                <i class="ph-bold ph-copy"></i>
+                Copiar
+              </button>
+
+              <button
+                class="small-btn"
+                id="clearThemeBtn"
+              >
+                <i class="ph-bold ph-x"></i>
+                Limpar
+              </button>
+
+            </div>
+
+          </div>
+
+          <div
+            class="theme-text"
+            id="themeText"
+          ></div>
+
+        </div>
+
+        <!-- WORKSPACE -->
+
+        <div class="workspace">
+
+          <!-- LEFT -->
+
+          <div class="panel">
+
+            <div class="panel-title">
+              <i class="ph-fill ph-lightning"></i>
+              Comece seu treino
+            </div>
+
+            <p class="panel-description">
+              Escolha um tema ou deixe a IA criar um desafio para você.
+            </p>
+
+            <div class="tool-grid">
+
+              <button
+                class="tool-btn blue"
+                id="generateThemeBtn"
+              >
+                <i class="ph-bold ph-magic-wand"></i>
+                Gerar tema
+              </button>
+
+              <button
+                class="tool-btn green"
+                id="previousThemesBtn"
+              >
+                <i class="ph-bold ph-books"></i>
+                Temas anteriores
+              </button>
+
+            </div>
+
+            <div class="field">
+
+              <label for="studentName">
+                Seu nome
+              </label>
+
+              <input
+                id="studentName"
+                class="input"
+                type="text"
+                maxlength="80"
+                autocomplete="name"
+                placeholder="Ex.: Maria Eduarda"
+              >
+
+            </div>
+
+            <div class="field">
+
+              <label for="essayType">
+                Tipo de treino
+              </label>
+
+              <select
+                id="essayType"
+                class="input"
+              >
+                <option value="simulado">
+                  Simulado completo
+                </option>
+
+                <option value="treino">
+                  Treino de redação
+                </option>
+
+                <option value="revisao">
+                  Revisão e diagnóstico
+                </option>
+              </select>
+
+            </div>
+
+            <div
+              style="
+                background:#FFF8D6;
+                border:2px dashed #FFC107;
+                border-radius:12px;
+                padding:12px;
+                font-size:.78rem;
+                font-weight:800;
+                line-height:1.4;
+              "
+            >
+              💡 <strong>Dica:</strong> escreva sua redação como faria
+              no ENEM. Quanto melhor estiver a foto, melhor será a
+              leitura automática do texto.
+            </div>
+
+          </div>
+
+          <!-- RIGHT -->
+
+          <div class="panel">
+
+            <div class="panel-title">
+              <i class="ph-fill ph-image"></i>
+              Sua redação
+            </div>
+
+            <p class="panel-description">
+              Tire uma foto nítida ou envie a imagem da sua redação.
+            </p>
+
+            <div
+              class="dropzone"
+              id="dropzone"
+            >
+
+              <input
+                type="file"
+                id="fileInput"
+                accept="image/jpeg,image/png,image/webp"
+              >
+
+              <div
+                class="dropzone-content"
+                id="dropzoneContent"
+              >
+
+                <div class="upload-icon">
+                  <i class="ph-duotone ph-camera-plus"></i>
+                </div>
+
+                <h3>
+                  Arraste sua redação aqui
+                </h3>
+
+                <p>
+                  ou clique para escolher uma imagem
+                </p>
+
+                <p style="
+                  margin-top:7px;
+                  font-size:.7rem;
+                ">
+                  JPG, PNG ou WEBP • até 8 MB
+                </p>
+
+              </div>
+
+              <div
+                class="preview"
+                id="preview"
+              >
+
+                <img
+                  id="previewImage"
+                  alt="Pré-visualização da redação"
+                >
+
+                <div class="preview-overlay">
+
+                  <span id="fileName">
+                    redação.jpg
+                  </span>
+
+                  <span>
+                    Clique para trocar
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <button
+              class="cta"
+              id="submitBtn"
+              disabled
+              style="margin-top:18px;"
+            >
+              <span>
+                Avaliar minha redação
+              </span>
+
+              <i class="ph-bold ph-paper-plane-tilt"></i>
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- HISTORY -->
+
+        <div
+          class="history"
+          id="historySection"
+          style="display:none;"
+        >
+
+          <div class="section-title">
+
+            <i class="ph-fill ph-chart-line-up"></i>
+
+            Meu histórico
+
+          </div>
+
+          <div
+            class="history-list"
+            id="historyList"
+          ></div>
+
+        </div>
+
+      </section>
+
+      <!-- =====================================================
+           LOADING
+      ====================================================== -->
+
+      <section
+        class="loading"
+        id="loadingSection"
+      >
+
+        <i class="ph-fill ph-brain brain"></i>
+
+        <h2 id="loadingTitle">
+          A IA está corrigindo...
+        </h2>
+
+        <p id="loadingText">
+          Lendo sua redação e analisando as cinco competências.
+        </p>
+
+        <div class="loading-bar">
+          <div></div>
+        </div>
+
+      </section>
+
+      <!-- =====================================================
+           RESULT
+      ====================================================== -->
+
+      <section
+        class="result"
+        id="resultSection"
+      >
+
+        <div class="result-header">
+
+          <div>
+
+            <h2>
+              Diagnóstico concluído! 🎯
+            </h2>
+
+            <p>
+              Redação de
+              <strong id="resultName"></strong>
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- SCORE -->
+
+        <div class="score-card">
+
+          <div class="score-main">
+
+            <div class="score-label">
+              NOTA ESTIMADA
+            </div>
+
+            <div
+              class="score-number"
+              id="scoreNumber"
+            >
+              0
+            </div>
+
+            <div
+              class="score-status"
+              id="scoreStatus"
+            >
+              Analisando
+            </div>
+
+          </div>
+
+          <div class="score-summary">
+
+            <h3>
+              Diagnóstico geral
+            </h3>
+
+            <p id="generalFeedback">
+              —
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- COMPETENCIES -->
+
+        <div class="section-title">
+
+          <i class="ph-fill ph-chart-bar"></i>
+
+          Suas 5 competências
+
+        </div>
+
+        <div
+          class="competencies"
+          id="competencies"
+        ></div>
+
+        <!-- FEEDBACK -->
+
+        <div class="feedback-grid">
+
+          <div class="feedback-box green">
+
+            <h3>
+              <i class="ph-fill ph-thumbs-up"></i>
+              O que você fez bem
+            </h3>
+
+            <ul id="strengths"></ul>
+
+          </div>
+
+          <div class="feedback-box red">
+
+            <h3>
+              <i class="ph-fill ph-warning"></i>
+              O que está diminuindo sua nota
+            </h3>
+
+            <ul id="weaknesses"></ul>
+
+          </div>
+
+          <div class="feedback-box blue">
+
+            <h3>
+              <i class="ph-fill ph-books"></i>
+              Repertório e argumentação
+            </h3>
+
+            <ul id="argumentation"></ul>
+
+          </div>
+
+          <div class="feedback-box yellow">
+
+            <h3>
+              <i class="ph-fill ph-pencil"></i>
+              Escrita e linguagem
+            </h3>
+
+            <ul id="language"></ul>
+
+          </div>
+
+        </div>
+
+        <!-- STRUCTURE -->
+
+        <div class="section-title">
+
+          <i class="ph-fill ph-tree-structure"></i>
+
+          Estrutura da redação
+
+        </div>
+
+        <div class="structure-grid">
+
+          <div class="structure-card">
+
+            <h4>
+              Introdução
+            </h4>
+
+            <p id="introFeedback">
+              —
+            </p>
+
+          </div>
+
+          <div class="structure-card">
+
+            <h4>
+              Desenvolvimento
+            </h4>
+
+            <p id="developmentFeedback">
+              —
+            </p>
+
+          </div>
+
+          <div class="structure-card">
+
+            <h4>
+              Conclusão
+            </h4>
+
+            <p id="conclusionFeedback">
+              —
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- ACTION PLAN -->
+
+        <div class="action-plan">
+
+          <h3>
+            <i class="ph-fill ph-rocket-launch"></i>
+            Seu plano para subir de nota
+          </h3>
+
+          <div id="actionPlan"></div>
+
+        </div>
+
+        <!-- ACTIONS -->
+
+        <div class="result-actions">
+
+          <button
+            class="result-btn primary"
+            id="newEssayBtn"
+          >
+            <i class="ph-bold ph-arrow-counter-clockwise"></i>
+            Corrigir outra redação
+          </button>
+
+          <button
+            class="result-btn"
+            id="saveResultBtn"
+          >
+            <i class="ph-bold ph-download-simple"></i>
+            Salvar diagnóstico
+          </button>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <footer>
+
+      <span>
+        <strong>Hey ENEM!</strong> • Treine. Corrija. Evolua.
+      </span>
+
+      <span>
+        O resultado é uma estimativa educacional.
+      </span>
+
+    </footer>
+
   </div>
 
-  <div id="toast-container"></div>
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
 
   <script>
-    // DOM
-    const dropzone = document.getElementById('dropzone');
-    const fileInput = document.getElementById('fileInput');
-    const dropzoneInitial = document.getElementById('dropzone-initial');
-    const dropzoneLoaded = document.getElementById('dropzone-loaded');
-    const fileNameDisplay = document.getElementById('fileNameDisplay');
-    const submitBtn = document.getElementById('submitBtn');
-    const studentName = document.getElementById('studentName');
 
-    const generateThemeBtn = document.getElementById('generateThemeBtn');
-    const fetchTableBtn = document.getElementById('fetchTableBtn');
+    /* =========================================================
+       CONFIGURAÇÃO
+    ========================================================= */
 
-    const themeDisplayArea = document.getElementById('themeDisplayArea');
-    const generatedThemeText = document.getElementById('generatedThemeText');
+    const API_URL = "/api/avaliar";
 
-    const tableModal = document.getElementById('tableModal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const scrapedTablesContainer = document.getElementById('scrapedTablesContainer');
+    const MAX_FILE_SIZE = 8 * 1024 * 1024;
+
+    const PREVIOUS_THEMES = [
+
+      {
+        year: "2025",
+        theme: "Perspectivas acerca do envelhecimento na sociedade brasileira"
+      },
+
+      {
+        year: "2024",
+        theme: "Desafios para a valorização da herança africana no Brasil"
+      },
+
+      {
+        year: "2023",
+        theme: "Desafios para o enfrentamento da invisibilidade do trabalho de cuidado realizado pela mulher no Brasil"
+      },
+
+      {
+        year: "2022",
+        theme: "Desafios para a valorização de comunidades e povos tradicionais no Brasil"
+      },
+
+      {
+        year: "2021",
+        theme: "Invisibilidade e registro civil: garantia de acesso à cidadania no Brasil"
+      },
+
+      {
+        year: "2020",
+        theme: "O estigma associado às doenças mentais na sociedade brasileira"
+      },
+
+      {
+        year: "2019",
+        theme: "Democratização do acesso ao cinema no Brasil"
+      },
+
+      {
+        year: "2018",
+        theme: "Manipulação do comportamento do usuário pelo controle de dados na internet"
+      },
+
+      {
+        year: "2017",
+        theme: "Desafios para a formação educacional de surdos no Brasil"
+      },
+
+      {
+        year: "2016",
+        theme: "Caminhos para combater a intolerância religiosa no Brasil"
+      },
+
+      {
+        year: "2015",
+        theme: "A persistência da violência contra a mulher na sociedade brasileira"
+      }
+
+    ];
+
+    /* =========================================================
+       DOM
+    ========================================================= */
+
+    const $ = id => document.getElementById(id);
+
+    const dropzone = $("dropzone");
+    const fileInput = $("fileInput");
+    const dropzoneContent = $("dropzoneContent");
+
+    const preview = $("preview");
+    const previewImage = $("previewImage");
+    const fileName = $("fileName");
+
+    const submitBtn = $("submitBtn");
+
+    const studentName = $("studentName");
+
+    const themePanel = $("themePanel");
+    const themeText = $("themeText");
+
+    const homeSection = $("homeSection");
+    const loadingSection = $("loadingSection");
+    const resultSection = $("resultSection");
 
     let selectedFile = null;
-    let currentTheme = "Tema livre (não especificado)";
 
-    // Toast
+    let currentTheme = "";
+
+    let currentResult = null;
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    let toastTimer = null;
+
     function showToast(message) {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.innerHTML = `
-        <i class="ph-fill ph-warning-circle"></i>
-        ${message}
-      `;
-      container.appendChild(toast);
 
-      setTimeout(() => {
-        if(container.contains(toast)) {
-          container.removeChild(toast);
-        }
-      }, 4000);
+      const toast = $("toast");
+
+      toast.textContent = message;
+
+      toast.classList.add("show");
+
+      clearTimeout(toastTimer);
+
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3500);
     }
 
-    // ==========================================
-    // API SEGURA (IDÊNTICA AO SITE1)
-    // ==========================================
-    async function callGeminiAPI(promptText, base64Image = null) {
-      const url = '/api/avaliar';
-      let parts = [{ text: promptText }];
+    /* =========================================================
+       TEMA
+    ========================================================= */
 
-      if (base64Image) {
-        const mimeType = base64Image.split(';')[0].split(':')[1];
-        const base64Data = base64Image.split(',')[1];
-        parts.push({
-          inlineData: {
-            mimeType: mimeType,
-            data: base64Data
-          }
-        });
+    function setTheme(theme) {
+
+      currentTheme = theme.trim();
+
+      if (!currentTheme) {
+
+        themePanel.style.display = "none";
+
+        updateSubmitState();
+
+        return;
       }
 
-      const payload = {
-        contents: [{
-          role: "user",
-          parts: parts
-        }]
-      };
+      themeText.textContent = currentTheme;
 
-      const delays = [1000, 2000, 4000, 8000, 16000];
-      let retries = 0;
+      themePanel.style.display = "block";
 
-      while (retries < 6) {
-        try {
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          });
+      updateSubmitState();
 
-          if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.status}`);
-          }
+      themePanel.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    }
 
-          const result = await response.json();
-          return result.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    $("clearThemeBtn").addEventListener("click", () => {
 
-        } catch (error) {
-          if (retries < delays.length) {
-            await new Promise(res => setTimeout(res, delays[retries]));
-            retries++;
-          } else {
-            throw new Error("Falha ao comunicar com a IA.");
-          }
-        }
+      currentTheme = "";
+
+      themePanel.style.display = "none";
+
+      updateSubmitState();
+
+    });
+
+    $("copyThemeBtn").addEventListener("click", async () => {
+
+      if (!currentTheme) return;
+
+      try {
+
+        await navigator.clipboard.writeText(currentTheme);
+
+        showToast("Tema copiado!");
+
+      } catch {
+
+        showToast("Não foi possível copiar automaticamente.");
+
       }
-    }
 
-    // markdown
-    function parseMarkdownToHTML(text) {
-      let html = text;
-      html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-      html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-      html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-      html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-      html = html.replace(/\n\n/g, '</p><p>');
-      html = html.replace(/\n/g, '<br>');
-      return `<p>${html}</p>`;
-    }
+    });
 
-    // gerar tema
-    generateThemeBtn.addEventListener('click', async () => {
-      generateThemeBtn.innerHTML = `
+    /* =========================================================
+       GERAR TEMA
+    ========================================================= */
+
+    $("generateThemeBtn").addEventListener("click", async () => {
+
+      const button = $("generateThemeBtn");
+
+      const original = button.innerHTML;
+
+      button.disabled = true;
+
+      button.innerHTML = `
         <i class="ph ph-spinner ph-spin"></i>
         Criando...
       `;
-      generateThemeBtn.style.pointerEvents = 'none';
 
       try {
-        const promptText = `
-          Atue como especialista em temas do ENEM.
-          Crie um único tema inédito sobre problemática social brasileira.
-          Retorne somente a frase.
-        `;
-        let temaGerado = await callGeminiAPI(promptText);
-        temaGerado = temaGerado.replace(/^["']|["']$/g, '').trim();
-        currentTheme = temaGerado;
-        generatedThemeText.innerText = temaGerado;
-        themeDisplayArea.style.display = 'block';
-        submitBtn.style.display = 'flex';
 
-      } catch(error) {
-        showToast("Erro ao gerar tema.");
-      } finally {
-        generateThemeBtn.innerHTML = `
-          <i class="ph-bold ph-magic-wand"></i>
-          Gerar Tema IA
-        `;
-        generateThemeBtn.style.pointerEvents = 'auto';
-      }
-    });
+        const response = await fetch(API_URL, {
 
-    // modal
-    closeModalBtn.addEventListener('click', () => {
-      tableModal.style.display = 'none';
-    });
+          method: "POST",
 
-    // tabela temas com extração limpa e mais rápida
-    fetchTableBtn.addEventListener('click', async () => {
-      fetchTableBtn.innerHTML = `
-        <i class="ph ph-spinner ph-spin"></i>
-        Buscando...
-      `;
-      fetchTableBtn.style.pointerEvents = 'none';
+          headers: {
+            "Content-Type": "application/json"
+          },
 
-      try {
-        const targetUrl = 'https://www.todamateria.com.br/temas-redacao-enem/';
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
-        
-        const response = await fetch(proxyUrl);
-        const htmlText = await response.text();
-        
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlText, 'text/html');
-        
-        // Pega todas as linhas de todas as tabelas encontradas no site
-        const rows = doc.querySelectorAll('table tr');
-        
-        scrapedTablesContainer.innerHTML = '';
-        
-        // Constrói uma tabela HTML do zero
-        const cleanTable = document.createElement('table');
-        cleanTable.innerHTML = `
-          <thead>
-            <tr>
-              <th style="width: 20%;">Ano</th>
-              <th>Tema da Redação</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        `;
-        const tbody = cleanTable.querySelector('tbody');
-        
-        let temasEncontrados = 0;
-        
-        rows.forEach(row => {
-          const cells = row.querySelectorAll('td');
-          
-          // Ignora linhas que não tenham pelo menos 2 colunas (Ano e Tema)
-          if (cells.length < 2) return;
-          
-          const anoText = cells[0].innerText.trim();
-          const temaText = cells[1].innerText.trim();
-          
-          // Verificação de erro: Checa se a primeira coluna parece realmente um ano (ex: 2023, 2022 PPL, etc)
-          if (anoText.match(/\d{4}/) && temaText.length > 10) {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td><strong>${anoText}</strong></td>
-              <td>${temaText}</td>
-            `;
-            
-            // Adiciona o evento de clique diretamente na nova linha construída
-            tr.addEventListener('click', () => {
-              currentTheme = temaText;
-              generatedThemeText.innerText = temaText;
-              themeDisplayArea.style.display = 'block';
-              submitBtn.style.display = 'flex';
-              tableModal.style.display = 'none';
-              showToast("Tema selecionado!");
-            });
-            
-            tbody.appendChild(tr);
-            temasEncontrados++;
-          }
+          body: JSON.stringify({
+            action: "generate_theme"
+          })
+
         });
-        
-        // Se encontrou dados válidos, mostra a tabela. Senão, mostra erro.
-        if (temasEncontrados > 0) {
-          scrapedTablesContainer.appendChild(cleanTable);
-        } else {
-          scrapedTablesContainer.innerHTML = `
-            <div class="modal-instructions" style="border-color: var(--red-coral); color: var(--red-coral);">
-              <i class="ph-bold ph-warning"></i> Não foi possível extrair os temas. O site pode ter mudado de layout.
-            </div>
-          `;
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.error || "Erro ao gerar tema."
+          );
         }
 
-        tableModal.style.display = 'flex';
+        setTheme(data.theme);
 
-      } catch(error) {
-        showToast("Erro ao carregar temas.");
+        showToast("Novo tema criado!");
+
+      } catch (error) {
+
         console.error(error);
+
+        showToast(
+          error.message ||
+          "Não foi possível gerar o tema."
+        );
+
       } finally {
-        fetchTableBtn.innerHTML = `
-          <i class="ph-bold ph-table"></i>
-          Temas anteriores
+
+        button.disabled = false;
+
+        button.innerHTML = original;
+
+      }
+
+    });
+
+    /* =========================================================
+       TEMAS ANTERIORES
+    ========================================================= */
+
+    $("previousThemesBtn").addEventListener("click", () => {
+
+      renderPreviousThemes();
+
+      $("themeModal").classList.add("active");
+
+    });
+
+    $("closeThemeModal").addEventListener("click", () => {
+
+      $("themeModal").classList.remove("active");
+
+    });
+
+    $("themeModal").addEventListener("click", event => {
+
+      if (event.target === $("themeModal")) {
+
+        $("themeModal").classList.remove("active");
+
+      }
+
+    });
+
+    function renderPreviousThemes() {
+
+      const container = $("themesContainer");
+
+      container.innerHTML = "";
+
+      const table = document.createElement("table");
+
+      table.className = "theme-table";
+
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th style="width:100px;">Ano</th>
+            <th>Tema</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      `;
+
+      const tbody = table.querySelector("tbody");
+
+      PREVIOUS_THEMES.forEach(item => {
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>
+            <strong>${escapeHTML(item.year)}</strong>
+          </td>
+
+          <td>
+            ${escapeHTML(item.theme)}
+          </td>
         `;
-        fetchTableBtn.style.pointerEvents = 'auto';
-      }
-    });
 
-    // upload
-    dropzone.addEventListener('click', () => fileInput.click());
+        tr.addEventListener("click", () => {
 
-    ['dragenter','dragover','dragleave','drop'].forEach(evt => {
-      dropzone.addEventListener(evt, e => {
-        e.preventDefault();
-        e.stopPropagation();
-      }, false);
-    });
+          setTheme(item.theme);
 
-    ['dragenter','dragover'].forEach(evt => {
-      dropzone.addEventListener(evt, () => {
-        dropzone.classList.add('dragover');
-      }, false);
-    });
+          $("themeModal").classList.remove("active");
 
-    ['dragleave','drop'].forEach(evt => {
-      dropzone.addEventListener(evt, () => {
-        dropzone.classList.remove('dragover');
-      }, false);
-    });
+          showToast("Tema selecionado!");
 
-    dropzone.addEventListener('drop', e => {
-      handleFiles(e.dataTransfer.files);
-    });
-
-    fileInput.addEventListener('change', function() {
-      handleFiles(this.files);
-    });
-
-    function handleFiles(files) {
-      if(files.length > 0) {
-        const file = files[0];
-
-        if(!file.type.startsWith('image/')) {
-          showToast('Envie apenas imagem.');
-          return;
-        }
-
-        selectedFile = file;
-        dropzoneInitial.style.display = 'none';
-        dropzoneLoaded.style.display = 'flex';
-        dropzone.style.borderColor = 'var(--green-mint)';
-        dropzone.style.backgroundColor = '#E8F5E9';
-
-        let name = file.name;
-        if(name.length > 25) {
-          name = name.substring(0, 22) + '...';
-        }
-        fileNameDisplay.textContent = name;
-      }
-    }
-
-    // enviar redação
-    submitBtn.addEventListener('click', async () => {
-      let isValid = true;
-
-      if(studentName.value.trim() === '') {
-        studentName.classList.add('shake');
-        setTimeout(() => {
-          studentName.classList.remove('shake');
-        }, 400);
-        isValid = false;
-      }
-
-      if(!selectedFile) {
-        dropzone.classList.add('shake');
-        setTimeout(() => {
-          dropzone.classList.remove('shake');
-        }, 400);
-        isValid = false;
-      }
-
-      if(isValid) {
-        const nomeAluno = studentName.value.split(' ')[0];
-
-        const fileToBase64 = (file) => new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = error => reject(error);
         });
 
-        document.getElementById('mainFormContent').style.display = 'none';
-        document.getElementById('loadingScreen').style.display = 'flex';
+        tbody.appendChild(tr);
 
-        try {
-          const base64Image = await fileToBase64(selectedFile);
-          const promptText = `
-            Atue como corretor especialista do ENEM.
-            Tema:
-            "${currentTheme}"
-            Avalie a redação da imagem.
-          `;
+      });
 
-          const iaResposta = await callGeminiAPI(promptText, base64Image);
+      container.appendChild(table);
 
-          document.getElementById('loadingScreen').style.display = 'none';
-          document.getElementById('feedbackScreen').style.display = 'block';
-          document.getElementById('feedbackNome').innerText = nomeAluno;
-          document.getElementById('aiResponseBox').innerHTML = parseMarkdownToHTML(iaResposta);
-
-          shootConfetti();
-
-        } catch(error) {
-          showToast("Erro ao comunicar com IA.");
-          document.getElementById('loadingScreen').style.display = 'none';
-          document.getElementById('mainFormContent').style.display = 'block';
-        }
-      }
-    });
-
-    // reset
-    function resetForm() {
-      document.getElementById('feedbackScreen').style.display = 'none';
-      document.getElementById('mainFormContent').style.display = 'block';
-      selectedFile = null;
-      fileInput.value = '';
-      dropzoneLoaded.style.display = 'none';
-      dropzoneInitial.style.display = 'block';
-      dropzone.style.borderColor = 'var(--blue-main)';
-      dropzone.style.backgroundColor = 'var(--bg-color)';
     }
 
-    // confetti
-    function shootConfetti() {
-      const canvas = document.getElementById('confetti-canvas');
-      const ctx = canvas.getContext('2d');
-      
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    /* =========================================================
+       UPLOAD
+    ========================================================= */
+
+    dropzone.addEventListener("click", () => {
+
+      fileInput.click();
+
+    });
+
+    [
+      "dragenter",
+      "dragover"
+    ].forEach(eventName => {
+
+      dropzone.addEventListener(eventName, event => {
+
+        event.preventDefault();
+
+        dropzone.classList.add("dragover");
+
+      });
+
+    });
+
+    [
+      "dragleave",
+      "drop"
+    ].forEach(eventName => {
+
+      dropzone.addEventListener(eventName, event => {
+
+        event.preventDefault();
+
+        dropzone.classList.remove("dragover");
+
+      });
+
+    });
+
+    dropzone.addEventListener("drop", event => {
+
+      const files = event.dataTransfer.files;
+
+      if (files.length) {
+
+        processFile(files[0]);
+
+      }
+
+    });
+
+    fileInput.addEventListener("change", event => {
+
+      if (event.target.files.length) {
+
+        processFile(event.target.files[0]);
+
+      }
+
+    });
+
+    function processFile(file) {
+
+      if (!file.type.startsWith("image/")) {
+
+        showToast(
+          "Envie uma imagem JPG, PNG ou WEBP."
+        );
+
+        return;
+
+      }
+
+      if (file.size > MAX_FILE_SIZE) {
+
+        showToast(
+          "A imagem precisa ter no máximo 8 MB."
+        );
+
+        return;
+
+      }
+
+      selectedFile = file;
+
+      fileName.textContent = file.name;
+
+      const reader = new FileReader();
+
+      reader.onload = event => {
+
+        previewImage.src = event.target.result;
+
+        preview.style.display = "flex";
+
+        dropzoneContent.style.display = "none";
+
+        updateSubmitState();
+
+      };
+
+      reader.readAsDataURL(file);
+
+      showToast("Redação carregada!");
+
+    }
+
+    /* =========================================================
+       VALIDATION
+    ========================================================= */
+
+    function updateSubmitState() {
+
+      submitBtn.disabled = !(
+        selectedFile &&
+        studentName.value.trim().length >= 2 &&
+        currentTheme
+      );
+
+    }
+
+    studentName.addEventListener(
+      "input",
+      updateSubmitState
+    );
+
+    /* =========================================================
+       FILE -> BASE64
+    ========================================================= */
+
+    function fileToDataURL(file) {
+
+      return new Promise((resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.onload = () => resolve(reader.result);
+
+        reader.onerror = reject;
+
+        reader.readAsDataURL(file);
+
+      });
+
+    }
+
+    /* =========================================================
+       ENVIAR REDAÇÃO
+    ========================================================= */
+
+    submitBtn.addEventListener("click", evaluateEssay);
+
+    async function evaluateEssay() {
+
+      if (!selectedFile) {
+
+        showToast("Envie uma imagem primeiro.");
+
+        return;
+
+      }
+
+      if (!studentName.value.trim()) {
+
+        showToast("Digite seu nome.");
+
+        studentName.focus();
+
+        return;
+
+      }
+
+      if (!currentTheme) {
+
+        showToast("Escolha um tema primeiro.");
+
+        return;
+
+      }
+
+      try {
+
+        homeSection.style.display = "none";
+
+        resultSection.classList.remove("active");
+
+        loadingSection.classList.add("active");
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
+        setLoadingMessage(
+          "A IA está lendo sua redação...",
+          "Identificando o texto escrito na imagem."
+        );
+
+        const image = await fileToDataURL(selectedFile);
+
+        await delay(700);
+
+        setLoadingMessage(
+          "Analisando as competências...",
+          "Verificando C1, C2, C3, C4 e C5."
+        );
+
+        const response = await fetch(API_URL, {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+
+            action: "evaluate",
+
+            studentName:
+              studentName.value.trim(),
+
+            theme: currentTheme,
+
+            essayType:
+              $("essayType").value,
+
+            image
+
+          })
+
+        });
+
+        await delay(500);
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            "Não foi possível avaliar a redação."
+          );
+
+        }
+
+        setLoadingMessage(
+          "Preparando seu diagnóstico...",
+          "Transformando a análise em um plano de estudo."
+        );
+
+        await delay(600);
+
+        currentResult = data.result;
+
+        renderResult(data.result);
+
+        saveHistory(data.result);
+
+        loadingSection.classList.remove("active");
+
+        resultSection.classList.add("active");
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
+        launchConfetti();
+
+      } catch (error) {
+
+        console.error(error);
+
+        loadingSection.classList.remove("active");
+
+        homeSection.style.display = "block";
+
+        showToast(
+          error.message ||
+          "Ocorreu um erro ao avaliar."
+        );
+
+      }
+
+    }
+
+    function setLoadingMessage(title, text) {
+
+      $("loadingTitle").textContent = title;
+
+      $("loadingText").textContent = text;
+
+    }
+
+    function delay(ms) {
+
+      return new Promise(resolve =>
+        setTimeout(resolve, ms)
+      );
+
+    }
+
+    /* =========================================================
+       RENDER RESULTADO
+    ========================================================= */
+
+    function renderResult(result) {
+
+      $("resultName").textContent =
+        studentName.value.trim();
+
+      const score =
+        Number(result.total_score) || 0;
+
+      animateNumber(
+        $("scoreNumber"),
+        score
+      );
+
+      $("scoreStatus").textContent =
+        getScoreStatus(score);
+
+      $("generalFeedback").textContent =
+        result.general_feedback ||
+        "A IA não forneceu um diagnóstico geral.";
+
+      renderCompetencies(
+        result.competencies || {}
+      );
+
+      renderList(
+        $("strengths"),
+        result.strengths
+      );
+
+      renderList(
+        $("weaknesses"),
+        result.weaknesses
+      );
+
+      renderList(
+        $("argumentation"),
+        result.argumentation
+      );
+
+      renderList(
+        $("language"),
+        result.language
+      );
+
+      $("introFeedback").textContent =
+        result.structure?.introduction ||
+        "Sem análise disponível.";
+
+      $("developmentFeedback").textContent =
+        result.structure?.development ||
+        "Sem análise disponível.";
+
+      $("conclusionFeedback").textContent =
+        result.structure?.conclusion ||
+        "Sem análise disponível.";
+
+      renderActionPlan(
+        result.action_plan
+      );
+
+    }
+
+    /* =========================================================
+       COMPETENCIES
+    ========================================================= */
+
+    const competencyNames = {
+
+      c1: "Domínio da norma-padrão",
+
+      c2: "Compreensão do tema",
+
+      c3: "Seleção e organização de argumentos",
+
+      c4: "Coesão e mecanismos linguísticos",
+
+      c5: "Proposta de intervenção"
+
+    };
+
+    function renderCompetencies(data) {
+
+      const container =
+        $("competencies");
+
+      container.innerHTML = "";
+
+      Object.keys(competencyNames)
+        .forEach(code => {
+
+          const item =
+            data[code] || {};
+
+          const score =
+            Number(item.score) || 0;
+
+          const max =
+            Number(item.max) || 200;
+
+          const percentage =
+            Math.min(
+              100,
+              Math.max(
+                0,
+                (score / max) * 100
+              )
+            );
+
+          const card =
+            document.createElement("div");
+
+          card.className =
+            "competency";
+
+          card.innerHTML = `
+
+            <div class="competency-code">
+              ${code.toUpperCase()}
+            </div>
+
+            <div class="competency-name">
+              ${escapeHTML(
+                competencyNames[code]
+              )}
+            </div>
+
+            <div class="competency-score">
+              ${score}/200
+            </div>
+
+            <div class="progress">
+              <div
+                style="width:${percentage}%"
+              ></div>
+            </div>
+
+            <p style="
+              margin-top:9px;
+              color:#475569;
+              font-size:.72rem;
+              font-weight:700;
+              line-height:1.35;
+            ">
+              ${escapeHTML(
+                item.feedback ||
+                "Sem comentário."
+              )}
+            </p>
+
+          `;
+
+          container.appendChild(card);
+
+          requestAnimationFrame(() => {
+
+            const bar =
+              card.querySelector(".progress div");
+
+            bar.style.width =
+              `${percentage}%`;
+
+          });
+
+        });
+
+    }
+
+    /* =========================================================
+       LISTS
+    ========================================================= */
+
+    function renderList(container, items) {
+
+      container.innerHTML = "";
+
+      if (!Array.isArray(items) || !items.length) {
+
+        container.innerHTML = `
+          <li>
+            <i class="ph-fill ph-info"></i>
+            Nenhum item informado.
+          </li>
+        `;
+
+        return;
+
+      }
+
+      items.slice(0, 6).forEach(item => {
+
+        const li =
+          document.createElement("li");
+
+        li.innerHTML = `
+          <i class="ph-fill ph-caret-right"></i>
+          <span>${escapeHTML(
+            String(item)
+          )}</span>
+        `;
+
+        container.appendChild(li);
+
+      });
+
+    }
+
+    /* =========================================================
+       ACTION PLAN
+    ========================================================= */
+
+    function renderActionPlan(items) {
+
+      const container =
+        $("actionPlan");
+
+      container.innerHTML = "";
+
+      if (!Array.isArray(items)) {
+
+        items = [];
+
+      }
+
+      items.slice(0, 5).forEach(
+        (item, index) => {
+
+          const div =
+            document.createElement("div");
+
+          div.className =
+            "action-item";
+
+          div.innerHTML = `
+
+            <div class="action-number">
+              ${index + 1}
+            </div>
+
+            <p>
+              ${escapeHTML(
+                String(item)
+              )}
+            </p>
+
+          `;
+
+          container.appendChild(div);
+
+        }
+      );
+
+      if (!items.length) {
+
+        container.innerHTML = `
+          <p style="font-weight:700;">
+            Continue praticando e revise os pontos
+            destacados na avaliação.
+          </p>
+        `;
+
+      }
+
+    }
+
+    /* =========================================================
+       SCORE
+    ========================================================= */
+
+    function animateNumber(element, target) {
+
+      const duration = 900;
+
+      const start = performance.now();
+
+      function update(now) {
+
+        const progress =
+          Math.min(
+            1,
+            (now - start) / duration
+          );
+
+        const eased =
+          1 - Math.pow(1 - progress, 3);
+
+        const value =
+          Math.round(target * eased);
+
+        element.textContent = value;
+
+        if (progress < 1) {
+
+          requestAnimationFrame(update);
+
+        }
+
+      }
+
+      requestAnimationFrame(update);
+
+    }
+
+    function getScoreStatus(score) {
+
+      if (score >= 900) return "Excelente! 🏆";
+
+      if (score >= 800) return "Muito boa! 🔥";
+
+      if (score >= 700) return "Boa base! 🚀";
+
+      if (score >= 600) return "Pode evoluir! 📈";
+
+      if (score >= 500) return "Hora de treinar! 💪";
+
+      return "Vamos começar! ✍️";
+
+    }
+
+    /* =========================================================
+       HISTÓRICO
+    ========================================================= */
+
+    function getHistory() {
+
+      try {
+
+        return JSON.parse(
+          localStorage.getItem(
+            "hey_enem_history"
+          )
+        ) || [];
+
+      } catch {
+
+        return [];
+
+      }
+
+    }
+
+    function saveHistory(result) {
+
+      const history = getHistory();
+
+      history.unshift({
+
+        id: Date.now(),
+
+        name:
+          studentName.value.trim(),
+
+        theme:
+          currentTheme,
+
+        score:
+          Number(result.total_score) || 0,
+
+        date:
+          new Date().toLocaleDateString(
+            "pt-BR"
+          )
+
+      });
+
+      localStorage.setItem(
+        "hey_enem_history",
+        JSON.stringify(
+          history.slice(0, 10)
+        )
+      );
+
+      renderHistory();
+
+    }
+
+    function renderHistory() {
+
+      const history =
+        getHistory();
+
+      $("historyCount").textContent =
+        history.length;
+
+      const section =
+        $("historySection");
+
+      const list =
+        $("historyList");
+
+      if (!history.length) {
+
+        section.style.display =
+          "none";
+
+        return;
+
+      }
+
+      section.style.display =
+        "block";
+
+      list.innerHTML = "";
+
+      history.forEach(item => {
+
+        const element =
+          document.createElement("div");
+
+        element.className =
+          "history-item";
+
+        element.innerHTML = `
+
+          <div class="history-info">
+
+            <strong>
+              ${escapeHTML(
+                item.name || "Estudante"
+              )}
+            </strong>
+
+            <span>
+              ${escapeHTML(
+                item.date
+              )}
+              •
+              ${escapeHTML(
+                item.theme
+              )}
+            </span>
+
+          </div>
+
+          <div class="history-score">
+            ${item.score}
+          </div>
+
+        `;
+
+        list.appendChild(element);
+
+      });
+
+    }
+
+    renderHistory();
+
+    /* =========================================================
+       NOVA REDAÇÃO
+    ========================================================= */
+
+    $("newEssayBtn").addEventListener(
+      "click",
+      resetApplication
+    );
+
+    function resetApplication() {
+
+      selectedFile = null;
+
+      currentTheme = "";
+
+      currentResult = null;
+
+      fileInput.value = "";
+
+      preview.style.display =
+        "none";
+
+      dropzoneContent.style.display =
+        "block";
+
+      themePanel.style.display =
+        "none";
+
+      studentName.value = "";
+
+      submitBtn.disabled = true;
+
+      resultSection.classList.remove(
+        "active"
+      );
+
+      loadingSection.classList.remove(
+        "active"
+      );
+
+      homeSection.style.display =
+        "block";
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+    /* =========================================================
+       SALVAR DIAGNÓSTICO
+    ========================================================= */
+
+    $("saveResultBtn").addEventListener(
+      "click",
+      () => {
+
+        if (!currentResult) {
+
+          showToast(
+            "Nenhum diagnóstico disponível."
+          );
+
+          return;
+
+        }
+
+        const text = createReportText(
+          currentResult
+        );
+
+        const blob =
+          new Blob(
+            [text],
+            {
+              type: "text/plain;charset=utf-8"
+            }
+          );
+
+        const url =
+          URL.createObjectURL(blob);
+
+        const a =
+          document.createElement("a");
+
+        a.href = url;
+
+        a.download =
+          "diagnostico-hey-enem.txt";
+
+        a.click();
+
+        URL.revokeObjectURL(url);
+
+        showToast(
+          "Diagnóstico salvo!"
+        );
+
+      }
+    );
+
+    function createReportText(result) {
+
+      let text = "";
+
+      text += "HEY ENEM!\n";
+
+      text += "DIAGNÓSTICO DE REDAÇÃO\n";
+
+      text += "============================\n\n";
+
+      text += `Aluno: ${studentName.value.trim()}\n`;
+
+      text += `Tema: ${currentTheme}\n`;
+
+      text += `Nota estimada: ${result.total_score}\n\n`;
+
+      text += "COMPETÊNCIAS\n";
+
+      Object.keys(competencyNames)
+        .forEach(code => {
+
+          const item =
+            result.competencies?.[code];
+
+          text += `${code.toUpperCase()}: ${
+            item?.score || 0
+          }/200\n`;
+
+        });
+
+      text += "\nDIAGNÓSTICO\n";
+
+      text += `${
+        result.general_feedback || ""
+      }\n\n`;
+
+      text += "PONTOS FORTES\n";
+
+      (result.strengths || [])
+        .forEach(item => {
+
+          text += `- ${item}\n`;
+
+        });
+
+      text += "\nPONTOS A MELHORAR\n";
+
+      (result.weaknesses || [])
+        .forEach(item => {
+
+          text += `- ${item}\n`;
+
+        });
+
+      text += "\nPLANO DE AÇÃO\n";
+
+      (result.action_plan || [])
+        .forEach((item, index) => {
+
+          text += `${index + 1}. ${item}\n`;
+
+        });
+
+      return text;
+
+    }
+
+    /* =========================================================
+       SECURITY
+    ========================================================= */
+
+    function escapeHTML(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+    /* =========================================================
+       CONFETTI
+    ========================================================= */
+
+    function launchConfetti() {
+
+      const canvas =
+        document.createElement("canvas");
+
+      canvas.style.position = "fixed";
+      canvas.style.inset = "0";
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.pointerEvents = "none";
+      canvas.style.zIndex = "9999";
+
+      document.body.appendChild(canvas);
+
+      const ctx =
+        canvas.getContext("2d");
+
+      canvas.width =
+        window.innerWidth;
+
+      canvas.height =
+        window.innerHeight;
 
       const particles = [];
-      const colors = ['#FFC107', '#00E676', '#4D94FF', '#FF5252'];
 
-      for(let i = 0; i < 100; i++) {
+      const colors = [
+        "#FFC107",
+        "#0055A4",
+        "#00C853",
+        "#FF5252",
+        "#7C4DFF"
+      ];
+
+      for (
+        let i = 0;
+        i < 130;
+        i++
+      ) {
+
         particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height - canvas.height,
-          size: Math.random() * 10 + 5,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          speed: Math.random() * 3 + 2,
-          angle: Math.random() * 360,
-          spin: Math.random() * 10 - 5
+
+          x:
+            canvas.width / 2,
+
+          y:
+            canvas.height * .25,
+
+          vx:
+            (Math.random() - .5) * 12,
+
+          vy:
+            Math.random() * -10 - 3,
+
+          size:
+            Math.random() * 8 + 4,
+
+          color:
+            colors[
+              Math.floor(
+                Math.random() *
+                colors.length
+              )
+            ],
+
+          gravity:
+            .35,
+
+          rotation:
+            Math.random() * 6
+
         });
+
       }
 
+      let frames = 0;
+
       function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        let active = false;
+
+        ctx.clearRect(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
 
         particles.forEach(p => {
-          p.y += p.speed;
-          p.angle += p.spin;
-          if(p.y < canvas.height) active = true;
+
+          p.x += p.vx;
+
+          p.y += p.vy;
+
+          p.vy += p.gravity;
+
+          p.rotation += .1;
 
           ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.angle * Math.PI / 180);
-          ctx.fillStyle = p.color;
-          ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+
+          ctx.translate(
+            p.x,
+            p.y
+          );
+
+          ctx.rotate(
+            p.rotation
+          );
+
+          ctx.fillStyle =
+            p.color;
+
+          ctx.fillRect(
+            -p.size / 2,
+            -p.size / 2,
+            p.size,
+            p.size
+          );
+
           ctx.restore();
+
         });
 
-        if(active) requestAnimationFrame(animate);
+        frames++;
+
+        if (frames < 130) {
+
+          requestAnimationFrame(
+            animate
+          );
+
+        } else {
+
+          canvas.remove();
+
+        }
+
       }
 
       animate();
+
     }
+
+    /* =========================================================
+       ESC
+    ========================================================= */
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          $("themeModal")
+            .classList
+            .remove("active");
+
+        }
+
+      }
+    );
+
   </script>
+
 </body>
 </html>

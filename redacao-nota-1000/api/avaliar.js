@@ -3,168 +3,168 @@
 // Gemini 3.6 Flash
 // ============================================================
 
-const MODEL = "gemini-3.6-flash";
-const GEMINI_URL =
-    `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.6-flash";
+const MAX_IMAGE_BASE64 = 3.6 * 1024 * 1024;
 
-
-// ============================================================
-// UTILITÁRIOS
-// ============================================================
-
-function sendJSON(res, status, data) {
-    res.status(status);
-    res.setHeader("Content-Type", "application/json; charset=utf-8");
-    return res.json(data);
+function send(res, status, data) {
+    return res.status(status).json(data);
 }
 
+function cleanBase64(value) {
+    if (!value || typeof value !== "string") return "";
 
-function cleanJSON(text) {
-    if (!text) {
+    return value
+        .replace(/^data:[^;]+;base64,/i, "")
+        .replace(/\s/g, "");
+}
+
+function normalizeMimeType(value) {
+    const allowed = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
+
+    return allowed.includes(value) ? value : "image/jpeg";
+}
+
+function normalizeScore(value) {
+    let score = Number(value);
+
+    if (!Number.isFinite(score)) return 0;
+
+    score = Math.max(0, Math.min(200, score));
+
+    return Math.round(score / 40) * 40;
+}
+
+function normalizeCompetency(comp) {
+    if (!comp || typeof comp !== "object") {
+        return {
+            nota: 0,
+            justificativa: "Não foi possível obter a justificativa.",
+            pontosFortes: [],
+            melhorias: []
+        };
+    }
+
+    return {
+        nota: normalizeScore(comp.nota),
+        justificativa:
+            typeof comp.justificativa === "string"
+                ? comp.justificativa
+                : "",
+        pontosFortes: Array.isArray(comp.pontosFortes)
+            ? comp.pontosFortes.map(String)
+            : [],
+        melhorias: Array.isArray(comp.melhorias)
+            ? comp.melhorias.map(String)
+            : []
+    };
+}
+
+function normalizeEvaluation(data) {
+    const competencias = data?.competencias || {};
+
+    const result = {
+        resumo:
+            typeof data?.resumo === "string"
+                ? data.resumo
+                : "",
+
+        notaTotal: 0,
+
+        competencias: {
+            c1: normalizeCompetency(competencias.c1),
+            c2: normalizeCompetency(competencias.c2),
+            c3: normalizeCompetency(competencias.c3),
+            c4: normalizeCompetency(competencias.c4),
+            c5: normalizeCompetency(competencias.c5)
+        },
+
+        diagnostico:
+            typeof data?.diagnostico === "string"
+                ? data.diagnostico
+                : "",
+
+        pontosFortes: Array.isArray(data?.pontosFortes)
+            ? data.pontosFortes.map(String)
+            : [],
+
+        prioridades: Array.isArray(data?.prioridades)
+            ? data.prioridades.map(String)
+            : [],
+
+        reescritaSugerida:
+            typeof data?.reescritaSugerida === "string"
+                ? data.reescritaSugerida
+                : "",
+
+        observacoes:
+            typeof data?.observacoes === "string"
+                ? data.observacoes
+                : ""
+    };
+
+    result.notaTotal =
+        result.competencias.c1.nota +
+        result.competencias.c2.nota +
+        result.competencias.c3.nota +
+        result.competencias.c4.nota +
+        result.competencias.c5.nota;
+
+    return result;
+}
+
+function extractJson(text) {
+    if (!text || typeof text !== "string") {
         throw new Error("O Gemini não retornou conteúdo.");
     }
 
-    let value = text.trim();
+    let cleaned = text.trim();
 
-    // Remove possíveis blocos ```json ... ```
-    value = value
+    cleaned = cleaned
         .replace(/^```json\s*/i, "")
         .replace(/^```\s*/i, "")
         .replace(/\s*```$/i, "")
         .trim();
 
-    // Tenta JSON direto
     try {
-        return JSON.parse(value);
+        return JSON.parse(cleaned);
     } catch (_) {}
 
-    // Procura primeiro objeto JSON
-    const firstBrace = value.indexOf("{");
-    const lastBrace = value.lastIndexOf("}");
+    const first = cleaned.indexOf("{");
+    const last = cleaned.lastIndexOf("}");
 
-    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-        const possibleJSON = value.slice(firstBrace, lastBrace + 1);
+    if (first !== -1 && last !== -1 && last > first) {
+        const possibleJson = cleaned.slice(first, last + 1);
 
         try {
-            return JSON.parse(possibleJSON);
+            return JSON.parse(possibleJson);
         } catch (_) {}
     }
 
     throw new Error(
-        "O Gemini retornou uma resposta que não pôde ser convertida em JSON."
+        "O Gemini retornou uma resposta que não pôde ser interpretada como JSON."
     );
 }
 
-
-function normalizeScore(value) {
-    let number = Number(value);
-
-    if (!Number.isFinite(number)) {
-        return 0;
-    }
-
-    // ENEM trabalha em múltiplos de 40
-    number = Math.round(number / 40) * 40;
-
-    return Math.max(0, Math.min(200, number));
-}
-
-
-function normalizeCompetencia(data, numero) {
-    const source =
-        data?.[`competencia${numero}`] ||
-        data?.[`c${numero}`] ||
-        {};
-
-    return {
-        nota: normalizeScore(source.nota),
-        titulo:
-            source.titulo ||
-            `Competência ${numero}`,
-        avaliacao:
-            source.avaliacao ||
-            source.comentario ||
-            "Não foi fornecida uma avaliação.",
-        pontosFortes:
-            Array.isArray(source.pontosFortes)
-                ? source.pontosFortes
-                : [],
-        melhorias:
-            Array.isArray(source.melhorias)
-                ? source.melhorias
-                : []
-    };
-}
-
-
-function normalizeEvaluation(data) {
-    const competencias = {
-        competencia1: normalizeCompetencia(data, 1),
-        competencia2: normalizeCompetencia(data, 2),
-        competencia3: normalizeCompetencia(data, 3),
-        competencia4: normalizeCompetencia(data, 4),
-        competencia5: normalizeCompetencia(data, 5)
-    };
-
-    const total =
-        competencias.competencia1.nota +
-        competencias.competencia2.nota +
-        competencias.competencia3.nota +
-        competencias.competencia4.nota +
-        competencias.competencia5.nota;
-
-    return {
-        ...competencias,
-
-        notaTotal: total,
-
-        nota:
-            data?.nota !== undefined
-                ? Number(data.nota) || total
-                : total,
-
-        resumoGeral:
-            data?.resumoGeral ||
-            data?.resumo ||
-            "Avaliação concluída.",
-
-        pontosFortesGerais:
-            Array.isArray(data?.pontosFortesGerais)
-                ? data.pontosFortesGerais
-                : [],
-
-        prioridades:
-            Array.isArray(data?.prioridades)
-                ? data.prioridades
-                : [],
-
-        repertorios:
-            Array.isArray(data?.repertorios)
-                ? data.repertorios
-                : [],
-
-        planoMelhoria:
-            data?.planoMelhoria ||
-            "Revise os pontos indicados em cada competência e reescreva os trechos necessários."
-    };
-}
-
-
-// ============================================================
-// CHAMADA AO GEMINI
-// ============================================================
-
-async function callGemini(contents, generationConfig = {}) {
-
+async function callGemini(contents) {
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-        throw new Error(
+        const error = new Error(
             "GEMINI_API_KEY não está configurada na Vercel."
         );
+
+        error.code = "MISSING_API_KEY";
+        throw error;
     }
 
-    const response = await fetch(GEMINI_URL, {
+    const url =
+        `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
+
+    const response = await fetch(url, {
         method: "POST",
 
         headers: {
@@ -176,140 +176,110 @@ async function callGemini(contents, generationConfig = {}) {
             contents,
 
             generationConfig: {
-                temperature: 0.4,
                 responseMimeType: "application/json",
-                ...generationConfig
+                maxOutputTokens: 6000
             }
         })
     });
 
     const raw = await response.text();
 
-    let data = {};
+    let data;
 
     try {
         data = raw ? JSON.parse(raw) : {};
     } catch (_) {
         data = {
-            raw
+            error: {
+                message: raw || "Resposta inválida do Google."
+            }
         };
     }
 
     if (!response.ok) {
-
-        console.error("========================================");
-        console.error("ERRO GEMINI");
+        console.error("========== ERRO GEMINI ==========");
         console.error("HTTP:", response.status);
-        console.error(
-            "RESPOSTA:",
-            JSON.stringify(data, null, 2)
-        );
-        console.error("========================================");
+        console.error("Resposta:", JSON.stringify(data, null, 2));
+        console.error("=================================");
 
         const message =
             data?.error?.message ||
             data?.message ||
             raw ||
-            `Erro HTTP ${response.status}.`;
+            "O Gemini recusou a solicitação.";
 
         const error = new Error(message);
 
         error.status = response.status;
-        error.googleStatus =
+        error.code =
             data?.error?.status ||
-            null;
+            data?.error?.code ||
+            "GEMINI_ERROR";
 
         throw error;
     }
 
     const text =
         data?.candidates?.[0]?.content?.parts
-            ?.map(part => part.text || "")
+            ?.map(part => part?.text || "")
             .join("")
             .trim();
 
     if (!text) {
-        console.error(
-            "Resposta Gemini sem texto:",
-            JSON.stringify(data, null, 2)
-        );
-
         throw new Error(
-            "O Gemini não retornou uma resposta válida."
+            "O Gemini não retornou conteúdo para esta solicitação."
         );
     }
 
-    return cleanJSON(text);
+    return extractJson(text);
 }
 
 
 // ============================================================
-// GERAÇÃO DE TEMA
+// TEMA GERADO POR IA
 // ============================================================
 
 async function generateTheme() {
-
     const prompt = `
-Você é um especialista em redação do ENEM e elaboração de propostas
-de temas contemporâneos para estudantes brasileiros.
+Você é um especialista em elaboração de propostas de redação do ENEM.
 
-Crie UM tema inédito de redação no estilo ENEM.
+Crie UM tema inédito de redação no padrão do ENEM brasileiro.
 
 O tema deve:
-
-- abordar um problema social brasileiro real;
-- ser atual ou estruturalmente relevante;
-- permitir discussão crítica;
-- possibilitar o uso de repertório sociocultural;
-- permitir a construção de uma proposta de intervenção;
-- não depender de informações extremamente específicas;
+- abordar uma questão social relevante;
+- ser adequado ao contexto brasileiro;
+- permitir diferentes pontos de vista;
+- permitir argumentação consistente;
+- permitir uma proposta de intervenção;
+- possuir recorte temático claro;
+- não copiar temas oficiais anteriores;
 - não ser excessivamente amplo;
-- não repetir temas oficiais conhecidos;
-- ter linguagem semelhante à utilizada nas propostas do ENEM.
+- não exigir conhecimento técnico especializado.
 
-O tema deve conter:
+Crie também 3 textos motivadores curtos e informativos.
 
-1. um título curto;
-2. uma proposta temática formulada como frase;
-3. uma breve contextualização;
-4. 3 possíveis eixos de discussão;
-5. 4 repertórios socioculturais que poderiam ser utilizados.
-
-Retorne SOMENTE JSON válido.
-
-Formato obrigatório:
+Retorne SOMENTE JSON válido neste formato:
 
 {
-  "titulo": "Título do tema",
-  "tema": "A persistência de ... no Brasil",
-  "contextualizacao": "Texto curto contextualizando o problema.",
-  "eixos": [
-    "Eixo 1",
-    "Eixo 2",
-    "Eixo 3"
-  ],
-  "repertorios": [
+  "tema": "Título completo do tema",
+  "recorte": "Recorte temático explicado em uma frase",
+  "contexto": "Breve contextualização do problema",
+  "textosMotivadores": [
     {
-      "nome": "Nome do repertório",
-      "tipo": "filosofia",
-      "comoUsar": "Como relacionar o repertório ao tema."
+      "titulo": "Texto motivador 1",
+      "texto": "Texto curto"
     },
     {
-      "nome": "Nome do repertório",
-      "tipo": "sociologia",
-      "comoUsar": "Como relacionar o repertório ao tema."
+      "titulo": "Texto motivador 2",
+      "texto": "Texto curto"
     },
     {
-      "nome": "Nome do repertório",
-      "tipo": "literatura",
-      "comoUsar": "Como relacionar o repertório ao tema."
-    },
-    {
-      "nome": "Nome do repertório",
-      "tipo": "atualidades",
-      "comoUsar": "Como relacionar o repertório ao tema."
+      "titulo": "Texto motivador 3",
+      "texto": "Texto curto"
     }
-  ]
+  ],
+  "eixo": "Eixo temático principal",
+  "proposta": "Proposta de redação no estilo ENEM"
 }
 `;
 
@@ -327,336 +297,237 @@ Formato obrigatório:
 
 
 // ============================================================
-// AVALIAÇÃO DA REDAÇÃO
+// AVALIAÇÃO DA REDAÇÃO MANUSCRITA
 // ============================================================
 
 async function evaluateEssay(body) {
+    const studentName =
+        typeof body.studentName === "string"
+            ? body.studentName.trim()
+            : "";
 
-    const {
-        studentName,
-        theme,
-        trainingMode,
-        essayText,
-        images
-    } = body;
+    const theme =
+        typeof body.theme === "string"
+            ? body.theme.trim()
+            : "";
+
+    const trainingMode =
+        typeof body.trainingMode === "string"
+            ? body.trainingMode
+            : "Treino de escrita";
+
+    const images = Array.isArray(body.images)
+        ? body.images
+        : [];
+
+    if (!studentName) {
+        throw new Error(
+            "Digite seu nome antes de enviar a redação."
+        );
+    }
 
     if (!theme) {
         throw new Error(
-            "O tema da redação não foi informado."
+            "Escolha ou gere um tema antes de enviar a redação."
         );
     }
 
-    if (
-        (!essayText || !essayText.trim()) &&
-        (!Array.isArray(images) || images.length === 0)
-    ) {
+    if (!images.length) {
         throw new Error(
-            "Envie o texto da redação ou imagens das páginas."
+            "Envie pelo menos uma foto da sua redação."
         );
     }
 
-    const parts = [];
+    let totalBase64 = 0;
+
+    const imageParts = [];
+
+    for (const image of images) {
+        if (!image || typeof image !== "object") {
+            continue;
+        }
+
+        const data = cleanBase64(image.data);
+
+        if (!data) {
+            continue;
+        }
+
+        totalBase64 += data.length;
+
+        if (totalBase64 > MAX_IMAGE_BASE64) {
+            throw new Error(
+                "As imagens enviadas são muito grandes. Remova algumas fotos ou tente novamente com imagens menores."
+            );
+        }
+
+        imageParts.push({
+            inlineData: {
+                mimeType: normalizeMimeType(image.mimeType),
+                data
+            }
+        });
+    }
+
+    if (!imageParts.length) {
+        throw new Error(
+            "Não foi possível processar as fotos enviadas."
+        );
+    }
 
     const prompt = `
-Você é um avaliador especializado em redações do ENEM brasileiro.
+Você é um corretor especializado em redações do ENEM.
 
-Sua função é avaliar tecnicamente a redação de um estudante utilizando
-as CINCO COMPETÊNCIAS oficiais da redação do ENEM.
+Você receberá fotografias de uma redação manuscrita escrita por um estudante.
 
-IMPORTANTE:
+ESTUDANTE:
+${studentName}
 
-- Não seja excessivamente generoso.
-- Não seja excessivamente severo.
-- Avalie somente o que está efetivamente presente no texto.
-- Não invente erros.
-- Não invente repertórios.
-- Não atribua nota apenas pela impressão geral.
-- Considere a relação entre tema, argumentação e proposta de intervenção.
-- Identifique problemas concretos.
-- Explique de maneira didática.
-- Considere que o estudante está treinando.
-- A nota de cada competência deve ser 0, 40, 80, 120, 160 ou 200.
+MODO:
+${trainingMode}
 
-DADOS DO ESTUDANTE
-
-Nome:
-${studentName || "Estudante"}
-
-Modo:
-${trainingMode || "Treino"}
-
-TEMA DA REDAÇÃO:
-
+TEMA:
 ${theme}
 
-TEXTO TRANSCRITO PELO ESTUDANTE:
+Sua tarefa é analisar cuidadosamente as imagens da redação.
 
-${essayText || "(A redação foi enviada por imagem. Leia as imagens.)"}
+IMPORTANTE:
+1. A redação está manuscrita.
+2. Leia o texto diretamente das imagens.
+3. Tente reconstruir o texto com a maior fidelidade possível.
+4. Não invente trechos que não estejam visíveis.
+5. Se alguma parte estiver ilegível, deixe isso claro.
+6. Considere todas as páginas enviadas.
+7. Avalie a redação segundo as 5 competências oficiais do ENEM.
+8. As notas das competências devem obrigatoriamente ser 0, 40, 80, 120, 160 ou 200.
+9. A nota final deve ser a soma das cinco competências.
+10. A nota final deve ficar entre 0 e 1000.
+11. Não dê uma nota apenas pela aparência da letra.
+12. Não penalize o aluno simplesmente por escrever à mão.
+13. Considere conteúdo, argumentação, linguagem, estrutura, coesão e proposta de intervenção.
+14. Analise se o texto realmente responde ao tema proposto.
+15. Verifique possíveis sinais de fuga ao tema.
+16. Verifique repertório sociocultural.
+17. Verifique autoria e desenvolvimento argumentativo.
+18. Verifique conectivos e mecanismos de coesão.
+19. Verifique a proposta de intervenção e seus elementos.
+20. Seja rigoroso, mas explique claramente o motivo de cada avaliação.
 
----
+COMPETÊNCIA I:
+Domínio da modalidade escrita formal da língua portuguesa.
 
-CRITÉRIOS
+COMPETÊNCIA II:
+Compreensão da proposta de redação e aplicação de conceitos de diferentes áreas do conhecimento para desenvolver o tema.
 
-COMPETÊNCIA 1
-Demonstrar domínio da modalidade escrita formal da língua portuguesa.
+COMPETÊNCIA III:
+Seleção, relação, organização e interpretação de informações, fatos, opiniões e argumentos em defesa de um ponto de vista.
 
-Analise:
-- ortografia;
-- acentuação;
-- pontuação;
-- concordância;
-- regência;
-- colocação pronominal;
-- construção sintática;
-- escolha vocabular;
-- desvios gramaticais.
+COMPETÊNCIA IV:
+Conhecimento dos mecanismos linguísticos necessários para a construção da argumentação.
 
-COMPETÊNCIA 2
-Compreender a proposta de redação e aplicar conceitos de diferentes áreas
-do conhecimento para desenvolver o tema dentro dos limites estruturais
-do texto dissertativo-argumentativo.
+COMPETÊNCIA V:
+Elaboração de proposta de intervenção para o problema abordado, respeitando os direitos humanos.
 
-Analise:
-- compreensão do tema;
-- fuga ou tangenciamento;
-- repertório sociocultural;
-- pertinência do repertório;
-- produtividade do repertório;
-- estrutura dissertativo-argumentativa.
+Para cada competência, forneça:
+- nota;
+- justificativa;
+- pontos fortes;
+- melhorias.
 
-COMPETÊNCIA 3
-Selecionar, relacionar, organizar e interpretar informações, fatos,
-opiniões e argumentos em defesa de um ponto de vista.
+Também forneça:
+- resumo geral;
+- diagnóstico;
+- pontos fortes;
+- prioridades de melhoria;
+- uma reescrita sugerida de trechos problemáticos ou uma orientação prática de reescrita;
+- observações importantes.
 
-Analise:
-- projeto de texto;
-- tese;
-- seleção de argumentos;
-- progressão argumentativa;
-- relação entre argumentos;
-- consistência.
-
-COMPETÊNCIA 4
-Demonstrar conhecimento dos mecanismos linguísticos necessários para
-a construção da argumentação.
-
-Analise:
-- coesão;
-- conectivos;
-- referenciação;
-- progressão;
-- relações lógico-semânticas;
-- articulação entre períodos e parágrafos.
-
-COMPETÊNCIA 5
-Elaborar proposta de intervenção para o problema abordado, respeitando
-os direitos humanos.
-
-Analise:
-- agente;
-- ação;
-- meio/modo;
-- finalidade;
-- detalhamento;
-- relação com o problema;
-- respeito aos direitos humanos.
-
----
-
-FORMATO DA RESPOSTA
-
-Retorne SOMENTE JSON válido.
-
-Use exatamente esta estrutura:
+RETORNE SOMENTE JSON VÁLIDO, exatamente neste formato:
 
 {
-  "competencia1": {
-    "nota": 0,
-    "titulo": "Domínio da norma-padrão",
-    "avaliacao": "Avaliação detalhada.",
-    "pontosFortes": [
-      "Ponto forte."
-    ],
-    "melhorias": [
-      "Melhoria concreta."
-    ]
-  },
-
-  "competencia2": {
-    "nota": 0,
-    "titulo": "Compreensão da proposta",
-    "avaliacao": "Avaliação detalhada.",
-    "pontosFortes": [
-      "Ponto forte."
-    ],
-    "melhorias": [
-      "Melhoria concreta."
-    ]
-  },
-
-  "competencia3": {
-    "nota": 0,
-    "titulo": "Argumentação",
-    "avaliacao": "Avaliação detalhada.",
-    "pontosFortes": [
-      "Ponto forte."
-    ],
-    "melhorias": [
-      "Melhoria concreta."
-    ]
-  },
-
-  "competencia4": {
-    "nota": 0,
-    "titulo": "Coesão",
-    "avaliacao": "Avaliação detalhada.",
-    "pontosFortes": [
-      "Ponto forte."
-    ],
-    "melhorias": [
-      "Melhoria concreta."
-    ]
-  },
-
-  "competencia5": {
-    "nota": 0,
-    "titulo": "Proposta de intervenção",
-    "avaliacao": "Avaliação detalhada.",
-    "pontosFortes": [
-      "Ponto forte."
-    ],
-    "melhorias": [
-      "Melhoria concreta."
-    ]
-  },
-
+  "resumo": "Resumo geral da redação",
   "notaTotal": 0,
-
-  "resumoGeral": "Resumo geral da redação.",
-
-  "pontosFortesGerais": [
-    "Ponto forte geral."
-  ],
-
-  "prioridades": [
-    "Principal ponto que o estudante deve melhorar."
-  ],
-
-  "repertorios": [
-    "Repertório que poderia fortalecer a argumentação."
-  ],
-
-  "planoMelhoria": "Plano prático de estudo para melhorar a redação."
+  "competencias": {
+    "c1": {
+      "nota": 0,
+      "justificativa": "",
+      "pontosFortes": [],
+      "melhorias": []
+    },
+    "c2": {
+      "nota": 0,
+      "justificativa": "",
+      "pontosFortes": [],
+      "melhorias": []
+    },
+    "c3": {
+      "nota": 0,
+      "justificativa": "",
+      "pontosFortes": [],
+      "melhorias": []
+    },
+    "c4": {
+      "nota": 0,
+      "justificativa": "",
+      "pontosFortes": [],
+      "melhorias": []
+    },
+    "c5": {
+      "nota": 0,
+      "justificativa": "",
+      "pontosFortes": [],
+      "melhorias": []
+    }
+  },
+  "diagnostico": "",
+  "pontosFortes": [],
+  "prioridades": [],
+  "reescritaSugerida": "",
+  "observacoes": ""
 }
 `;
 
-    parts.push({
-        text: prompt
-    });
-
-
-    // ========================================================
-    // IMAGENS
-    // ========================================================
-
-    if (Array.isArray(images)) {
-
-        for (const image of images) {
-
-            if (!image) continue;
-
-            const mimeType =
-                image.mimeType ||
-                image.mime_type ||
-                "image/jpeg";
-
-            const data =
-                image.data ||
-                image.base64;
-
-            if (!data) continue;
-
-            parts.push({
-                inlineData: {
-                    mimeType,
-                    data
-                }
-            });
-        }
-    }
-
-
-    const result = await callGemini([
+    const contents = [
         {
             role: "user",
-            parts
+            parts: [
+                {
+                    text: prompt
+                },
+                ...imageParts
+            ]
         }
-    ]);
+    ];
+
+    const result = await callGemini(contents);
 
     return normalizeEvaluation(result);
 }
 
 
 // ============================================================
-// COMPATIBILIDADE COM O FORMATO ANTIGO
+// COMPATIBILIDADE COM O FRONTEND ANTIGO
 // ============================================================
 
-function convertLegacyRequest(body) {
+function detectLegacyAction(body) {
+    if (body?.action) return body.action;
 
-    if (body.action) {
-        return body;
+    if (Array.isArray(body?.contents)) {
+        const hasImage = JSON.stringify(body.contents).includes(
+            "inlineData"
+        );
+
+        return hasImage
+            ? "evaluate"
+            : "theme";
     }
 
-    // Frontend antigo enviava "contents"
-    if (Array.isArray(body.contents)) {
-
-        const firstMessage =
-            body.contents[0];
-
-        const parts =
-            firstMessage?.parts || [];
-
-        let prompt = "";
-        const images = [];
-
-        for (const part of parts) {
-
-            if (part?.text) {
-                prompt += part.text + "\n";
-            }
-
-            if (part?.inlineData) {
-
-                images.push({
-                    mimeType:
-                        part.inlineData.mimeType,
-                    data:
-                        part.inlineData.data
-                });
-            }
-        }
-
-        // Se não houver imagem, provavelmente era geração de tema
-        if (images.length === 0) {
-
-            return {
-                action: "theme"
-            };
-        }
-
-        return {
-            action: "evaluate",
-            essayText: prompt,
-            images
-        };
-    }
-
-    return body;
+    return null;
 }
 
 
 // ============================================================
-// HANDLER
+// HANDLER VERCEL
 // ============================================================
 
 module.exports = async function handler(req, res) {
@@ -666,121 +537,123 @@ module.exports = async function handler(req, res) {
     // --------------------------------------------------------
 
     if (req.method === "GET") {
-
-        return sendJSON(res, 200, {
+        return send(res, 200, {
             ok: true,
-            configured: Boolean(
-                process.env.GEMINI_API_KEY
-            ),
+            configured: Boolean(process.env.GEMINI_API_KEY),
             model: MODEL,
-            message:
-                "API Hey ENEM configurada corretamente."
+            message: "API Hey ENEM configurada corretamente."
         });
     }
 
-
     // --------------------------------------------------------
-    // MÉTODO
+    // SOMENTE POST
     // --------------------------------------------------------
 
     if (req.method !== "POST") {
-
         res.setHeader("Allow", "GET, POST");
 
-        return sendJSON(res, 405, {
-            ok: false,
+        return send(res, 405, {
             error: {
                 message: "Método não permitido."
             }
         });
     }
 
-
     try {
+        const body =
+            req.body && typeof req.body === "object"
+                ? req.body
+                : {};
 
-        let body = req.body || {};
-
-        // Alguns ambientes podem entregar body como string
-        if (typeof body === "string") {
-
-            try {
-                body = JSON.parse(body);
-            } catch (_) {
-
-                return sendJSON(res, 400, {
-                    ok: false,
-                    error: {
-                        message:
-                            "O corpo da requisição não é um JSON válido."
-                    }
-                });
-            }
-        }
-
-
-        body = convertLegacyRequest(body);
-
+        const action = detectLegacyAction(body);
 
         // ----------------------------------------------------
-        // ACTION
-        // ----------------------------------------------------
-
-        const action =
-            body.action;
-
-
-        // ----------------------------------------------------
-        // TEMA
+        // GERAR TEMA
         // ----------------------------------------------------
 
         if (action === "theme") {
 
-            const theme =
-                await generateTheme();
+            const result = await generateTheme();
 
-            return sendJSON(res, 200, {
+            return send(res, 200, {
                 ok: true,
                 type: "theme",
-                data: theme
+                data: result
             });
         }
 
-
         // ----------------------------------------------------
-        // AVALIAÇÃO
+        // AVALIAR REDAÇÃO
         // ----------------------------------------------------
 
         if (action === "evaluate") {
 
-            const result =
-                await evaluateEssay(body);
+            let evaluationBody = body;
 
-            return sendJSON(res, 200, {
+            // Compatibilidade com estrutura antiga
+            if (
+                !body.action &&
+                Array.isArray(body.contents)
+            ) {
+                const firstContent = body.contents[0];
+
+                const parts =
+                    firstContent?.parts || [];
+
+                const images = parts
+                    .filter(part => part?.inlineData)
+                    .map(part => ({
+                        mimeType:
+                            part.inlineData.mimeType,
+                        data:
+                            part.inlineData.data
+                    }));
+
+                const text =
+                    parts
+                        .filter(part => part?.text)
+                        .map(part => part.text)
+                        .join("\n");
+
+                evaluationBody = {
+                    studentName: "Estudante",
+                    theme:
+                        body.theme ||
+                        "Tema da redação",
+                    trainingMode:
+                        "Treino de escrita",
+                    essayText: text,
+                    images
+                };
+            }
+
+            const result =
+                await evaluateEssay(evaluationBody);
+
+            return send(res, 200, {
                 ok: true,
                 type: "evaluation",
                 data: result
             });
         }
 
-
         // ----------------------------------------------------
-        // ACTION INVÁLIDA
+        // AÇÃO INVÁLIDA
         // ----------------------------------------------------
 
-        return sendJSON(res, 400, {
-            ok: false,
+        return send(res, 400, {
             error: {
                 message:
-                    "Ação inválida. Use 'theme' ou 'evaluate'."
+                    "Ação inválida. Use 'theme' ou 'evaluate'.",
+                code: "INVALID_ACTION"
             }
         });
 
     } catch (error) {
 
-        console.error(
-            "ERRO FINAL DA API:",
-            error
-        );
+        console.error("========== HEY ENEM ERROR ==========");
+        console.error(error);
+        console.error("====================================");
 
         const status =
             Number(error?.status) >= 400 &&
@@ -788,17 +661,19 @@ module.exports = async function handler(req, res) {
                 ? Number(error.status)
                 : 500;
 
-        return sendJSON(res, status, {
-            ok: false,
-
+        return send(res, status, {
             error: {
                 message:
                     error?.message ||
-                    "Erro interno ao processar a solicitação.",
-
-                status:
-                    error?.googleStatus ||
-                    null
+                    "Não foi possível concluir a solicitação.",
+                code:
+                    error?.code ||
+                    "SERVER_ERROR",
+                status,
+                provider:
+                    error?.code?.startsWith("GEMINI")
+                        ? "google"
+                        : undefined
             }
         });
     }

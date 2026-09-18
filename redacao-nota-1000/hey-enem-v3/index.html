@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1769ff">
+<meta name="description" content="HeyENEM — corretor inteligente de folhas de respostas de Natureza.">
+<title>HeyENEM — Corretor Online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<div class="ambient ambient-a"></div><div class="ambient ambient-b"></div><div class="ambient ambient-c"></div>
+
+<header class="topbar">
+  <a class="brand" href="#top" aria-label="HeyENEM">
+    <span class="brand-mark">H</span>
+    <span><strong>HEY ENEM</strong><small>CORRETOR ONLINE</small></span>
+  </a>
+  <div class="top-actions"><div id="apiStatus" class="status">Pronto para corrigir</div><button class="ghost-btn" id="newCorrection">Nova correção</button></div>
+</header>
+
+<main id="top" class="container">
+<section class="hero">
+  <div class="eyebrow">CORREÇÃO INTELIGENTE • NATUREZA</div>
+  <h1>Corrija. <span>Analise.</span> Evolua.</h1>
+  <p>Fotografe a folha de respostas. O HeyENEM identifica as marcações e reproduz os cálculos da sua planilha automaticamente.</p>
+  <div class="steps">
+    <div class="step current"><b>01</b><span>Gabarito</span></div>
+    <div class="step"><b>02</b><span>Foto</span></div>
+    <div class="step"><b>03</b><span>Resultado</span></div>
+  </div>
+</section>
+
+<section class="workspace">
+  <article class="card">
+    <div class="section-head">
+      <div class="section-icon">01</div>
+      <div><div class="kicker">CONFIGURAÇÃO</div><h2>Gabarito da prova</h2><p>45 questões • 136 a 180</p></div>
+      <span id="keyCount" class="counter">45/45 preenchidas</span>
+    </div>
+    <div class="notice"><span>✓</span><div><strong>Motor da planilha ativo</strong><small>O resultado usa S, F, M, D e a fórmula exata de TRI encontrada no arquivo.</small></div></div>
+    <div class="key-toolbar">
+      <button class="small-btn" id="fillAllA">Preencher tudo com A</button>
+      <button class="small-btn" id="restoreOfficialKey">Restaurar gabarito da planilha</button>
+      <button class="small-btn danger-outline" id="clearKey">Limpar</button>
+    </div>
+    <textarea id="keyPaste" class="key-paste" placeholder="Ou cole o gabarito em sequência: ABCDEABCDE..."></textarea>
+    <div id="keyGrid" class="key-grid"></div>
+  </article>
+
+  <article id="uploadSection" class="card upload-card">
+    <div class="section-head">
+      <div class="section-icon blue">02</div>
+      <div><div class="kicker">VISÃO COMPUTACIONAL</div><h2>Fotografe a folha</h2><p>A IA lê; o HeyENEM calcula.</p></div>
+    </div>
+    <input id="fileInput" type="file" accept="image/*" capture="environment" hidden>
+    <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Selecionar ou fotografar folha">
+      <div id="uploadEmpty" class="upload-empty">
+        <div class="camera-icon">⌁</div>
+        <strong>Fotografar / selecionar folha</strong>
+        <span>Clique aqui, arraste uma imagem ou use a câmera do celular.</span>
+        <em>JPG, PNG ou WEBP • até 12 MB</em>
+      </div>
+      <div id="previewWrap" class="preview-wrap hidden">
+        <img id="previewImage" alt="Pré-visualização da folha">
+        <div class="preview-meta"><strong id="fileName">—</strong><span id="imageSizeBadge">—</span></div>
+        <button id="removeImage" class="remove-btn" type="button">Remover imagem</button>
+      </div>
+    </div>
+    <div class="upload-status"><span>●</span><div><strong id="uploadStatus">Aguardando uma imagem.</strong><small id="uploadHint">Clique, arraste ou fotografe a folha.</small></div></div>
+    <div id="analysisError" class="error-box hidden"></div>
+    <button id="analyzeBtn" class="primary-btn">ANALISAR FOLHA <span>→</span></button>
+  </article>
+</section>
+
+<section id="resultsSection" class="results hidden">
+  <div class="result-header">
+    <div><div class="eyebrow">RESULTADO DA CORREÇÃO</div><h2>Seu desempenho</h2><p>Todos os cálculos foram feitos localmente a partir das respostas identificadas.</p></div>
+    <div class="result-actions"><button id="copyResult" class="small-btn">Copiar</button><button id="printResult" class="small-btn">Imprimir</button></div>
+  </div>
+
+  <div class="score-grid">
+    <article class="score-card">
+      <span class="card-label">PONTUAÇÃO</span>
+      <div class="score-line"><strong id="scoreValue">0</strong><span id="scoreTotal">/ 45</span></div>
+      <div class="big-percent" id="percentage">0%</div>
+      <div class="progress"><i id="progressFill"></i></div>
+      <small>Acertos em relação às 45 questões</small>
+    </article>
+    <article class="tri-card">
+      <span class="card-label">TRI DA PLANILHA</span>
+      <strong id="triValue">—</strong>
+      <p>Fórmula reproduzida do arquivo fornecido.</p>
+      <code>400 + 900 × ((F + 1,5M + 1,75D) / 90)<sup>1,14</sup></code>
+    </article>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><b id="correctValue">0</b><span>Acertos</span></div>
+    <div class="stat"><b id="wrongValue">0</b><span>Erros</span></div>
+    <div class="stat"><b id="blankValue">0</b><span>Em branco</span></div>
+    <div class="stat"><b id="ambiguousValue">0</b><span>Revisar</span></div>
+  </div>
+
+  <article class="card">
+    <div class="section-head compact"><div class="section-icon">A</div><div><div class="kicker">DESEMPENHO</div><h2>Por disciplina</h2></div></div>
+    <div id="subjectCards" class="subject-grid"></div>
+  </article>
+
+  <article class="card">
+    <div class="section-head compact"><div class="section-icon">B</div><div><div class="kicker">MATRIZ</div><h2>Por dificuldade</h2></div></div>
+    <div id="difficultyCards" class="difficulty-grid"></div>
+  </article>
+
+  <article class="card">
+    <div class="section-head compact"><div class="section-icon">C</div><div><div class="kicker">QUESTÃO POR QUESTÃO</div><h2>Mapa da prova</h2><p>Clique em uma questão para ver a leitura e o gabarito.</p></div></div>
+    <div class="legend"><span><i class="dot correct"></i>Correta</span><span><i class="dot wrong"></i>Incorreta</span><span><i class="dot blank"></i>Em branco</span><span><i class="dot ambiguous"></i>Revisar</span></div>
+    <div id="questionMap" class="question-map"></div>
+  </article>
+
+  <article class="insight-card">
+    <div class="section-icon blue">★</div>
+    <div><div class="kicker">RESUMO</div><h2>Leitura rápida do resultado</h2><p id="resultSummary">—</p></div>
+  </article>
+
+  <div class="formula-note">
+    <strong>Como o HeyENEM calcula:</strong> S = acertos; F = acertos nas 15 fáceis; M = acertos nas 15 médias; D = acertos nas 15 difíceis. A TRI exibida é exatamente a transformação matemática presente nas abas M1, M2, N1 e N2 da planilha fornecida.
+  </div>
+</section>
+</main>
+
+<footer><strong>HEY ENEM</strong><span>Corretor Online • Natureza 136–180</span></footer>
+
+<div id="loadingOverlay" class="loading hidden">
+  <div class="loading-card">
+    <div class="spinner"></div>
+    <h2>Analisando sua folha</h2>
+    <p>Identificando marcações e preparando a correção…</p>
+    <div class="loading-steps"><span>✓ Detectando questões</span><span>✓ Lendo alternativas</span><span>✓ Calculando desempenho</span></div>
+  </div>
+</div>
+
+<div id="questionModal" class="modal hidden">
+  <div class="modal-card">
+    <button id="closeModal" class="modal-close" aria-label="Fechar">×</button>
+    <div class="eyebrow">DETALHE DA QUESTÃO</div>
+    <h2 id="modalQuestion">Questão 136</h2>
+    <div class="modal-tags"><span id="modalSubject">Física</span><span id="modalDifficulty">Fácil</span></div>
+    <div id="modalStatus" class="modal-status correct">CORRETA</div>
+    <div class="answer-pair"><div><small>SUA RESPOSTA</small><strong id="modalStudent">B</strong></div><div><small>GABARITO</small><strong id="modalKey">B</strong></div></div>
+    <p id="modalConfidence">97% de confiança na leitura</p>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>
